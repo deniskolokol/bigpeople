@@ -1,0 +1,9 @@
+## generic
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+
+## python
+*.pyc
