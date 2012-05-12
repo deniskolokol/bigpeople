@@ -88,7 +88,7 @@ class TeamMember(EmbeddedDocument):
 class Celebrity(DynamicDocument):
     """Class for Celebrities.
     All data classes should inherit from DynamicDocument.
-    All data classes should have "tags" and "words"
+    All data classes should have "_tags" and "_keywords"
     for tagging documents and full-text search
     """
     name= StringField(required=True, help_text="Celebrity full name")
@@ -97,8 +97,8 @@ class Celebrity(DynamicDocument):
     used= BooleanField(help_text="Already used") # read-only, auto-fill
     team= ListField(EmbeddedDocumentField(TeamMember), default=list,
 		    help_text="Team")
-    tags= ListField(StringField(), default=list)
-    words= ListField(StringField(), default=list)
+    _tags= ListField(StringField(), default=list)
+    _keywords= ListField(StringField(), default=list)
 
     def __unicode__(self):
         return self.name
@@ -149,8 +149,8 @@ class CelebrityScene(DynamicDocument):
     billboard= ReferenceField(Billboard, required=True, help_text="Billboard")
     comment= StringField(help_text="Comments")
     # Both taken from text_content plus StringFields
-    tags= ListField(StringField(), default=list)
-    words= ListField(StringField(), default=list)
+    _tags= ListField(StringField(), default=list)
+    _keywords= ListField(StringField(), default=list)
 
     def __unicode__(self):
         return "Scene on %s" % self.celebrity.name
@@ -178,8 +178,8 @@ class Program(Document):
     celebrity_script= ListField(ReferenceField(CelebrityScript), required=True,
 		     help_text="Scripts")
     comment= StringField(help_text="Comments")
-    tags= ListField(StringField(), default=list)
-    words= ListField(StringField(), default=list)
+    _tags= ListField(StringField(), default=list)
+    _keywords= ListField(StringField(), default=list)
 
     def __unicode__(self):
 	result= []
