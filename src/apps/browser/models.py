@@ -128,7 +128,7 @@ class SceneVoice(EmbeddedDocument):
     def __unicode__(self):
         return 'Text in %s' % self.lang.title
 
-    # WARNING! Think of merging it with SceneVoice
+    # WARNING! Think of merging it with SceneText
 
 
 class CelebrityScene(DynamicDocument):
