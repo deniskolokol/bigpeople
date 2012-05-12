@@ -25,7 +25,8 @@ class Role(Document):
     title= StringField(required=True, help_text="Role title")
     title_view= StringField(required=True,
 	help_text="Role title as shown on page by default")
-    app_name= StringField(required=True, help_text="Application serving the role")
+    app_name= StringField(required=True,
+			  help_text="Application serving the role")
     lang_required= BooleanField(help_text="Language required")
 
     def __unicode__(self):
