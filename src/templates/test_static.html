@@ -1,0 +1,9 @@
+<!--Load static will recover the static prefix variable and saving it in STATIC_PREFIX. We do this only once.-->
+ 
+{% load static %}
+ 
+{% get_static_prefix as STATIC_PREFIX %}
+ 
+<!--Here we are just showing how easy is to recover static resources . -->
+Test image
+<img src="{{ STATIC_PREFIX }}django.png" />
