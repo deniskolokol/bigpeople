@@ -1,0 +1,61 @@
+    {% if form.errors %}
+    <table cellpadding="5">
+      <tr>
+	<td>
+	  <p style="color: red;"> Please correct the error{{ form.errors|pluralize }} below. </p>
+	</td>
+      </tr>
+    </table>
+    {% endif %}
+    <form enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene.length|default:"0"|add:"1" }}/save/" method="post">
+    {% csrf_token %}
+    <table cellpadding="5">
+      <tr>
+	<td>
+	  <div class="field">
+            {{ form.media_content.errors }}
+            <label for="id_media_content">Choose a picture:</label>
+            {{ form.media_content }}
+          </div>
+	</td>
+	<td>
+          <div class="field">
+            {{ form.lang.errors }}
+            <label for="id_lang">Language:</label>
+            {{ form.lang }}
+          </div>
+	</td>
+	<td>
+          <div class="field">
+            {{ form.text_content.errors }}
+            <label for="id_text_content">Text:</label>
+            {{ form.text_content }}
+          </div>
+	</td>
+	<td>
+          <div class="field">
+            {{ form.historical_date_input.errors }}
+            <label for="id_historical_date_input">Date:</label>
+            {{ form.historical_date_input }}
+          </div>
+          <div class="field">
+            {{ form.historical_place.errors }}
+            <label for="id_historical_place">Place:</label>
+            {{ form.historical_place }}
+          </div>
+	</td>
+	<td>
+          <div class="field">
+            {{ form.comment.errors }}
+            <label for="id_comment">Comment:</label>
+            {{ form.comment }}
+          </div>
+	</td>
+      </tr>
+      <tr>
+	<td>
+          <input type="submit" value="Save" />
+	</td>
+      </tr>
+    </table>
+    </form>

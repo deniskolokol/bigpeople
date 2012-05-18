@@ -18,6 +18,12 @@ How to start
 
 6. Go on with Django...
 
+N-1. Copy django_bigpeople.conf to /etc/init/
+
+N. Start application with "sudo start django_bigpeople", stop with "sudo stop django_bigpeople"
+
+
+
 
 
 How to setup development database server

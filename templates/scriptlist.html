@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="black">{{ celebrity.name }} {% if celebrity.name_aka %}(aka {{celebrity.name_aka }}){% endif %}</h1>
+
+{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
+<table cellpadding="5">
+  <tr> <!-- table header -->
+    <td> п/п </td>
+    <td> Изображение </td>
+    <td> Текст </td>
+    <td> Биллборд </td>
+    <td> Дата </td>
+    <td> Место </td>
+    <td> Хронометраж </td>
+  </tr>
+  {% for sc in scene %}
+  <tr>
+    <td> {{ forloop.counter }} </td>
+    <td> {{ sc.media_content }} </td>
+    <td> {{ sc.text }} </td>
+    <td> {{ sc.billboard.title }} </td>
+    <td> {{ sc.historical_date }} </td>
+    <td> {{ sc.historical_place }} </td>
+    <td> {{ sc.dur }} </td>
+  </tr>
+  {% endfor %}
+</table>
+  {% if display_form %}
+    {% include "includes/form_add_scene" %}  
+  {% else %}
+    <table><tr><td><a href="/celebrity/{{ celebrity.slug }}/scene/add/">add scene</a></td></tr></table>
+  {% endif %}
+</table>
+{% endblock %}

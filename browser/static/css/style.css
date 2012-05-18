@@ -1,0 +1,159 @@
+@charset "utf-8";
+A {
+    color: #404040;
+}
+
+A.alt {
+    color: #f3f0ed;
+}
+
+A.small {
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif; 
+    font-size: 8pt; 
+    color: #006400;
+}
+
+A.menu {
+    font-family: Arial Cyr, Arial, sans-serif; 
+    font-size: 8pt; 
+    color: #813f40;
+    text-decoration: none;
+}
+
+A.white {
+    color: #ffffff;
+    font-family: Tahoma, sans-serif;
+    font-size: 8pt;
+    text-decoration: none;
+}
+
+A:hover {
+    text-decoration: none;   
+    color: #666666;
+    text-decoration: none;
+}
+
+A:hover.alt {
+    text-decoration: none;   
+    color: #f3f0ed;
+    text-decoration: none;
+}
+
+A:hover.menu {
+    text-decoration: none;
+    color: #666666;
+}
+
+A:hover.white {
+    text-decoration: none;
+    color: #BFBFBF;
+}
+
+.cap {
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;
+    font-weight: normal; 
+    font-size: 10px; 
+    color: #666666
+}
+
+TD {
+    color: #505050;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
+    vertical-align: top;
+}
+
+TD.alt {
+    color: #666666;   
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
+}
+
+TD.small {
+    color: #000000;   
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
+}
+
+TD.index {
+    color: #000000;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 7pt;
+}
+
+TD.white {
+    color: #BFBFBF;
+    font-family: Tahoma, sans-serif;
+    font-size: 8pt;
+}
+
+TD.blockhead {
+    color: #505050;
+    font-family: Tahoma, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+TD.blockhead {
+    color: #505050;
+    font-family: Tahoma, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+table#tableCNTR {
+    width:80%; 
+    margin-left:10%;
+    margin-right:10%;
+}
+
+H5 {
+    color: #ffffff;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
+}
+H4 {
+    color: #ffffff;
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 11pt;
+}
+H3 {
+    color: #ffffff;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
+}
+H2 {
+    color: #ffffff;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 13pt;
+}
+H1 {
+    color: #ffffff;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
+}
+H5.black {
+    color: #505050;
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
+}
+H4.black {
+    color: #505050;
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 11pt;
+}
+H3.black {
+    color: #505050;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
+}
+H2.black {
+    color: #505050;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 13pt;
+}
+H1.black {
+    color: #505050;   
+    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
+}
