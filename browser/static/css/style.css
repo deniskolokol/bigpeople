@@ -1,6 +1,6 @@
 @charset "utf-8";
 A {
-    color: #404040;
+    color: #006400;
 }
 
 A.alt {
@@ -8,22 +8,22 @@ A.alt {
 }
 
 A.small {
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif; 
-    font-size: 8pt; 
+    font-family: Arial Cyr, Arial, sans-serif;
+    font-size: 10pt;
     color: #006400;
 }
 
 A.menu {
     font-family: Arial Cyr, Arial, sans-serif; 
-    font-size: 8pt; 
+    font-size: 10pt;
     color: #813f40;
     text-decoration: none;
 }
 
 A.white {
     color: #ffffff;
-    font-family: Tahoma, sans-serif;
-    font-size: 8pt;
+    font-family: sans-serif;
+    font-size: 10pt;
     text-decoration: none;
 }
 
@@ -50,110 +50,122 @@ A:hover.white {
 }
 
 .cap {
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;
+    font-family: Arial Cyr, Arial, sans-serif;
     font-weight: normal; 
-    font-size: 10px; 
+    font-size: 12pt;
     color: #666666
 }
-
+/*
+TABLE
+*/
 TD {
     color: #505050;
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 8pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
     vertical-align: top;
+    padding:0px 2px 0px 2px;
 }
 
 TD.alt {
     color: #666666;   
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 8pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
 }
 
 TD.small {
     color: #000000;   
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 8pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
 }
 
 TD.index {
     color: #000000;
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 7pt;
+    font-family: Arial Cyr, Arial, sans-serif;
+    font-size: 9pt;
 }
 
 TD.white {
     color: #BFBFBF;
-    font-family: Tahoma, sans-serif;
-    font-size: 8pt;
+    font-family: sans-serif;
+    font-size: 10pt;
 }
 
 TD.blockhead {
     color: #505050;
-    font-family: Tahoma, sans-serif;
-    font-size: 10pt;
-    font-weight: bold;
-}
-
-TD.blockhead {
-    color: #505050;
-    font-family: Tahoma, sans-serif;
-    font-size: 10pt;
+    font-family: sans-serif;
+    font-size: 12pt;
     font-weight: bold;
 }
 
 table#tableCNTR {
-    width:80%; 
-    margin-left:10%;
-    margin-right:10%;
+    padding:50px 50px 0px 50px;
 }
-
+/*
+DIV
+*/
+div.field {
+    width:100%;
+}
 H5 {
     color: #ffffff;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 10pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
 }
 H4 {
     color: #ffffff;
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 11pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 13pt;
 }
 H3 {
     color: #ffffff;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 12pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
 }
 H2 {
     color: #ffffff;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 13pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 15pt;
 }
 H1 {
     color: #ffffff;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 14pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 16pt;
 }
 H5.black {
     color: #505050;
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 10pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
 }
 H4.black {
     color: #505050;
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 11pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 13pt;
 }
 H3.black {
     color: #505050;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 12pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
 }
 H2.black {
     color: #505050;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 13pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 15pt;
 }
 H1.black {
     color: #505050;   
-    font-family: Tahoma, Arial Cyr, Arial, sans-serif;   
-    font-size: 14pt;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 16pt;
+}
+/*
+  FORMS
+*/
+textarea {
+    width:100%;
+}
+input.textlabel {
+    background:none;
+    border:0;
+    color: #505050;
+    font-family: Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
 }

@@ -1,0 +1,21 @@
+      <table>
+        <tr>
+          <td>
+            <form name="formEdit" action="/celebrity/{{ celeb.slug }}/edit/" method="get">
+            <button type="submit" id="{{ celeb.slug }}_edit" value="Edit">
+            <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
+            </button>
+            </form>
+          </td>
+          <td>
+            <form name="formConfirmDelete" action="/celebrity/{{ celeb.slug }}/delete/" method="post">
+            {% csrf_token %}
+            <button type="submit" id="{{ celeb.slug }}_delete" value="Delete"
+            onClick="if(!confirm('Это действие удалит также сценарий. Вы уверены?'))
+              return false;">
+            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Delete"/>
+            </button>
+            </form>
+          </td>
+        </tr>
+      </table>

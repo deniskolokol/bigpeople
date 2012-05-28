@@ -2,15 +2,25 @@
 <html>
 <head>
   <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/datepicker.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropdownstyle.css" media="screen, projection" />
+  <!--[if lte IE 7]>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" media="screen" />
+  <![endif]-->
   <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
-  <title> {{ page_title }} </title>
+
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/datepicker.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/eye.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/utils.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/layout.js?ver=1.0.2"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dropdownPlain.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bp_gui.js"></script>
+<title> {{ page_title }} </title>
 </head>
 
 <body>
-
 <table id="tableCNTR" cellpadding="0" cellspacing="0" border="0">
-  <tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0"></td></tr>
-
   <tr> <!-- data -->
     <td>
       {% block content %}{% endblock %}

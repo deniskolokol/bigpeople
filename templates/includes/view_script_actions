@@ -1,0 +1,41 @@
+      <table>
+	<tr>
+          <td>
+            <form name="formEdit" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/" method="get">
+            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_edit" value="Edit">
+            <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
+            </button>
+            </form>
+          </td>
+          <td>
+            <form name="formDel" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/delete/" method="post">
+            {% csrf_token %}
+            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_delete" value="Delete">
+            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Edit"/>
+            </button>
+            </form>
+          </td>
+        </tr>
+        {% if not forloop.first %}
+	<tr>
+          <td>
+            <form name="formUp" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/up/" method="get">
+            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_up" value="Up">
+            <img src="{{ STATIC_URL }}img/ic_up.png" alt="Up"/>
+            </button>
+            </form>
+          </td>
+        </tr>
+        {% endif %}
+        {% if not forloop.last %}
+	<tr>
+          <td>
+            <form name="formDown" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/down/" method="get">
+            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_down" value="Down">
+            <img src="{{ STATIC_URL }}img/ic_down.png" alt="Down"/>
+            </button>
+            </form>
+          </td>
+        </tr>
+        {% endif %}
+      </table>

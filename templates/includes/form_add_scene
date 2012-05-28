@@ -1,61 +1,175 @@
-    {% if form.errors %}
-    <table cellpadding="5">
-      <tr>
-	<td>
-	  <p style="color: red;"> Please correct the error{{ form.errors|pluralize }} below. </p>
-	</td>
-      </tr>
-    </table>
+  <tr>
+    {% if scene_id %}
+    <form name="formAddScene" enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene_id }}/save/" method="post">
+    {% else %}
+    <form name="formAddScene" enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ celebrity.script|length|default:"0"|add:"1" }}/save/" method="post">
     {% endif %}
-    <form enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene.length|default:"0"|add:"1" }}/save/" method="post">
     {% csrf_token %}
-    <table cellpadding="5">
-      <tr>
-	<td>
-	  <div class="field">
+    <td>
+      <table>
+        <tr><td><input type="submit" name="save" value="Save" /></td></tr>
+      {% if not scene_id %}
+        <tr><td><input type="submit" name="save_add" value="Save and add new" /></td></tr>
+      {% endif %}
+        <tr><td><input type="submit" name="cancel" value="Cancel" /></td></tr>
+      </table>
+    </td>
+    <td>
+    <div class="field">
+      {{ form.lang.errors }}
+      {{ form.lang }}
+    </div>
+    </td>
+    <td>
+      <table>
+        {% if scene_id %}
+        <tr>
+          <td>
+            <script type="text/javascript">
+            <!--
+            function roll(img_name1, img_src1, img_name2, img_src2)
+            {
+                document[img_name1].src = img_src1;
+                document[img_name2].src = img_src2;
+            }
+            //-->
+            </script>
+          <div id="map" style="position: relative;">
+            {% if scene.media_thumb_url %}
+            <img src="{{ scene.media_thumb_url }}"
+            onmouseover="roll('sub1', '{{ STATIC_URL }}img/cancel.png', 'sub2', '{{ STATIC_URL }}img/spacer.gif')"
+            onmouseout="roll('sub1', '{{ STATIC_URL }}img/spacer.gif', 'sub2', '{{ STATIC_URL }}img/cancel.png')"/>
+            <img src="{{ STATIC_URL }}img/cancel.png" name="sub1" style="position: absolute; top: 5; right: 5;">
+            <img src="{{ STATIC_URL }}img/spacer.gif" name="sub2" style="position: absolute; top: 5; right: 5;">
+            {% endif %}
+          </div>
+          </td>
+        </tr>
+        {% endif %}
+	<tr>
+	  <td>
+          <div class="field">
             {{ form.media_content.errors }}
-            <label for="id_media_content">Choose a picture:</label>
-            {{ form.media_content }}
+            <input id="id_media_content" type="file" name="media_content" size="16">
           </div>
-	</td>
-	<td>
+          </td>
+        </tr>
+	<tr>
+	  <td>
           <div class="field">
-            {{ form.lang.errors }}
-            <label for="id_lang">Language:</label>
-            {{ form.lang }}
+            {{ form.media_src.errors }}
+            <input type="text" name="media_src" id="id_media_src" size="26" value="{{ scene.media_src }}" />
           </div>
-	</td>
-	<td>
+          </td>
+        </tr>
+	<tr>
+	  <td>
           <div class="field">
-            {{ form.text_content.errors }}
-            <label for="id_text_content">Text:</label>
-            {{ form.text_content }}
+            {{ form.media_copyright.errors }}
+            <input type="text" name="media_copyright" id="id_media_copyright" size="26" value="{{ scene.media_copyright }}" />
           </div>
-	</td>
-	<td>
-          <div class="field">
-            {{ form.historical_date_input.errors }}
-            <label for="id_historical_date_input">Date:</label>
-            {{ form.historical_date_input }}
-          </div>
-          <div class="field">
-            {{ form.historical_place.errors }}
-            <label for="id_historical_place">Place:</label>
-            {{ form.historical_place }}
-          </div>
-	</td>
-	<td>
-          <div class="field">
-            {{ form.comment.errors }}
-            <label for="id_comment">Comment:</label>
-            {{ form.comment }}
-          </div>
-	</td>
-      </tr>
-      <tr>
-	<td>
-          <input type="submit" value="Save" />
-	</td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td>
+    <div class="field">
+      {{ form.billboard.errors }}
+      {{ form.billboard }}
+    </div>
+    </td>
+    <td width="">
+    <div class="field">
+      {{ form.text_content.errors }}
+      <textarea id="id_text_content" name="text_content"
+      onKeyDown="textDurCount(
+          document.formAddScene.text_content,
+          document.formAddScene.text_dur_ms,
+          document.formAddScene.text_dur,
+          document.getElementById('tableCNTR'),
+          document.getElementById('id_text_dur_total'))"
+      onKeyUp="textDurCount(
+          document.formAddScene.text_content,
+          document.formAddScene.text_dur_ms,
+          document.formAddScene.text_dur,
+          document.getElementById('tableCNTR'),
+          document.getElementById('id_text_dur_total'))"
+      rows="10">{{ scene.text }}</textarea>
+    </div>
+    </td>
+    <td>
+      <table>
+	<tr>
+	  <td>
+	  <div class="field">
+	    {{ form.historical_date_input.errors }}
+	    <input id="inputDate" class="inputDate" name="historical_date_input" value="{{scene.historical_date_input|date:"m/d/Y"|default_if_none:""}}" />
+	    <label id="closeOnSelect"><input type="checkbox" checked="checked" style="display:none;"></label>
+	    <script type="text/javascript">// <![CDATA[
+if ($('#inputDate').val() != "") {
+        $initDate= $('#inputDate').val()
+}
+else {
+        $initDate= '12/21/2012'
+};
+$('#inputDate').DatePicker({
+	format:'m/d/Y',
+	date: $('#inputDate').val(),
+	current: $initDate,
+	starts: 1,
+	position: 'r',
+	onBeforeShow: function(){
+		$('#inputDate').DatePickerSetDate($initDate, true);
+	},
+	onChange: function(formated, dates){
+		$('#inputDate').val(formated);
+		if ($('#closeOnSelect input').attr('checked')) {
+			$('#inputDate').DatePickerHide();
+		}
+	}
+});
+	    // ]]></script>
+	  </div>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	  <div class="field">
+	    {{ form.historical_place.errors }}
+            <input type="text" name="historical_place" id="id_historical_place" value="{{ scene.historical_place }}" />
+	  </div>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	  <div class="field">
+	    {{ form.comment.errors }}
+	    <label for="id_comment">Comment:</label>
+            <textarea id="id_comment" name="comment" cols="16" rows="5">{{ scene.comment }}</textarea>
+	  </div>
+	  </td>
+	</tr>
+      </table>      
+    </td>
+    <td>
+      <input readonly class="textlabel" type="text" name="text_dur" size="9" maxlength="9" />
+      {% if scene_id %}
+      <input id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" value="{{ scene.dur }}" style="display:none;" />
+      {% else %}
+      <input id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" maxlength="9" style="display:none;" />
+      {% endif %}
+    </td>
+  </tr>
     </form>
+
+  <!-- calling textDurCount to fill duration after the form is loaded -->
+  <script type="text/javascript">// <![CDATA[
+  document.onload= textDurCount(
+    document.formAddScene.text_content,
+    document.formAddScene.text_dur_ms,
+    document.formAddScene.text_dur,
+    document.getElementById('tableCNTR'),
+    document.getElementById('id_text_dur_total')); 
+  // ]]></script>
+
+</tr>

@@ -2,35 +2,85 @@
 
 {% block content %}
 
-<h1 class="black">{{ celebrity.name }} {% if celebrity.name_aka %}(aka {{celebrity.name_aka }}){% endif %}</h1>
-
-{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
-<table cellpadding="5">
-  <tr> <!-- table header -->
-    <td> п/п </td>
-    <td> Изображение </td>
-    <td> Текст </td>
-    <td> Биллборд </td>
-    <td> Дата </td>
-    <td> Место </td>
-    <td> Хронометраж </td>
-  </tr>
-  {% for sc in scene %}
+<table border="0">
   <tr>
-    <td> {{ forloop.counter }} </td>
-    <td> {{ sc.media_content }} </td>
-    <td> {{ sc.text }} </td>
-    <td> {{ sc.billboard.title }} </td>
-    <td> {{ sc.historical_date }} </td>
-    <td> {{ sc.historical_place }} </td>
-    <td> {{ sc.dur }} </td>
+    <td class="blockhead">
+    <div id="page-wrap">
+      <ul class="dropdown">
+        <li><a class="menu" href="#">Большие люди</a>
+        <ul class="sub_menu">
+          <li><a class="menu" href="/celebrity/"><i>Все</i></a></li>
+          {% for celeb in celeblist %}
+          <li><a class="menu" href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
+          {% endfor %}
+        </ul>
+        </li>
+      </ul>
+    </div>
+    </td>
+    <td class="blockhead">
+      <h3 class="black">{{ celebrity.name }}</h3>
+    </td>
   </tr>
-  {% endfor %}
 </table>
-  {% if display_form %}
-    {% include "includes/form_add_scene" %}  
-  {% else %}
-    <table><tr><td><a href="/celebrity/{{ celebrity.slug }}/scene/add/">add scene</a></td></tr></table>
+
+<table border="0">
+  <tr> <!-- table header -->
+    <td width="10%"> &nbsp; </td>
+    <td width="5%"> п/п </td>
+    <td width="15%">
+      <table>
+	<tr><td>Изображение</td></tr>
+	<tr><td>Источник</td></tr>
+        <tr><td>Копирайт</td></tr>
+      </table>
+    </td>
+    <td width="10%"> Биллборд </td>
+    <td width="35%"> Текст </td>
+    <td width="15%">
+      <table>
+	<tr><td>Дата</td></tr>
+	<tr><td>Место</td></tr>
+        <tr><td>&nbsp;</td></tr>
+      </table>
+    <td width="10%"> Хронометраж </td>
+  </tr>
+  {% if message %}
+  <tr><td colSpan=7><p><strong>{{ message }}</strong></p></td></tr>
   {% endif %}
+  {% for scene in celebrity.script %}
+    {% ifequal forloop.counter scene_id %}
+      {% include "includes/form_add_scene" %}
+    {% else %}
+      {% include "includes/view_script" %}
+    {% endifequal %}
+  {% endfor %}
+
+  {% if display_form %}
+    {% include "includes/form_add_scene" %}
+  {% endif %}
+
+  <tr>
+    <td colSpan="6" align="right">
+      Общий хронометраж:
+    </td>
+    <td>
+      <input readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total"
+    size="9" value="" />
+      <!-- browser/static/js/bp_gui.js -->
+      <script language="javascript" type="text/javascript">// <![CDATA[
+      textDurCountStatic(document.getElementById('tableCNTR'), document.getElementById('id_text_dur_total'), 0);
+      // ]]></script>
+    </td>
+  </tr>
+
+  {% if not display_form %}
+    <tr><td colSpan="7">
+      <a href="/celebrity/{{ celebrity.slug }}/scene/add/"><img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene"/></a>
+    </td></tr>
+  {% endif %}
+
+    <tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="50" border="0"></td></tr>
+    <tr><td colSpan="7"><a href="/celebrity/{{ celebrity.slug }}/complete/">complete script</a></td></tr>
 </table>
 {% endblock %}

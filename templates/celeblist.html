@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="black">Большие люди</h1>
+
+{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
+<table border="0">
+  <tr> <!-- table header -->
+    <td> &nbsp; </td>
+    <td colSpan=2> Имя </td>
+    <td> Готов к сборке </td>
+    <td> Использован </td>
+    <td> Программа </td>
+  </tr>
+  {% for celeb in celebrity %}
+  {% ifequal slug celeb.slug %} <!-- edit celebrity-->
+    {% include "includes/form_add_celeb" %}
+  {% else %} <!-- celebrity details -->
+    {% include "includes/view_celeb" %}
+  {% endifequal %}
+  {% endfor %}
+  {% if display_form %}
+    {% include "includes/form_add_celeb" %}
+  {% else %}
+  <tr>
+    <td><table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30px"/></td></tr></table></td>
+  </tr>
+  <tr>
+    <td colSpan="6">
+      <table>
+        <tr>
+          <td>
+            <a href="/celebrity/add/"><img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New record" title="New record"/></a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  {% endif %}
+</table>
+{% endblock %}

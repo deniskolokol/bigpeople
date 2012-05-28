@@ -3,7 +3,7 @@ import os.path
 
 PROJECT_TITLE= 'Big People'
 
-ROOT_PATH = os.path.dirname( __file__ )
+ROOT_PATH = os.path.normpath( os.path.dirname(__file__) )
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -42,11 +42,17 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+# Thumbnail size
+THUMBNAIL_SIZE = (200, 200)
+
+# Upload filename length
+FILENAME_LEN = 15
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join( ROOT_PATH, 'site_media/' )
 
 # URL that handles the media served from MEDIA_ROOT.
-MEDIA_URL = 'http://127.0.0.1:8000/site_media/' # for development period only!!!
+MEDIA_URL = 'http://localhost:8000/site_media/' # for development period only!!!
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files

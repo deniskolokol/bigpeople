@@ -1,0 +1,32 @@
+  <tr>
+    <td>
+      {% include "includes/view_script_actions" %}
+    </td>
+    <td> {{ forloop.counter }} </td>
+    <td>
+      <table>
+	<tr>
+          <td>
+            {% if scene.media_thumb_url %}<img src="{{ scene.media_thumb_url }}" />{% endif %}
+          </td>
+        </tr>
+        <!-- <tr><td><img src="/{{ scene.gridfile }}" /></td></tr> -->
+	<tr><td><a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:30 }}</a></td></tr>
+	<tr><td>{% if scene.media_copyright %}&#xa9;{{ scene.media_copyright }}{% endif %}</td></tr>
+      </table>      
+    </td>
+    <td> {{ scene.billboard.title|default:"&nbsp;" }} </td>
+    <td> {{ scene.text }} </td>
+    <td>
+      <table>
+	<tr><td>{{ scene.historical_date }}</td></tr>
+	<tr><td>{{ scene.historical_place }}</td></tr>
+      </table>      
+    </td>
+    <td>
+      <script type="text/javascript">// <![CDATA[
+      document.write(ms2time({{ scene.dur }}))
+      // ]]></script>
+    </td>
+    <td class="count" style="display:none;">{{ scene.dur }}</td>
+  </tr>
