@@ -52,7 +52,9 @@ FILENAME_LEN = 15
 MEDIA_ROOT = os.path.join( ROOT_PATH, 'site_media/' )
 
 # URL that handles the media served from MEDIA_ROOT.
-MEDIA_URL = 'http://localhost:8000/site_media/' # for development period only!!!
+# for development period only!!!
+# MEDIA_URL = 'http://localhost:8000/site_media/' # local development
+MEDIA_URL = 'http://ec2-50-19-16-140.compute-1.amazonaws.com:8000/site_media/' # Amazon ES2
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
