@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<table border="0">
+<!-- P A G E  H E A D E R -->
+<table>
   <tr>
     <td class="blockhead">
     <div id="page-wrap">
@@ -24,25 +25,18 @@
   </tr>
 </table>
 
-<table border="0">
-  <tr> <!-- table header -->
-    <td width="10%"> &nbsp; </td>
-    <td width="5%"> п/п </td>
-    <td width="15%">
-      <table>
-	<tr><td>Изображение</td></tr>
-	<tr><td>Источник</td></tr>
-        <tr><td>Копирайт</td></tr>
-      </table>
-    </td>
+<!-- D A T A  T A B L E -->
+<table id="data-table">
+  <tbody>
+
+  <!-- T A B L E  H E A D E R -->
+  <tr class="header">
+    <td width="8%"> &nbsp; </td>
+    <td width="4%"> п/п </td>
+    <td width="13%">Изображение<br/>Источник<br/>Копирайт</td>
     <td width="10%"> Биллборд </td>
-    <td width="35%"> Текст </td>
-    <td width="15%">
-      <table>
-	<tr><td>Дата</td></tr>
-	<tr><td>Место</td></tr>
-        <tr><td>&nbsp;</td></tr>
-      </table>
+    <td class="cntr" width="45%"> Текст </td>
+    <td width="10%">Дата<br/>Место<br/>&nbsp;
     <td width="10%"> Хронометраж </td>
   </tr>
   {% if message %}
@@ -60,27 +54,75 @@
     {% include "includes/form_add_scene" %}
   {% endif %}
 
-  <tr>
+  <!-- T A B L E  F O O T E R -->
+  <tr class="footer">
     <td colSpan="6" align="right">
       Общий хронометраж:
     </td>
-    <td>
-      <input readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total"
-    size="9" value="" />
+    <td class="rght">
+      <input readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total" size="9" value="" />
       <!-- browser/static/js/bp_gui.js -->
       <script language="javascript" type="text/javascript">// <![CDATA[
       textDurCountStatic(document.getElementById('tableCNTR'), document.getElementById('id_text_dur_total'), 0);
       // ]]></script>
     </td>
   </tr>
+</table>
 
-  {% if not display_form %}
-    <tr><td colSpan="7">
-      <a href="/celebrity/{{ celebrity.slug }}/scene/add/"><img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene"/></a>
-    </td></tr>
-  {% endif %}
+<!-- S P A C E R -->
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0" /></td></tr></table>
 
-    <tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="50" border="0"></td></tr>
-    <tr><td colSpan="7"><a href="/celebrity/{{ celebrity.slug }}/complete/">complete script</a></td></tr>
+<!-- P A G E  F O O T E R -->
+<table id="head-table" width="100%">
+  <tr>
+    {% if not celebrity.ready_to_assemble %}
+      {% if not display_form %}
+    <td class="blockhead">
+      <a class="menu" href="/celebrity/{{ celebrity.slug }}/scene/add/">
+      <img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene" />
+      Новая сцена
+      </a>
+    </td>
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
+    <td class="blockhead">
+      <a class="menu" href="/celebrity/">
+      <img src="{{ STATIC_URL }}img/ic_list.png" height="32" alt="Back" title="Back" />
+      Вернуться к списку знаменитостей
+      </a>
+    </td>
+      {% endif %}
+    {% endif %}
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
+    <td>
+      <ul class="dropdown">
+        <li><a class="menu" href="#">Выбрать</a>
+        <ul class="sub_menu">
+          <li><a class="menu" href="/celebrity/"><i>Все</i></a></li>
+          {% for celeb in celeblist %}
+          <li><a class="menu" href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
+          {% endfor %}
+        </ul>
+        </li>
+      </ul>
+    </td>
+    <td class="blockhead">
+      <h5 class="black">{{ celebrity.name }}</h5>
+    </td>
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="350" height="10" border="0"></td>
+    {% if not celebrity.ready_to_assemble %}
+      {% if not display_form %}
+    <td class="blank">
+      <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
+      {% csrf_token %}
+      <button type="submit" id="{{ celebrity.slug }}_complete" value="Complete celebrity script"
+      onClick="if(!confirm('Завершение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+      return false;">
+      <img src="{{ STATIC_URL }}img/ic_ok.png" alt="Complete"/> Завершить сценарий
+      </button>
+      </form>
+    </td>
+      {% endif %}
+    {% endif %}
+  </tr>
 </table>
 {% endblock %}

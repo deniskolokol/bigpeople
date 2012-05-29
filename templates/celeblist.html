@@ -2,16 +2,34 @@
 
 {% block content %}
 
-<h1 class="black">Большие люди</h1>
+<!-- P A G E  H E A D E R -->
+<table>
+  <tr>
+    <td class="blockhead">
+      <h1 class="black">Большие люди</h1>
+    </td>
+  </tr>
+  {% if message %}
+  <tr>
+    <td class="blockhead">
+      <strong>{{ message }}</strong>
+    </td>
+  </tr>
+  {% endif %}
+</table>
 
-{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
-<table border="0">
-  <tr> <!-- table header -->
-    <td> &nbsp; </td>
-    <td colSpan=2> Имя </td>
-    <td> Готов к сборке </td>
-    <td> Использован </td>
-    <td> Программа </td>
+<!-- D A T A  T A B L E -->
+<table id="data-table">
+  <tbody>
+
+    <!-- T A B L E  H E A D E R -->
+  <tr class="header">
+    <td width="10%"></td>
+    <td class="cntr" width="15%"> Имя </td>
+    <td width="50%"> </td>
+    <td width="5%"> Готов к сборке </td>
+    <td width="5%"> Использован </td>
+    <td class="cntr" width="15%"> Программа </td>
   </tr>
   {% for celeb in celebrity %}
   {% ifequal slug celeb.slug %} <!-- edit celebrity-->
@@ -22,21 +40,31 @@
   {% endfor %}
   {% if display_form %}
     {% include "includes/form_add_celeb" %}
-  {% else %}
-  <tr>
-    <td><table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30px"/></td></tr></table></td>
-  </tr>
-  <tr>
-    <td colSpan="6">
-      <table>
-        <tr>
-          <td>
-            <a href="/celebrity/add/"><img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New record" title="New record"/></a>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
   {% endif %}
+  <!-- T A B L E  F O O T E R -->
+  <tr class="footer">
+    <td colSpan="6" align="right"></td>
+  </tr>
+  </tbody>
 </table>
+
+<!-- S P A C E R -->
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0" /></td></tr></table>
+
+<!-- P A G E  F O O T E R -->
+{% if not display_form %}
+<table id="head-table" width="100%">
+  <tbody>
+    <tr>
+      <td class="blockhead">
+        <a class="menu" href="/celebrity/add/"><img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New record" title="New record"/>
+        Новая запись
+        </a>
+      </td>
+      <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="700" height="10" border="0"></td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
+
 {% endblock %}

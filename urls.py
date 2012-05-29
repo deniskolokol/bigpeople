@@ -19,6 +19,7 @@ urlpatterns = patterns('bigpeople.screenwriter.views',
     url(r'^celebrity/(?P<slug>[-\w]+)/edit/$', 'celebrity_edit', {'template': 'celeblist'}),
     url(r'^celebrity/(?P<slug>[-\w]+)/save/$', 'celebrity_save'),
     url(r'^celebrity/(?P<slug>[-\w]+)/$', 'scene_list', {'template': 'scriptlist'}),
+    url(r'^celebrity/(?P<slug>[-\w]+)/complete/$', 'celebrity_complete'),
     url(r'^celebrity/(?P<slug>[-\w]+)/scene/$', 'scene_list', {'template': 'scriptlist'}),
     url(r'^celebrity/(?P<slug>[-\w]+)/scene/add/$', 'scene_list', {'template': 'scriptlist', 'form':True}),
     url(r'^celebrity/(?P<slug>[-\w]+)/scene/(?P<scene_id>\d+)/$', 'scene_details'),
@@ -28,12 +29,8 @@ urlpatterns = patterns('bigpeople.screenwriter.views',
     url(r'^celebrity/(?P<slug>[-\w]+)/scene/(?P<scene_id>\d+)/up/$', 'scene_move', {'template': 'scriptlist', 'dir':-1}),
     url(r'^celebrity/(?P<slug>[-\w]+)/scene/(?P<scene_id>\d+)/down/$', 'scene_move', {'template': 'scriptlist', 'dir':1}),
 
-    # Examples:
-    # url(r'^$', 'bigpeople.views.home', name='home'),
-    # url(r'^bigpeople/', include('bigpeople.foo.urls')),
-
     # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),

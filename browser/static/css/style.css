@@ -7,23 +7,17 @@ A.alt {
     color: #f3f0ed;
 }
 
-A.small {
-    font-family: Arial Cyr, Arial, sans-serif;
-    font-size: 10pt;
-    color: #006400;
-}
-
 A.menu {
-    font-family: Arial Cyr, Arial, sans-serif; 
-    font-size: 10pt;
-    color: #813f40;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif; 
+    font-size: 8pt;
+    color: #444444;
     text-decoration: none;
 }
 
 A.white {
     color: #ffffff;
     font-family: sans-serif;
-    font-size: 10pt;
+    font-size: 8pt;
     text-decoration: none;
 }
 
@@ -50,55 +44,154 @@ A:hover.white {
 }
 
 .cap {
-    font-family: Arial Cyr, Arial, sans-serif;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;
     font-weight: normal; 
-    font-size: 12pt;
+    font-size: 10pt;
     color: #666666
 }
 /*
 TABLE
 */
-TD {
-    color: #505050;
-    font-family: Arial Cyr, Arial, sans-serif;   
+#data-table {
+    width: "100%";
+    border-collapse: collapse;
+}
+
+#data-table tbody > tr:hover {
+    background-color: #f7f7e7;
+}
+
+#data-table tbody > tr.dim {
+    border-right: 2px solid #ababab;
+    border-left: 2px solid #ababab;
+}
+
+#data-table tbody > tr.dim:hover {
+    color: #f7f7e7 !important;
+}
+
+#data-table tr {
+    border-right: 2px solid #5b5b5b;
+    border-left: 2px solid #5b5b5b;
+}
+
+#data-table tr.header {
+    background: #bfbfbf;
     font-size: 10pt;
+    font-weight: bold;
+    border-top: 2px solid #ababab;
+}
+
+#data-table tr.header:hover {
+    background: #bfbfbf;
+}
+
+#data-table tr.footer {
+    background: #bfbfbf;
+    font-size: 10pt;
+    font-weight: bold;
+    height: 40px;
+    border-bottom: 2px solid #ababab;
+}
+
+#data-table tr.form {
+    background: #f7f7e7;
+}
+
+#data-table td {
+    color: #505050;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
+    cursor: default;
+    vertical-align: top;
+    padding: 2px;
+}
+
+#data-table td.small {
+    font-size: 8pt;
+}
+
+.odd {
+  background-color: #f7f7f7;
+}
+
+.even {
+  background-color: #e7e7e7;
+}
+
+#head-table {
+    width: "100%";
+    border-collapse: collapse;
+}
+
+#head-table td {
+    color: #505050;
+    background-color: #bfbfbf;
+    vertical-align: top;
+    padding: 5px;
+}
+
+#head-table td.blank {
+    background-color: transparent;
+}
+
+img {
+    vertical-align:text-top;
+}
+
+.cntr {
+  text-align: center;
+}
+
+.rght {
+  text-align: right;
+}
+
+TD {
     vertical-align: top;
     padding:0px 2px 0px 2px;
 }
 
-TD.alt {
-    color: #666666;   
-    font-family: Arial Cyr, Arial, sans-serif;   
+TD.header {
+    background: #c1c380;
+    color: ;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 10pt;
 }
 
 TD.small {
     color: #000000;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 10pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
 }
 
 TD.index {
     color: #000000;
-    font-family: Arial Cyr, Arial, sans-serif;
-    font-size: 9pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;
+    font-size: 8pt;
+}
+
+TD.blockbottom {
+    color: #000000;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;
+    font-size: 12pt;
 }
 
 TD.white {
     color: #BFBFBF;
     font-family: sans-serif;
-    font-size: 10pt;
+    font-size: 8pt;
 }
 
 TD.blockhead {
     color: #505050;
     font-family: sans-serif;
-    font-size: 12pt;
+    font-size: 10pt;
     font-weight: bold;
 }
 
 table#tableCNTR {
-    padding:50px 50px 0px 50px;
+    padding:20px 50px 0px 50px;
 }
 /*
 DIV
@@ -108,52 +201,52 @@ div.field {
 }
 H5 {
     color: #ffffff;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 12pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
 }
 H4 {
     color: #ffffff;
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 13pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
 }
 H3 {
     color: #ffffff;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 14pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
 }
 H2 {
     color: #ffffff;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 15pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
 }
 H1 {
     color: #ffffff;   
-    font-family: Arial Cyr, Arial, sans-serif;   
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 16pt;
 }
 H5.black {
     color: #505050;
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 12pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 8pt;
 }
 H4.black {
     color: #505050;
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 13pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 10pt;
 }
 H3.black {
     color: #505050;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 14pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 12pt;
 }
 H2.black {
     color: #505050;   
-    font-family: Arial Cyr, Arial, sans-serif;   
-    font-size: 15pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
+    font-size: 14pt;
 }
 H1.black {
     color: #505050;   
-    font-family: Arial Cyr, Arial, sans-serif;   
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 16pt;
 }
 /*
@@ -166,6 +259,6 @@ input.textlabel {
     background:none;
     border:0;
     color: #505050;
-    font-family: Arial Cyr, Arial, sans-serif;   
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 10pt;
 }

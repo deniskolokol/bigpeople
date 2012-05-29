@@ -19,7 +19,6 @@ class SceneForm(forms.Form):
 	label='Comment')
 
     def __init__(self, *args, **kwargs):
-        print args, kwargs
         initial= kwargs.pop('billboard', None)
         super(SceneForm, self).__init__(*args, **kwargs)
         if initial:

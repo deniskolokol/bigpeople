@@ -1,6 +1,7 @@
       <table>
 	<tr>
           <td>
+            <div>
             <form name="formEdit" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/" method="get">
             <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_edit" value="Edit">
             <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
@@ -11,9 +12,10 @@
             <form name="formDel" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/delete/" method="post">
             {% csrf_token %}
             <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_delete" value="Delete">
-            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Edit"/>
+            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Delete"/>
             </button>
             </form>
+            </div>
           </td>
         </tr>
         {% if not forloop.first %}

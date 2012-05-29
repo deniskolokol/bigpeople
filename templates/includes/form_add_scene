@@ -1,4 +1,4 @@
-  <tr>
+  <tr class="form">
     {% if scene_id %}
     <form name="formAddScene" enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene_id }}/save/" method="post">
     {% else %}

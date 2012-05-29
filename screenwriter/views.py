@@ -49,6 +49,7 @@ def celebrity_save(request, slug=None):
         pass # raise error - no name no save
     if slug:
         celebrity= models.Celebrity.objects.get(slug=slug)
+        celebrity.name= name
     else:
         celebrity= models.Celebrity(name=name)
     celebrity.name_lang= [] # Language specific names
@@ -95,6 +96,21 @@ def celebrity_edit(request, slug, **kwargs):
          'display_form':display_form, 'slug':slug,
          'page_title': get_page_title('List of Celebrities')},
         context_instance=RequestContext(request))
+
+
+def celebrity_complete(request, slug):
+    """Finalizes Celebrity record:
+    - no more records can be added to the Script.
+    - celebrity record cannot be edited.
+    """
+    celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celebrity.ready_to_assemble= True
+    message=""
+    try:
+        celebrity.save()
+    except Exception as e:
+        message= e # WARNING! process exception
+    return redirect(request.META.get('HTTP_REFERER'), {'message':message})
 
 
 def scene_list(request, slug, **kwargs):
@@ -172,7 +188,7 @@ def define_scene(request, celebrity, index):
         historical_date_bc=date_bc, historical_place=place, comment=comment)
     media_content= request.FILES.get('media_content', None)
     if media_content:
-	# scene.media_content= media_content # NO SAVE UNTIL nginx WORKS!
+	scene.media_content= media_content # NO SAVE UNTIL nginx WORKS!
         # scene.media_content_thumb= media_content_thumb # where to get it from?
         scene.media_url, scene.media_thumb_url= handle_uploaded_file(media_content)
     else: # The scene can already exist
