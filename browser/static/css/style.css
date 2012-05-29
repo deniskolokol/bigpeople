@@ -49,6 +49,13 @@ A:hover.white {
     font-size: 10pt;
     color: #666666
 }
+
+#header {
+    background: none repeat scroll 0 0 #c07541;
+    color: #b2c1ce;
+    overflow: hidden;
+}
+
 /*
 TABLE
 */
@@ -92,6 +99,10 @@ TABLE
     font-weight: bold;
     height: 40px;
     border-bottom: 2px solid #ababab;
+}
+
+#data-table tr.footer:hover {
+    background: #bfbfbf;
 }
 
 #data-table tr.form {
@@ -245,16 +256,24 @@ H2.black {
     font-size: 14pt;
 }
 H1.black {
-    color: #505050;   
+    color: #505050;
     font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 16pt;
+}
+H1.branding {
+    font-weight: normal;
+    margin: 8px 0;
+    padding: 0 10px;
 }
 /*
   FORMS
 */
 textarea {
     width:100%;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;    
+    font-size: 10pt;
 }
+
 input.textlabel {
     background:none;
     border:0;

@@ -3,20 +3,18 @@
 {% block content %}
 
 <!-- P A G E  H E A D E R -->
+{% if message %}
 <table>
-  <tr>
-    <td class="blockhead">
-      <h1 class="black">Большие люди</h1>
-    </td>
-  </tr>
-  {% if message %}
   <tr>
     <td class="blockhead">
       <strong>{{ message }}</strong>
     </td>
   </tr>
-  {% endif %}
 </table>
+{% endif %}
+
+<!-- S P A C E R -->
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="50" border="0" /></td></tr></table>
 
 <!-- D A T A  T A B L E -->
 <table id="data-table">
