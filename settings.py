@@ -1,7 +1,6 @@
 # Django settings for bigpeople project.
 import os.path
 
-
 PROJECT_TITLE= 'Big People'
 
 ROOT_PATH = os.path.normpath( os.path.dirname(__file__) )
