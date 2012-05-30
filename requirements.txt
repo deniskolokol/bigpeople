@@ -1,9 +1,9 @@
-# First install libjpeg! On ubuntu:
+# First install libjpeg! On Ubuntu:
 # $ sudo apt-get install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 # $ sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib
 # $ sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so /usr/lib
 # $ sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
-pil
+PIL
 hg+https://bitbucket.org/wkornewald/django-nonrel
 hg+https://bitbucket.org/wkornewald/djangotoolbox
 git+https://github.com/django-nonrel/mongodb-engine
