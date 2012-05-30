@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from models import Billboard, Language
 
@@ -23,3 +25,8 @@ class SceneForm(forms.Form):
         super(SceneForm, self).__init__(*args, **kwargs)
         if initial:
             self.fields['billboard'].initial= initial['billboard']
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100, label='Имя пользователя')
+    password = forms.CharField(widget=forms.PasswordInput(render_value=False),
+        max_length=100, label='Пароль')

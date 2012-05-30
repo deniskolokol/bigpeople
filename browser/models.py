@@ -6,6 +6,7 @@ from gridfsuploads import gridfs_storage
 from bigpeople.settings import MEDIA_URL
 from bigpeople.browser.downcode import downcode
 
+
 class Billboard(Model):
     """Slide templates in Foundry Nuke format
     """
@@ -13,18 +14,18 @@ class Billboard(Model):
     body= TextField(help_text="Script text")
     dur_in= PositiveIntegerField(default=1, help_text="Fade-in duration (s)")
     dur_out= PositiveIntegerField(default=1, help_text="Fade-out duration (s)")
-    sfx_in= FileField(storage=gridfs_storage, upload_to=MEDIA_URL,
-		      help_text="Scene fade-in sound effect")
-    sfx_out= FileField(storage=gridfs_storage, upload_to=MEDIA_URL,
-		       help_text="Scene fade-out sound effect")
-    sfx_loop= FileField(storage=gridfs_storage, upload_to=MEDIA_URL,
-			help_text="Scene background sound loop")
+    sfx_in= FileField(null=True, storage=gridfs_storage, upload_to=MEDIA_URL,
+	help_text="Scene fade-in sound effect")
+    sfx_out= FileField(null=True, storage=gridfs_storage, upload_to=MEDIA_URL,
+	help_text="Scene fade-out sound effect")
+    sfx_loop= FileField(null=True, storage=gridfs_storage, upload_to=MEDIA_URL,
+	help_text="Scene background sound loop")
     # WARNING! the following fields can be deprecated!
-    sfx_in_url= URLField(max_length=400,
+    sfx_in_url= URLField(null=True, max_length=400,
         help_text="URL to the scene fade-in sound effect")
-    sfx_out_url= URLField(max_length=400,
+    sfx_out_url= URLField(null=True, max_length=400,
         help_text="URL to the scene fade-out sound effect")
-    sfx_loop_url= URLField(max_length=400,
+    sfx_loop_url= URLField(null=True, max_length=400,
         help_text="URL to the scene background sound loop")
 
     def __unicode__(self):
@@ -55,6 +56,20 @@ class Role(Model):
 
     def __unicode__(self):
         return '%s (%s), app: %s' % (self.title, self.title_view, self.app_name)
+
+
+class ScreenwriterUserProxy(User):
+    """Proxy class for Screenwriters
+    """
+    role= Role(title='screenwriter')
+
+    class Meta:
+        proxy= True
+        verbose_name= 'Screenwriter'
+        verbose_name_plural= 'Screenwriters'
+
+    def __unicode__(self):
+        return '%s the %s' % (self.get_full_name(), self.role.title)
 
 
 class TeamMember(Model):
@@ -177,3 +192,17 @@ class Program(Model):
 
     def __unicode__(self):
         return ', '.join(celebrity.name)
+
+
+class AppErrorLang(Model):
+    """Error codes in different languages
+    """
+    lang= ForeignKey(Language, help_text="Language")
+    descr= CharField(max_length=400, help_text="Error description")
+    
+class AppError(Model):
+    """Error codes in different languages
+    """
+    code= CharField(max_length=50, help_text="Error code")
+    http_status_code= PositiveIntegerField(help_text="HTTP status code")
+    lang= ListField(EmbeddedModelField(AppErrorLang), help_text="Error description")

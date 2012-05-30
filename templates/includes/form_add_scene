@@ -151,7 +151,7 @@ $('#inputDate').DatePicker({
 	</tr>
       </table>      
     </td>
-    <td>
+    <td class="rght">
       <input readonly class="textlabel" type="text" name="text_dur" size="9" maxlength="9" />
       {% if scene_id %}
       <input id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" value="{{ scene.dur }}" style="display:none;" />

@@ -3,21 +3,21 @@ A {
     color: #006400;
 }
 
-A.alt {
+#alt {
     color: #f3f0ed;
 }
 
 A.menu {
-    font-family: Verdana, Arial Cyr, Arial, sans-serif; 
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;
     font-size: 8pt;
     color: #444444;
     text-decoration: none;
 }
 
-A.white {
+#white {
     color: #ffffff;
-    font-family: sans-serif;
-    font-size: 8pt;
+    font-family: Verdana, Arial Cyr, Arial, sans-serif;
+    font-size: 9pt;
     text-decoration: none;
 }
 
@@ -280,4 +280,30 @@ input.textlabel {
     color: #505050;
     font-family: Verdana, Arial Cyr, Arial, sans-serif;   
     font-size: 10pt;
+}
+/*
+LOGIN ITEMS
+*/
+#login {
+    background: none repeat scroll 0 0 #EEEEEE;
+    font-size: 12px;
+    border: 1px solid #5b5b5b;
+    padding: 15px;
+}
+
+#error {
+    background: none repeat scroll 0 0;
+    font-size: 12px;
+    padding: 15px;
+    color: #c80000;
+    font-size: 10pt;
+}
+#user-tools {
+    color: #fbf5cb;
+    font-size: 12px;
+    padding: 1.2em 10px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
 }

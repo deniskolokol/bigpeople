@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if error %}
+<table id="error">
+  <tr>
+    <td>
+      <strong>{{ error }}</strong>
+    </td>
+  </tr>
+</table>
+{% endif %}
+
+<form action="." method="POST">
+{% csrf_token %}
+<table id="login">
+  <tbody>
+    <tr>
+      <td>Имя пользователя:</td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>Пароль:</td>
+      <td>{{ form.password }}</td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Войти" /></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</form>
+
+{% endblock %}

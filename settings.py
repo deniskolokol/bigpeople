@@ -1,6 +1,7 @@
 # Django settings for bigpeople project.
 import os.path
 
+
 PROJECT_TITLE= 'Big People'
 
 ROOT_PATH = os.path.normpath( os.path.dirname(__file__) )
@@ -28,11 +29,15 @@ DATABASES = {
 # Local time zone for this installation.
 TIME_ZONE = 'Asia/Almaty'
 
+# Local time zone for this installation.
+DEFAULT_LANG = 'Russian'
+
 # Language code for this installation.
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID=u'4fb2bf52e6355b46cd00001d'
-
+SITE_ID=u'4fb2bf52e6355b46cd00001d' # local
+# SITE_ID=u'4fc2dcd58331b527f100001d' # server
+ 
 # Don't load the internationalization machinery.
 USE_I18N = False
 
@@ -47,6 +52,8 @@ THUMBNAIL_SIZE = (200, 200)
 
 # Upload filename length
 FILENAME_LEN = 15
+
+LOGIN_URL = '/'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join( ROOT_PATH, 'site_media/' )
@@ -117,6 +124,10 @@ TEMPLATE_DIRS = (
     os.path.join( ROOT_PATH, 'templates/' ),
 )
 
+AUTHENTICATION_BACKENDS = (
+    'permission_backend_nonrel.backends.NonrelPermissionBackend',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -125,11 +136,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.admindocs',
     'django_mongodb_engine',
     'djangotoolbox',
+    'permission_backend_nonrel',
     'bigpeople.browser',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'bigpeople.screenwriter',
 )
 
 # A sample logging configuration. The only tangible logging
