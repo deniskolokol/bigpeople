@@ -1,8 +1,6 @@
 # Django settings for bigpeople project.
 import os.path
 
-
-
 PROJECT_TITLE= 'Big People'
 
 ROOT_PATH = os.path.normpath( os.path.dirname(__file__) )
@@ -64,18 +62,12 @@ MEDIA_ROOT = os.path.join( ROOT_PATH, 'site_media/' )
 MEDIA_URL = '/site_media/'
 
 # Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = os.path.join( ROOT_PATH, 'static/' )
 
 # URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
@@ -145,11 +137,7 @@ INSTALLED_APPS = (
     'bigpeople.screenwriter',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
+# A sample logging configuration.
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
