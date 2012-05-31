@@ -26,7 +26,7 @@ def usr_login(request):
             lang= settings.DEFAULT_LANG
         form= LoginForm()
         return render_to_response('login.html',
-            {'error':get_error_descr(error, lang), 'form': form},
+            {'error': get_error_descr(error, lang), 'form': form},
             context_instance=RequestContext(request))
 
     if request.method== 'POST': # If the form has been submitted
