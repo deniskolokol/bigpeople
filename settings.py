@@ -36,11 +36,11 @@ DEFAULT_LANG = 'Russian'
 # Language code for this installation.
 LANGUAGE_CODE = 'en-us'
 
-# Site id depends on where the file is stored
-if 'Darwin' in platform.platform():
-    SITE_ID=u'4fb2bf52e6355b46cd00001d' # local
-elif 'Linux' in platform.platform():
-    SITE_ID=u'4fc2dcd58331b527f100001d' # server
+# Site ID depends on whether this file is local
+if 'Darwin' in platform.platform():  # local
+    SITE_ID=u'4fb2bf52e6355b46cd00001d'
+elif 'Linux' in platform.platform():  # server
+    SITE_ID=u'4fc2dcd58331b527f100001d'
  
 # Don't load the internationalization machinery.
 USE_I18N = False
