@@ -144,8 +144,8 @@ def scene_save(request, slug, scene_id=None):
     if request.method == 'GET':
         raise Http404
     if request.POST.get('cancel', None):
-        return redirect(reverse('scene_list'))
-        # return redirect('/celebrity/'+slug)
+        # return redirect(reverse('scene_list'))
+        return redirect('/celebrity/'+slug)
     if scene_id:
         scene_id= int(scene_id)-1 # django numbering starts at 1
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
