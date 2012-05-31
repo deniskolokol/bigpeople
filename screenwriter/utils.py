@@ -52,18 +52,19 @@ def define_scene(request, celebrity, index):
             scene.media_content_thumb= scene_old.media_content_thumb
     return scene
 
+
 #----------
 # Utilities
 #----------
 
 def id_generator(size=6, chars=string.ascii_lowercase+string.digits):
-    """Generate unique filename to store in FS
+    """Generate unique filename to store in FS.
     """
     return ''.join(random.choice(chars) for x in range(size))
 
 
 def handle_uploaded_file(f):
-    """Upload file to filesystem
+    """Upload file to filesystem.
     """
     ext= f.name.split('.')[-1]
     ext= '.'+ext if ext != f.name else '' # no extension
