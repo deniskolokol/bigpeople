@@ -36,7 +36,7 @@ DEFAULT_LANG = 'Russian'
 # Language code for this installation.
 LANGUAGE_CODE = 'en-us'
 
-# Site ID depends on whether this file is local
+# Site ID depends on location
 if 'Darwin' in platform():  # local
     SITE_ID=u'4fb2bf52e6355b46cd00001d'
 elif 'Linux' in platform():  # server
