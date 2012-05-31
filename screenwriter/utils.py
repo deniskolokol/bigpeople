@@ -15,6 +15,10 @@ numerals = zip(
     (1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1),
     ('M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'))
 
+
+
+# Processing data.
+
 def define_scene(request, celebrity, index):
     """Fill the scene details from the request
     """
@@ -53,9 +57,7 @@ def define_scene(request, celebrity, index):
     return scene
 
 
-#----------
-# Utilities
-#----------
+# Utilities.
 
 def id_generator(size=6, chars=string.ascii_lowercase+string.digits):
     """Generate unique filename to store in FS.
