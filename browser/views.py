@@ -12,6 +12,8 @@ def usr_login(request):
     """User login process
     """
     def get_error_descr(error, lang):
+        """Get error description from the AppError model
+        """
         lang= models.Language.objects.get(title=lang)
         error_lang= models.AppError.objects.get(code=error).lang
         error_descr= ''
