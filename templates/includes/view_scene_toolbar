@@ -1,0 +1,52 @@
+<table id="head-table" width="100%">
+  <tr>
+    {% if not celebrity.ready_to_assemble %}
+      {% if not display_form %}
+    <td class="blockhead">
+      <a class="menu" href="/celebrity/{{ celebrity.slug }}/scene/add/#form_add_scene">
+      <img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene" />
+      Новая сцена
+      </a>
+    </td>
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
+    <td class="blockhead">
+      <a class="menu" href="/celebrity/">
+      <img src="{{ STATIC_URL }}img/ic_list.png" height="32" alt="Back" title="Back" />
+      Вернуться к списку знаменитостей
+      </a>
+    </td>
+      {% endif %}
+    {% endif %}
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
+    <td>
+      <ul class="dropdown">
+        <li><a class="menu" href="#">Выбрать</a>
+        <ul class="sub_menu">
+          <li><a class="menu" href="/celebrity/"><i>Все</i></a></li>
+          {% for celeb in celeblist %}
+          <li><a class="menu" href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
+          {% endfor %}
+        </ul>
+        </li>
+      </ul>
+    </td>
+    <td class="blockhead">
+      <h3 class="black">{{ celebrity.name }}</h3>
+    </td>
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
+    {% if not celebrity.ready_to_assemble %}
+      {% if not display_form %}
+    <td class="blank">
+      <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
+      {% csrf_token %}
+      <button type="submit" id="{{ celebrity.slug }}_complete" value="Complete celebrity script"
+      onClick="if(!confirm('Завершение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+      return false;">
+      <img src="{{ STATIC_URL }}img/ic_ok.png" title="Complete"/> Завершить сценарий
+      </button>
+      </form>
+    </td>
+      {% endif %}
+    {% endif %}
+  </tr>
+</table>
