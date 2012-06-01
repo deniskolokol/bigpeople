@@ -40,16 +40,19 @@
               onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
               onmouseout="roll('sub', '{{ STATIC_URL }}img/spacer.gif')"
             />
-            <a href="
-              javascript:roll('scene_img','{{ STATIC_URL }}img/spacer.gif');
-              javascript:roll('sub','{{ STATIC_URL }}img/spacer.gif');"
-            >
+            <a href="javascript:
+              document.getElementById('isimage').value = '0';
+              document.getElementById('id_media_content').value = null;
+              roll('scene_img','{{ STATIC_URL }}img/spacer.gif');
+              roll('sub','{{ STATIC_URL }}img/spacer.gif');
+            ">
             <img src="{{ STATIC_URL }}img/spacer.gif" name="sub"
               onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
               style="position: absolute; top: 5; left: 5;"
             />
             </a>
             {% endif %}
+            <input type="text" name="is_image" id="isimage" value="1" style="display:none;"/>
           </div>
           </td>
         </tr>
@@ -58,7 +61,9 @@
 	  <td>
           <div class="field">
             {{ form.media_content.errors }}
-            <input id="id_media_content" type="file" name="media_content" size="16">
+            <input id="id_media_content" type="file" name="media_content" size="16"
+              onchange="document.getElementById('isimage').value = '1';"
+            />
           </div>
           </td>
         </tr>

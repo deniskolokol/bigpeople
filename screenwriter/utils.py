@@ -40,16 +40,23 @@ def define_scene(request, celebrity, index):
         historical_date_input=date_input, historical_date=date_db,
         historical_date_bc=date_bc, historical_place=place, comment=comment)
     media_content= request.FILES.get('media_content', None)
+    is_image= int(request.POST['is_image'])
+    scene.media_url, scene.media_thumb_url= None, None # Initial values
     if media_content:
 	scene.media_content= media_content # NO SAVE UNTIL nginx WORKS!
         # scene.media_content_thumb= media_content_thumb # where to get it from?
         scene.media_url, scene.media_thumb_url= handle_uploaded_file(media_content)
+        # WARNING!
+        # If the scene is after edit, and there was file, but now is_image == 0,
+        # the file should be deleted from the DB, and it's thumbnail - from HD.
+        # If the image has changed, old files should be deleted both from DB and HD,
+        # and substituted with new files.
     else: # The scene can already exist
         try:
             scene_old= celebrity.script[int(index)]
         except IndexError:
             scene_old= None
-        if scene_old:
+        if scene_old and is_image:
             scene.media_url= scene_old.media_url
             scene.media_thumb_url= scene_old.media_thumb_url
             scene.media_content= scene_old.media_thumb_url
