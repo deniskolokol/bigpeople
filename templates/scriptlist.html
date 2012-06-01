@@ -6,24 +6,14 @@
 <table>
   <tr>
     <td class="blockhead">
-    <div id="page-wrap">
-      <ul class="dropdown">
-        <li><a class="menu" href="#">Большие люди</a>
-        <ul class="sub_menu">
-          <li><a class="menu" href="/celebrity/"><i>Все</i></a></li>
-          {% for celeb in celeblist %}
-          <li><a class="menu" href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
-          {% endfor %}
-        </ul>
-        </li>
-      </ul>
-    </div>
-    </td>
-    <td class="blockhead">
-      <h3 class="black">{{ celebrity.name }}</h3>
+      <h3 class="black">Управление сценарием</h3>
     </td>
   </tr>
 </table>
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0" /></td></tr></table>
+
+{% include "includes/view_scene_toolbar" %}
+
 
 <!-- D A T A  T A B L E -->
 <table id="data-table">
@@ -69,60 +59,7 @@
   </tr>
 </table>
 
-<!-- S P A C E R -->
-<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0" /></td></tr></table>
-
 <!-- P A G E  F O O T E R -->
-<table id="head-table" width="100%">
-  <tr>
-    {% if not celebrity.ready_to_assemble %}
-      {% if not display_form %}
-    <td class="blockhead">
-      <a class="menu" href="/celebrity/{{ celebrity.slug }}/scene/add/">
-      <img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene" />
-      Новая сцена
-      </a>
-    </td>
-    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
-    <td class="blockhead">
-      <a class="menu" href="/celebrity/">
-      <img src="{{ STATIC_URL }}img/ic_list.png" height="32" alt="Back" title="Back" />
-      Вернуться к списку знаменитостей
-      </a>
-    </td>
-      {% endif %}
-    {% endif %}
-    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
-    <td>
-      <ul class="dropdown">
-        <li><a class="menu" href="#">Выбрать</a>
-        <ul class="sub_menu">
-          <li><a class="menu" href="/celebrity/"><i>Все</i></a></li>
-          {% for celeb in celeblist %}
-          <li><a class="menu" href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
-          {% endfor %}
-        </ul>
-        </li>
-      </ul>
-    </td>
-    <td class="blockhead">
-      <h5 class="black">{{ celebrity.name }}</h5>
-    </td>
-    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="350" height="10" border="0"></td>
-    {% if not celebrity.ready_to_assemble %}
-      {% if not display_form %}
-    <td class="blank">
-      <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
-      {% csrf_token %}
-      <button type="submit" id="{{ celebrity.slug }}_complete" value="Complete celebrity script"
-      onClick="if(!confirm('Завершение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
-      return false;">
-      <img src="{{ STATIC_URL }}img/ic_ok.png" alt="Complete"/> Завершить сценарий
-      </button>
-      </form>
-    </td>
-      {% endif %}
-    {% endif %}
-  </tr>
-</table>
+{% include "includes/view_scene_toolbar" %}
+
 {% endblock %}

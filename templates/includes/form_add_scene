@@ -1,4 +1,4 @@
-  <tr class="form">
+  <tr class="form" >
     {% if scene_id %}
     <form name="formAddScene" enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene_id }}/save/" method="post">
     {% else %}
@@ -16,6 +16,7 @@
     </td>
     <td>
     <div class="field">
+      <span id="form_add_scene"></span>
       {{ form.lang.errors }}
       {{ form.lang }}
     </div>
@@ -25,22 +26,29 @@
         {% if scene_id %}
         <tr>
           <td>
-            <script type="text/javascript">
+              <script type="text/javascript">
             <!--
-            function roll(img_name1, img_src1, img_name2, img_src2)
+            function roll(img_name, img_src)
             {
-                document[img_name1].src = img_src1;
-                document[img_name2].src = img_src2;
+                document[img_name].src = img_src;
             }
             //-->
             </script>
-          <div id="map" style="position: relative;">
+          <div id="map">
             {% if scene.media_thumb_url %}
-            <img src="{{ scene.media_thumb_url }}"
-            onmouseover="roll('sub1', '{{ STATIC_URL }}img/cancel.png', 'sub2', '{{ STATIC_URL }}img/spacer.gif')"
-            onmouseout="roll('sub1', '{{ STATIC_URL }}img/spacer.gif', 'sub2', '{{ STATIC_URL }}img/cancel.png')"/>
-            <img src="{{ STATIC_URL }}img/cancel.png" name="sub1" style="position: absolute; top: 5; right: 5;">
-            <img src="{{ STATIC_URL }}img/spacer.gif" name="sub2" style="position: absolute; top: 5; right: 5;">
+            <img src="{{ scene.media_thumb_url }}" name="scene_img"
+              onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
+              onmouseout="roll('sub', '{{ STATIC_URL }}img/spacer.gif')"
+            />
+            <a href="
+              javascript:roll('scene_img','{{ STATIC_URL }}img/spacer.gif');
+              javascript:roll('sub','{{ STATIC_URL }}img/spacer.gif');"
+            >
+            <img src="{{ STATIC_URL }}img/spacer.gif" name="sub"
+              onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
+              style="position: absolute; top: 5; left: 5;"
+            />
+            </a>
             {% endif %}
           </div>
           </td>

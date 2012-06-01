@@ -137,7 +137,6 @@ TABLE
 
 #head-table td {
     color: #505050;
-    background-color: #bfbfbf;
     vertical-align: top;
     padding: 5px;
 }
@@ -306,4 +305,7 @@ LOGIN ITEMS
     right: 0;
     text-align: right;
     top: 0;
+}
+#map {
+    position: relative;
 }

@@ -78,8 +78,8 @@ def handle_uploaded_file(f):
     fileurl= settings.MEDIA_URL + filename + ext
     im= Image.open(path + ext) # Create thumbnail
     im.thumbnail(settings.THUMBNAIL_SIZE, Image.ANTIALIAS)
-    thumbnail_name= filename + "_thumb" + ext
-    thumbnail_path= path + "_thumb" + ext
+    thumbnail_name= filename + "_thumb.jpg"
+    thumbnail_path= path + "_thumb.jpg"
     im.save(thumbnail_path, "JPEG")
     thumburl= settings.MEDIA_URL + thumbnail_name
     return fileurl, thumburl

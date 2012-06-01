@@ -2,7 +2,7 @@
 	<tr>
           <td>
             <div>
-            <form name="formEdit" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/" method="get">
+            <form name="formEdit" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/#form_add_scene" method="get">
             <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_edit" value="Edit">
             <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
             </button>

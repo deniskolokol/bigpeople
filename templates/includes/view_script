@@ -13,11 +13,17 @@
       <table>
 	<tr>
           <td>
-            {% if scene.media_thumb_url %}<img src="{{ scene.media_thumb_url }}" />{% endif %}
+            {% if scene.media_thumb_url %}
+            <a href="{{ scene.media_url }}">
+            <img src="{{ scene.media_thumb_url }}" />
+            </a>
+            {% endif %}
           </td>
         </tr>
-	<tr><td class="small"><a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a></td></tr>
-	<tr><td class="small">{% if scene.media_copyright %}&#xa9;{{ scene.media_copyright }}{% endif %}</td></tr>
+        {% if scene.media_src %}
+	<tr><td class="small">Источник: <a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a></td></tr>
+        {% endif %}
+        <tr><td class="small">{% if scene.media_copyright %}&#xa9;{{ scene.media_copyright }}{% endif %}</td></tr>
       </table>      
     </td>
     <td class="cntr"> {{ scene.billboard.title|default:"&nbsp;" }} </td>

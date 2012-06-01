@@ -16,15 +16,16 @@
   <script type="text/javascript" src="{{ STATIC_URL }}js/layout.js?ver=1.0.2"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dropdownPlain.js"></script>
   <script type="text/javascript" src="{{ STATIC_URL }}js/bp_gui.js"></script>
-<title> {{ page_title }} </title>
+
+  <title> {{ page_title }} </title>
 </head>
 
-<body>
+<body onload="setFocus()">
 <div id="header">
   <h1 class="branding">Большие люди</h1>
   {% if user.username %}
   <div id="user-tools">
-    Пользователь: 
+    Пользователь:
     <strong>{{ user.first_name }} {{ user.last_name }}</strong>.
     <a id="white" href="/logout"> Выйти</a>
   </div>
