@@ -23,17 +23,18 @@
         {% if scene.media_src %}
 	<tr><td class="small">Источник: <a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a></td></tr>
         {% endif %}
-        <tr><td class="small">{% if scene.media_copyright %}&#xa9;{{ scene.media_copyright }}{% endif %}</td></tr>
+        <tr><td class="small">{% if scene.media_copyright %}&#xa9; {{ scene.media_copyright }}{% endif %}</td></tr>
       </table>      
     </td>
-    <td class="cntr"> {{ scene.billboard.title|default:"&nbsp;" }} </td>
     <td> {{ scene.text }} </td>
     <td>
       <table>
+	<tr><td>{{ scene.billboard.title|default:"&nbsp;" }}</td></tr>
 	<tr><td>{{ scene.historical_date }}</td></tr>
 	<tr><td>{{ scene.historical_place }}</td></tr>
       </table>      
     </td>
+    <td class="comment">{{ scene.comment }}</td>
     <td class="rght">
       <script type="text/javascript">// <![CDATA[
       document.write(ms2time({{ scene.dur }}))

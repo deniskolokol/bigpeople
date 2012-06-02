@@ -30,7 +30,7 @@ DATABASES = {
 # Local time zone for this installation.
 TIME_ZONE = 'Asia/Almaty'
 
-# Local time zone for this installation.
+# Default interface language.
 DEFAULT_LANG = 'Russian'
 
 # Language code for this installation.
@@ -52,7 +52,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Thumbnail size
-THUMBNAIL_SIZE = (200, 200)
+THUMBNAIL_SIZE = (180, 180)
 
 # Upload filename length
 FILENAME_LEN = 15

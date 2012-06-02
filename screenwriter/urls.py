@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('bigpeople.screenwriter.views',
     url(r'^$', 'celebrity_list', {'template': 'celeblist'}, name='celebrity_list'),
-    url(r'^add/$', 'celebrity_list', {'template': 'celeblist', 'form':True}, name='celebrity_list_form'),
+    url(r'^add/$', 'celebrity_list', {'template': 'celeblist', 'form':True, 'usr_lang': True}, name='celebrity_list_form'),
     url(r'^save/$', 'celebrity_save', name='celebrity_save'),
     url(r'^(?P<slug>[-\w]+)/$', 'scene_list', {'template': 'scriptlist'}, name='scene_list'),
     url(r'^(?P<slug>[-\w]+)/edit/$', 'celebrity_edit', {'template': 'celeblist'}, name='celebrity_edit'),

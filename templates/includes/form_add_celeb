@@ -6,11 +6,11 @@
   {% csrf_token %}
   <tr>
     <td>
-      <input type="submit" name="save" value="Save" />
+      <input type="submit" name="save" value="Сохранить" />
       {% if not celeb.name %}
-      <input type="submit" name="save_add" value="Save and add new" />
+      <input type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" />
       {% endif %}
-      <input type="submit" name="cancel" value="Cancel" />
+      <input type="submit" name="cancel" value="Отмена" />
     </td>
     <td>
     <div class="field">
@@ -20,9 +20,10 @@
     <td> <!-- language specific names -->
       <table width="100%">
 	{% if celeb.name_lang %}
-	{% for namelang in celeb.name_lang %}
+	  {% for namelang in celeb.name_lang %}
+            {% if namelang.lang in language %}
 	<tr>
-	  <td> 
+	  <td>
 	  <div class="field">
 	    <label for="id_name_{{namelang.lang.title|lower}}">{{namelang.lang.title_orig}}</label>
 	  </div>
@@ -35,9 +36,10 @@
 	  </div>
 	  </td>
 	</tr>
-	{% endfor %}
+            {% endif %}
+	  {% endfor %}
 	{% else %}
-	{% for lang in language %}
+	  {% for lang in language %}
 	<tr>
 	  <td> 
 	  <div class="field">
@@ -52,7 +54,7 @@
 	  </div>
 	  </td>
 	</tr>
-	{% endfor %}
+	  {% endfor %}
 	{% endif %}
       </table>
     </td>

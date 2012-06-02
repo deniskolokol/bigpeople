@@ -7,11 +7,11 @@
     {% csrf_token %}
     <td>
       <table>
-        <tr><td><input type="submit" name="save" value="Save" /></td></tr>
+        <tr><td><input type="submit" name="save" value="Сохранить" /></td></tr>
       {% if not scene_id %}
-        <tr><td><input type="submit" name="save_add" value="Save and add new" /></td></tr>
+        <tr><td><input type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" /></td></tr>
       {% endif %}
-        <tr><td><input type="submit" name="cancel" value="Cancel" /></td></tr>
+        <tr><td><input type="submit" name="cancel" value="Отмена" /></td></tr>
       </table>
     </td>
     <td>
@@ -52,7 +52,6 @@
             />
             </a>
             {% endif %}
-            <input type="text" name="is_image" id="isimage" value="1" style="display:none;"/>
           </div>
           </td>
         </tr>
@@ -68,31 +67,28 @@
           </td>
         </tr>
 	<tr>
-	  <td>
+	  <td class="small">
           <div class="field">
             {{ form.media_src.errors }}
-            <input type="text" name="media_src" id="id_media_src" size="26" value="{{ scene.media_src }}" />
+            Источник: 
+            <input type="text" name="media_src" id="id_media_src" size="17" value="{{ scene.media_src }}" />
           </div>
           </td>
         </tr>
 	<tr>
-	  <td>
+	  <td class="small">
           <div class="field">
             {{ form.media_copyright.errors }}
-            <input type="text" name="media_copyright" id="id_media_copyright" size="26" value="{{ scene.media_copyright }}" />
+            &#xa9;
+            <input type="text" name="media_copyright" id="id_media_copyright" size="24" value="{{ scene.media_copyright }}" />
           </div>
           </td>
         </tr>
       </table>
     </td>
-    <td>
+    <td class="small">
     <div class="field">
-      {{ form.billboard.errors }}
-      {{ form.billboard }}
-    </div>
-    </td>
-    <td width="">
-    <div class="field">
+      Текст сцены
       {{ form.text_content.errors }}
       <textarea id="id_text_content" name="text_content"
       onKeyDown="textDurCount(
@@ -113,56 +109,75 @@
     <td>
       <table>
 	<tr>
-	  <td>
+          <td class="small">
+          <div class="field">
+            {{ form.billboard.errors }}
+            Биллборд {{ form.billboard }}
+          </div>
+          </td>
+	</tr>
+	<tr>
+	  <td class="small">
 	  <div class="field">
 	    {{ form.historical_date_input.errors }}
-	    <input id="inputDate" class="inputDate" name="historical_date_input" value="{{scene.historical_date_input|date:"m/d/Y"|default_if_none:""}}" />
+            Историческая дата
+	    <input id="inputDate" class="inputDate" name="historical_date_input" size="15"
+              value="{{scene.historical_date_input|date:"m/d/Y"|default_if_none:""}}"
+            />
 	    <label id="closeOnSelect"><input type="checkbox" checked="checked" style="display:none;"></label>
 	    <script type="text/javascript">// <![CDATA[
 if ($('#inputDate').val() != "") {
-        $initDate= $('#inputDate').val()
+    $initDate= $('#inputDate').val()
 }
 else {
-        $initDate= '12/21/2012'
+    $initDate= '12/21/2012'
 };
 $('#inputDate').DatePicker({
-	format:'m/d/Y',
-	date: $('#inputDate').val(),
-	current: $initDate,
-	starts: 1,
-	position: 'r',
-	onBeforeShow: function(){
-		$('#inputDate').DatePickerSetDate($initDate, true);
-	},
-	onChange: function(formated, dates){
-		$('#inputDate').val(formated);
-		if ($('#closeOnSelect input').attr('checked')) {
-			$('#inputDate').DatePickerHide();
-		}
+    format:'m/d/Y',
+    date: $('#inputDate').val(),
+    current: $initDate,
+    starts: 1,
+    position: 'r',
+    onBeforeShow: function(){
+	$('#inputDate').DatePickerSetDate($initDate, true);
+    },
+    onChange: function(formated, dates){
+	$('#inputDate').val(formated);
+	if ($('#closeOnSelect input').attr('checked')) {
+	    $('#inputDate').DatePickerHide();
 	}
+    }
 });
 	    // ]]></script>
 	  </div>
 	  </td>
 	</tr>
 	<tr>
-	  <td>
-	  <div class="field">
-	    {{ form.historical_place.errors }}
-            <input type="text" name="historical_place" id="id_historical_place" value="{{ scene.historical_place }}" />
-	  </div>
-	  </td>
+          <td class="small">
+          <div class="field">
+            {{ form.historical_date.errors }}
+            Отображаемая дата
+            <input type="text" name="historical_date" id="id_historical_date" size= "14" value="{{ scene.historical_date }}" />
+          </div>
+          </td>
 	</tr>
 	<tr>
-	  <td>
+	  <td class="small">
 	  <div class="field">
-	    {{ form.comment.errors }}
-	    <label for="id_comment">Comment:</label>
-            <textarea id="id_comment" name="comment" cols="16" rows="5">{{ scene.comment }}</textarea>
+	    {{ form.historical_place.errors }}
+            Место 
+            <input type="text" name="historical_place" id="id_historical_place" size= "26" value="{{ scene.historical_place }}" />
 	  </div>
 	  </td>
 	</tr>
       </table>      
+    </td>
+    <td class="small">
+    <div class="field">
+      {{ form.comment.errors }}
+      Комментарий
+      <textarea id="id_comment" name="comment" rows="10">{{ scene.comment }}</textarea>
+    </div>
     </td>
     <td class="rght">
       <input readonly class="textlabel" type="text" name="text_dur" size="9" maxlength="9" />
@@ -173,7 +188,9 @@ $('#inputDate').DatePicker({
       {% endif %}
     </td>
   </tr>
-    </form>
+  <!-- H I D D E N -->
+  <input type="text" name="is_image" id="isimage" value="1" style="display:none;"/>
+  </form>
 
   <!-- calling textDurCount to fill duration after the form is loaded -->
   <script type="text/javascript">// <![CDATA[

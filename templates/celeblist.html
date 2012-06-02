@@ -2,17 +2,6 @@
 
 {% block content %}
 
-<!-- P A G E  H E A D E R -->
-{% if message %}
-<table>
-  <tr>
-    <td class="blockhead">
-      <strong>{{ message }}</strong>
-    </td>
-  </tr>
-</table>
-{% endif %}
-
 <!-- S P A C E R -->
 <table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="50" border="0" /></td></tr></table>
 
@@ -29,6 +18,9 @@
     <td width="5%"> Использован </td>
     <td class="cntr" width="15%"> Программа </td>
   </tr>
+  {% if message %}
+  <tr><td colSpan=6><p><strong>{{ message }}</strong></p></td></tr>
+  {% endif %}
   {% for celeb in celebrity %}
   {% ifequal slug celeb.slug %} <!-- edit celebrity-->
     {% include "includes/form_add_celeb" %}

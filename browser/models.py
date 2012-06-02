@@ -44,33 +44,15 @@ class Language(Model):
         return self.title
 
 
-class Role(Model):
-    """Roles of users vs. apps
+class UserProfile(Model):
+    """Custom user profile
     """
-    title= CharField(max_length=400, help_text="Role title")
-    title_view= CharField(max_length=400,
-	help_text="Role title as shown on page by default")
-    app_name= CharField(max_length=50, help_text="Application serving the role")
-    lang= ForeignKey(Language, null=True, help_text="Operator language")
-    lang_required= BooleanField(help_text="Language required")
-
+    user= ForeignKey(User, unique=True, help_text="User profile")
+    lang= ForeignKey(Language, null=True, help_text="User language")
+    
     def __unicode__(self):
-        return '%s (%s), app: %s' % (self.title, self.title_view, self.app_name)
-
-
-class ScreenwriterUserProxy(User):
-    """Proxy class for Screenwriters
-    """
-    role= Role(title='screenwriter')
-
-    class Meta:
-        proxy= True
-        verbose_name= 'Screenwriter'
-        verbose_name_plural= 'Screenwriters'
-
-    def __unicode__(self):
-        return '%s the %s' % (self.get_full_name(), self.role.title)
-
+        return '%s (%s)' % (self.user.username, self.lang.title)        
+        
 
 class TeamMember(Model):
     """Class for team members working on a specific program
@@ -79,17 +61,7 @@ class TeamMember(Model):
     lang= ForeignKey(Language, null=True, help_text="Language")
 
     def __unicode__(self):
-	if self.lang:
-	    return '%s (%s)' % ( # language specified
-	    	self.usr.username, self.lang.title)
-	    # return '%s: %s (%s)' % ( # language specified
-	    # 	self.usr.role.title, self.usr.name,
-	    # 	self.lang.title)
-	else:
-	    return '%s' % ( # not depending on language
-	    	self.usr.role.title, self.usr.username)
-	    # return '%s: %s' % ( # not depending on language
-	    # 	self.usr.role.title, self.usr.username)
+        return '%s (%s)' % (self.usr.username, self.lang.title)
 
 
 class CelebrityName(Model):
@@ -149,6 +121,14 @@ class Scene(Model):
     _tags= ListField(CharField(max_length=50))
     _keywords= ListField(CharField(max_length=50))
 
+    def get_scene_content(self, lang):
+        out= None
+        for scene_cont in self.scene_content:
+            if scene_cont.lang == lang:
+                out= scene_cont
+                break
+        return out
+
     # WARNING! No more than one lang in text_content and voice_content!
     # Keep text_content and voice_content lists' indexes according to each other
 
@@ -170,12 +150,22 @@ class Celebrity(Model):
     ready_to_assemble= BooleanField(default=False, help_text="Ready to assemble")
     used= BooleanField(help_text="Already used") # read-only, auto-fill
     script= ListField(EmbeddedModelField(Scene), help_text="Scenes")
-    # team= ListField(ForeignKey(TeamMember), help_text="Team") #  doesn't work this way!!!
+    team= ListField(EmbeddedModelField(UserProfile), help_text="Team")
     _tags= ListField(CharField(max_length=50))
     _keywords= ListField(CharField(max_length=50))
 
     def __unicode__(self):
         return self.name
+
+    def ensure_team_member(self, user):
+        if not isinstance(user, UserProfile):
+            try:
+                user= UserProfile.objects.get(user=user)
+            except UserProfile.DoesNotExist:
+                return False # User cannot be part of the team without profile
+        if user not in self.team:
+            self.team.append(user)
+        return True
 
     def save(self, *args, **kwargs):
 	"""Override save
@@ -206,3 +196,10 @@ class AppError(Model):
     code= CharField(max_length=50, help_text="Error code")
     http_status_code= PositiveIntegerField(help_text="HTTP status code")
     lang= ListField(EmbeddedModelField(AppErrorLang), help_text="Error description")
+
+    def __unicode__(self):
+        lang_list= []
+        for language in self.lang:
+            lang_list.append(': '.join([language.lang.title, language.descr]))
+        return '%s: %s' % (self.code, '; '.join(lang_list))
+    

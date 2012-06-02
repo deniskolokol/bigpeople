@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import user_passes_test
 from bigpeople.browser import gridfsuploads, forms, models
 from bigpeople.browser.decorators import screenwriter_required
 from bigpeople.browser.gridfsuploads import gridfs_storage
+from bigpeople.browser.utils import *
 from bigpeople import settings, urls
 from utils import *
 
@@ -18,14 +19,14 @@ def celebrity_list(request, **kwargs):
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
+    celebrity= get_user_celebrities(request.user)
     message= ''
-    celebrity= models.Celebrity.objects.all().order_by('created_on')
     if not celebrity:
-        message= 'No records (yet?)'
-    language= models.Language.objects.all()
+        message= get_error_descr('empty_container', 'Russian')
+    language= get_session_languages(request)
     return render_to_response(page_template,
-        {'celebrity':celebrity, 'language':language, 'message':message,
-         'display_form':display_form,
+        {'celebrity': celebrity, 'language': language,
+         'display_form':display_form, 'message': message,
          'page_title': get_page_title('List of Celebrities')},
         context_instance=RequestContext(request))
 
@@ -40,11 +41,11 @@ def celebrity_save(request, slug=None):
         return redirect(reverse('celebrity_list'))
     name= request.POST.get('name', '').strip()
     if not name:
-        pass # raise error - no name no save
-    if slug:
+        pass # raise error - no name no save (process the form!)
+    if slug: # Save changes
         celebrity= models.Celebrity.objects.get(slug=slug)
         celebrity.name= name
-    else:
+    else: # Insert new document
         celebrity= models.Celebrity(name=name)
     celebrity.name_lang= [] # Language specific names
     language= models.Language.objects.all()
@@ -54,11 +55,13 @@ def celebrity_save(request, slug=None):
         celebrity.name_lang.append(models.CelebrityName(lang=lang,
             name=request.POST.get(id_name_lang, '').strip(),
             name_aka=request.POST.get(id_name_lang_aka, '').strip()))
+    celebrity.ensure_team_member(request.user)
+    print celebrity.team
     try:
         celebrity.save()
         message= 'Celebrity %s saved!' % name
     except Exception as e:
-        message= e #'ERROR! Celebrity %s not saved - name must be unique!' % name
+        message= 'ERROR: ', e #'ERROR! Celebrity %s not saved - name must be unique!' % name
     if request.POST.get('save_add', None):
         return redirect(request.META.get('HTTP_REFERER'))
     else:
@@ -85,8 +88,8 @@ def celebrity_edit(request, slug, **kwargs):
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
-    celebrity= models.Celebrity.objects.all()
-    language= models.Language.objects.all()
+    celebrity= get_user_celebrities(request.user)
+    language= get_session_languages(request)
     return render_to_response(page_template,
         {'celebrity':celebrity, 'language':language,
          'display_form':display_form, 'slug':slug,
@@ -123,11 +126,14 @@ def scene_list(request, slug, **kwargs):
     message= ''
     if not celebrity.script:
         celebrity.script= []
-        message= 'No scenes in the script (yet?)'
+        message= get_error_descr('empty_container', 'Russian')
     else: # Prepare container for display
         for scene in celebrity.script:
-            scene.dur= scene.scene_content[0].text_dur
-            scene.text= scene.scene_content[0].text
+            scene_content_lang= scene.get_scene_content(
+                get_user_lang(request.user, default_if_none=True))
+            if scene_content_lang:
+                scene.dur= scene_content_lang.text_dur
+                scene.text= scene_content_lang.text
             # scene.gridfile= gridfs_storage.open(
             # settings.ROOT_PATH + scene.media_content.filename)
     return render_to_response(page_template,

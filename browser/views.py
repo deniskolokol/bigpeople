@@ -6,23 +6,13 @@ from django.template import RequestContext
 from django.conf import settings as django_conf_settings
 from browser.forms import LoginForm
 from browser.decorators import is_screenwriter, is_interpreter
-import settings, models
+from browser.utils import get_error_descr
+import settings
+
 
 def usr_login(request):
     """User login process
     """
-    def get_error_descr(error, lang):
-        """Get error description.
-        From the AppError model.
-        """
-        lang= models.Language.objects.get(title=lang)
-        error_lang= models.AppError.objects.get(code=error).lang
-        error_descr= ''
-        for app_error_lang in error_lang:
-            if app_error_lang.lang == lang:
-                error_descr= app_error_lang.descr
-                break
-        return error_descr
         
     def error_handle(error, lang=None):
         if not lang:

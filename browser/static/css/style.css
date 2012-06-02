@@ -84,7 +84,6 @@ TABLE
 
 #data-table tr.header {
     background: #bfbfbf;
-    font-size: 10pt;
     font-weight: bold;
     border-top: 2px solid #ababab;
 }
@@ -95,7 +94,6 @@ TABLE
 
 #data-table tr.footer {
     background: #bfbfbf;
-    font-size: 10pt;
     font-weight: bold;
     height: 40px;
     border-bottom: 2px solid #ababab;
@@ -120,6 +118,12 @@ TABLE
 
 #data-table td.small {
     font-size: 8pt;
+}
+
+#data-table td.comment {
+    color: #000000;
+    font-style: italic;
+    font-size: 9pt;
 }
 
 .odd {
@@ -160,25 +164,6 @@ img {
 TD {
     vertical-align: top;
     padding:0px 2px 0px 2px;
-}
-
-TD.header {
-    background: #c1c380;
-    color: ;
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 10pt;
-}
-
-TD.small {
-    color: #000000;   
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;   
-    font-size: 8pt;
-}
-
-TD.index {
-    color: #000000;
-    font-family: Verdana, Arial Cyr, Arial, sans-serif;
-    font-size: 8pt;
 }
 
 TD.blockbottom {
