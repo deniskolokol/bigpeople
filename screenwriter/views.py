@@ -56,7 +56,6 @@ def celebrity_save(request, slug=None):
             name=request.POST.get(id_name_lang, '').strip(),
             name_aka=request.POST.get(id_name_lang_aka, '').strip()))
     celebrity.ensure_team_member(request.user)
-    print celebrity.team
     try:
         celebrity.save()
         message= 'Celebrity %s saved!' % name
