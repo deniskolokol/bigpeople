@@ -18,4 +18,28 @@
             </form>
           </td>
         </tr>
+    {% if user.is_staff %}
+        {% if celeb.completed %}
+        <tr>
+          <td>
+            <form name="formConfirm" action="/celebrity/{{ celeb.slug }}/confirm/" method="post">
+            {% csrf_token %} 
+            <button type="submit" id="{{ celeb.slug }}_confirm" value="Confirm"
+            onClick="if(!confirm('Утверждение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+            return false;">
+            <img src="{{ STATIC_URL }}img/ic_ready.png" alt="Утвердить"/>
+            </button>
+            </form>
+          </td>
+          <td>
+            <form name="formDecline" action="/celebrity/{{ celeb.slug }}/decline/" method="post">
+            {% csrf_token %}
+            <button type="submit" id="{{ celeb.slug }}_decline" value="Decline">
+            <img src="{{ STATIC_URL }}img/ic_cancel.png" alt="Отклонить"/>
+            </button>
+            </form>
+          </td>
+        </tr>
+        {% endif %}
+    {% endif %}
       </table>

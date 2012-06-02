@@ -1,22 +1,24 @@
 <table id="head-table" width="100%">
   <tr>
-    {% if not celebrity.ready_to_assemble %}
+    {% if celebrity.completed or celebrity.ready_to_assemble %}
+      &nbsp;
+    {% else %}
       {% if not display_form %}
     <td class="blockhead">
       <a class="menu" href="/celebrity/{{ celebrity.slug }}/scene/add/#form_add_scene">
       <img src="{{ STATIC_URL }}img/ic_text_document.png" alt="New scene" title="New scene" />
-      Новая сцена
-      </a>
-    </td>
-    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
-    <td class="blockhead">
-      <a class="menu" href="/celebrity/">
-      <img src="{{ STATIC_URL }}img/ic_list.png" height="32" alt="Back" title="Back" />
-      Вернуться к списку знаменитостей
+      <br/>Новая сцена
       </a>
     </td>
       {% endif %}
     {% endif %}
+    <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="10" border="0"></td>
+    <td class="blockhead">
+      <a class="menu" href="/celebrity/">
+      <img src="{{ STATIC_URL }}img/ic_list.png" height="32" alt="Back" title="Back" />
+      <br/>Cписок знаменитостей
+      </a>
+    </td>
     <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
     <td>
       <ul class="dropdown">
@@ -34,8 +36,36 @@
       <h3 class="black">{{ celebrity.name }}</h3>
     </td>
     <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
-    {% if not celebrity.ready_to_assemble %}
-      {% if not display_form %}
+
+    <!-- S T A F F   M E M B E R   A C T I O N S -->
+    {% if user.is_staff %}
+      {% if celebrity.completed %}
+    <td class="blank">
+      <form name="formConfirm" action="/celebrity/{{ celebrity.slug }}/confirm/" method="post">
+      {% csrf_token %}
+      <button type="submit" id="{{ celebrity.slug }}_confirm" value="Confirm celebrity script"
+      onClick="if(!confirm('Утверждение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+      return false;">
+      <img src="{{ STATIC_URL }}img/ic_ok.png" title="Confirm"/> Утвердить
+      </button>
+      </form>
+    </td>
+    <td class="blank">    
+      <form name="formDelete" action="/celebrity/{{ celebrity.slug }}/decline/" method="post">
+      {% csrf_token %}
+      <button type="submit" id="{{ celebrity.slug }}_decline" value="Decline celebrity script">
+      <img src="{{ STATIC_URL }}img/ic_cancel_big.png" title="Отклонить"/> Отклонить
+      </button>
+      </form>
+    </td>
+      {% endif %}
+    {% else %}
+
+    <!-- E D I T O R   A C T I O N S -->
+      {% if celebrity.completed or celebrity.ready_to_assemble %}
+    &nbsp;
+      {% else%}
+        {% if not display_form %}
     <td class="blank">
       <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
       {% csrf_token %}
@@ -46,6 +76,7 @@
       </button>
       </form>
     </td>
+        {% endif %}
       {% endif %}
     {% endif %}
   </tr>

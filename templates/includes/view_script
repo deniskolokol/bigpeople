@@ -4,8 +4,10 @@
   <tr class="odd">
   {% endif %}
     <td>
-      {% if not celebrity.ready_to_assemble %}
-      {% include "includes/view_script_actions" %}
+      {% if celebrity.completed or celebrity.ready_to_assemble %}
+        &nbsp;
+      {% else %}
+        {% include "includes/view_script_actions" %}
       {% endif %}
     </td>
     <td class="cntr"> <strong>{{ forloop.counter }}</strong> </td>

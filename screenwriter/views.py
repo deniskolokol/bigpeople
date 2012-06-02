@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.admin.views.decorators import staff_member_required
 
 from bigpeople.browser import gridfsuploads, forms, models
 from bigpeople.browser.decorators import screenwriter_required
@@ -35,7 +36,7 @@ def celebrity_list(request, **kwargs):
 def celebrity_save(request, slug=None):
     """Save Celebrity record
     """
-    if request.method == 'GET':
+    if request.method != 'POST':
         raise Http404
     if request.POST.get('cancel', None):
         return redirect(reverse('celebrity_list'))
@@ -71,6 +72,8 @@ def celebrity_save(request, slug=None):
 def celebrity_delete(request, slug):
     """Delete Celebrity record and redirect back to referrer
     """
+    if request.method != 'POST':
+        raise Http404
     celebrity= models.Celebrity.objects.get(slug=slug)
     try:
         celebrity.delete()
@@ -98,17 +101,56 @@ def celebrity_edit(request, slug, **kwargs):
 
 @screenwriter_required
 def celebrity_complete(request, slug):
-    """Finalizes Celebrity record:
+    """Completes Celebrity record:
     - no more records can be added to the Script.
     - celebrity record cannot be edited.
     """
+    if request.method != 'POST':
+        raise Http404
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celebrity.completed= True
+    message=""
+    try:
+        celebrity.save()
+    except Exception as e:
+        message= e
+    return redirect(request.META.get('HTTP_REFERER'), {'message':message})
+
+
+@staff_member_required
+def celebrity_decline(request, slug):
+    """Decline Celebrity record.
+    Celebrity Script become editable again.
+    """
+    if request.method != 'POST':
+        raise Http404
+    celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celebrity.declined= True
+    celebrity.completed= False
+    celebrity.ready_to_assemble= False
+    message=""
+    try:
+        celebrity.save()
+    except Exception as e:
+        message= e
+    return redirect(request.META.get('HTTP_REFERER'), {'message':message})
+
+
+@staff_member_required
+def celebrity_confirm(request, slug):
+    """Confirm Celebrity record.
+    """
+    if request.method != 'POST':
+        raise Http404
+    celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celebrity.declined= False
+    celebrity.completed= True
     celebrity.ready_to_assemble= True
     message=""
     try:
         celebrity.save()
     except Exception as e:
-        message= e # WARNING! process exception
+        message= e
     return redirect(request.META.get('HTTP_REFERER'), {'message':message})
 
 
@@ -118,6 +160,8 @@ def scene_list(request, slug, **kwargs):
     Look for Celebrity by the parameter 'slug'.
     """
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    if not celebrity.is_team_member(request.user):
+        raise Http404 # Ban from view if not in the team
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
@@ -146,7 +190,7 @@ def scene_list(request, slug, **kwargs):
 def scene_save(request, slug, scene_id=None):
     """Save current scene in the db
     """
-    if request.method == 'GET':
+    if request.method != 'POST':
         raise Http404
     if request.POST.get('cancel', None):
         # return redirect(reverse('scene_list'))
@@ -154,6 +198,8 @@ def scene_save(request, slug, scene_id=None):
     if scene_id:
         scene_id= int(scene_id)-1 # django numbering starts at 1
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    if not celebrity.is_team_member(request.user):
+        raise Http404 # Ban from action if not in the team
     scene= define_scene(request, celebrity, scene_id)
     try:
         celebrity.script[scene_id]= scene

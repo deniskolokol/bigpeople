@@ -82,4 +82,3 @@ def get_user_celebrities(user):
             if user in celebrity.team:
                 out.append(celebrity)
         return out
-    

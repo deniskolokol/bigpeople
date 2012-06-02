@@ -1,4 +1,8 @@
-  <tr>
+  {% if forloop.counter|divisibleby:"2" %}
+  <tr class="even">
+  {% else %}
+  <tr class="odd">
+  {% endif %}
     <td>
     {% if not celeb.ready_to_assemble %}
       {% include "includes/view_celeb_actions" %}
@@ -20,6 +24,15 @@
           {% endif %}
 	{% endfor %}
       </table>
+    </td>
+    <td class="cntr">
+      {% if celeb.completed %}
+      <img src="{{ STATIC_URL }}img/ic_ready.png"/>
+      {% else %}
+        {% if celeb.declined %}
+      <img src="{{ STATIC_URL }}img/ic_cancel.png"/>
+        {% endif %}
+      {% endif %}
     </td>
     <td class="cntr">
       {% if celeb.ready_to_assemble %}

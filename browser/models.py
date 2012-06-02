@@ -147,6 +147,8 @@ class Celebrity(Model):
     name_lang= ListField(EmbeddedModelField(CelebrityName),
 	help_text="Language dependent Celebrity names")
     slug= SlugField(max_length=100, unique=True, help_text="Slug")
+    completed= BooleanField(default=False, help_text="Script completed")
+    declined= BooleanField(default=False, help_text="Script declined by main editor")
     ready_to_assemble= BooleanField(default=False, help_text="Ready to assemble")
     used= BooleanField(help_text="Already used") # read-only, auto-fill
     script= ListField(EmbeddedModelField(Scene), help_text="Scenes")
@@ -157,15 +159,43 @@ class Celebrity(Model):
     def __unicode__(self):
         return self.name
 
-    def ensure_team_member(self, user):
+    def _get_user_profile(self, user):
+        """If there is a UserProfile, return it.
+        Otherwise return False.
+        """
         if not isinstance(user, UserProfile):
             try:
                 user= UserProfile.objects.get(user=user)
             except UserProfile.DoesNotExist:
                 return False # User cannot be part of the team without profile
-        if user not in self.team:
-            self.team.append(user)
-        return True
+        return user
+
+    def is_team_member(self, user):
+        """Check if the user is a team member.
+        If User doesn't have a UserProfile, he/she can't be a part of a team.
+        """
+        if isinstance(user, User):
+            if user.is_staff:
+                return True # Staff members have full access to everything
+        user= self._get_user_profile(user)
+        if user:
+            if user in self.team:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def ensure_team_member(self, user):
+        """Check if the User is in the team editing the Celebrity,
+        and add him/her to the team if not
+        """
+        if self._get_user_profile(user):
+            if not self.is_team_member(user):
+                self.team.append(user)
+            return True
+        else:
+            return False # Cannot add User without Profile
 
     def save(self, *args, **kwargs):
 	"""Override save
