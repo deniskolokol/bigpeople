@@ -37,8 +37,8 @@
     </td>
     <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
 
-    <!-- S T A F F   M E M B E R   A C T I O N S -->
     {% if user.is_staff %}
+    <!-- S T A F F   M E M B E R   A C T I O N S -->
       {% if celebrity.completed %}
     <td class="blank">
       <form name="formConfirm" action="/celebrity/{{ celebrity.slug }}/confirm/" method="post">

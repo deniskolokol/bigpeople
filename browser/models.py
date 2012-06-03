@@ -191,7 +191,8 @@ class Celebrity(Model):
         """Check if the User is in the team editing the Celebrity,
         and add him/her to the team if not
         """
-        if self._get_user_profile(user):
+        user= self._get_user_profile(user)
+        if user:
             if not self.is_team_member(user):
                 self.team.append(user)
             return True
