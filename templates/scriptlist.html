@@ -51,7 +51,7 @@
     </td>
     <td class="rght">
       <input readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total" size="9" value="" />
-      <input readonly class="textlabel" type="text" id="id_raw_dur_total" name="raw_dur_total" size="9" value=""/>
+      <input readonly class="textlabel" type="text" id="id_raw_dur_total" name="raw_dur_total" size="9" value="" style="display:none;" />
     </td>
   </tr>
 </table>
@@ -59,12 +59,20 @@
 <!-- P A G E  F O O T E R -->
 {% include "includes/view_scene_toolbar" %}
 
-      <!-- browser/static/js/bp_gui.js -->
+
+<!-- browser/static/js/bp_gui.js -->
 <script language="javascript" type="text/javascript">// <![CDATA[
+addval= 0;
+if(document.getElementById('id_text_dur_ms') != null) {    
+    addval= document.getElementById('id_text_dur_ms').value;
+};
 textDurCountStatic(document.getElementById('tableCNTR'),
     document.getElementById('id_text_dur_total'),
-    document.getElementById('id_raw_dur_total'), 0);
+    document.getElementById('id_raw_dur_total'),
+    addval
+);
 // ]]></script>
+
 
 <script language="javascript" type="text/javascript">// <![CDATA[
 showComplete('celeb_complete', 'id_raw_dur_total', 80000);

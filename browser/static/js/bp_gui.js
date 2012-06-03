@@ -52,9 +52,18 @@ function textDurCountAsType(field, cntfield_ms, cntfield_time) {
 }
 
 
-function textDurCount(field, cntfield_ms, cntfield_time, global_table, cnt_id_total) {
-    textDurCountAsType(field, cntfield_ms, cntfield_time);
-    textDurCountStatic(global_table, cnt_id_total, cntfield_ms.value);
+function textDurCount(field, cntfield_ms, cntfield_time, global_table, raw_id_total, cnt_id_total) {
+    textDurCountAsType(
+        field, // text field
+        cntfield_ms, // milliseconds
+        cntfield_time // formatted dur
+    );
+    textDurCountStatic(
+        global_table, // table
+        cnt_id_total, // table total formatted
+        raw_id_total, // table total milliseconds
+        cntfield_ms.value // add vaule to total
+    );
 }
 
 function showHideElt(name, show) {

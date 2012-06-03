@@ -95,12 +95,14 @@
           document.formAddScene.text_dur_ms,
           document.formAddScene.text_dur,
           document.getElementById('tableCNTR'),
+          document.getElementById('id_raw_dur_total'),
           document.getElementById('id_text_dur_total'))"
       onKeyUp="textDurCount(
           document.formAddScene.text_content,
           document.formAddScene.text_dur_ms,
           document.formAddScene.text_dur,
           document.getElementById('tableCNTR'),
+          document.getElementById('id_raw_dur_total'),
           document.getElementById('id_text_dur_total'))"
       rows="10">{{ scene.text }}</textarea>
     </div>
@@ -178,6 +180,7 @@
     document.formAddScene.text_dur_ms,
     document.formAddScene.text_dur,
     document.getElementById('tableCNTR'),
+    document.getElementById('id_raw_dur_total'),
     document.getElementById('id_text_dur_total')); 
   // ]]></script>
 
