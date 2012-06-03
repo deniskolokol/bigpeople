@@ -127,7 +127,7 @@ def celebrity_decline(request, slug):
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
     celebrity.declined= True
     celebrity.completed= False
-    celebrity.ready_to_assemble= False
+    celebrity.confirmed= False
     message=""
     try:
         celebrity.save()
@@ -145,7 +145,7 @@ def celebrity_confirm(request, slug):
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
     celebrity.declined= False
     celebrity.completed= True
-    celebrity.ready_to_assemble= True
+    celebrity.confirmed= True
     message=""
     try:
         celebrity.save()

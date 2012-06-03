@@ -4,7 +4,7 @@
   <tr class="odd">
   {% endif %}
     <td>
-    {% if not celeb.ready_to_assemble %}
+    {% if not celeb.confirmed %}
       {% include "includes/view_celeb_actions" %}
     {% endif %}
     </td>
@@ -35,7 +35,7 @@
       {% endif %}
     </td>
     <td class="cntr">
-      {% if celeb.ready_to_assemble %}
+      {% if celeb.confirmed %}
       <img src="{{ STATIC_URL }}img/ic_ready.png"/>
       {% endif %}
     </td>

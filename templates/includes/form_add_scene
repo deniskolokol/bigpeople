@@ -26,14 +26,6 @@
         {% if scene_id %}
         <tr>
           <td>
-              <script type="text/javascript">
-            <!--
-            function roll(img_name, img_src)
-            {
-                document[img_name].src = img_src;
-            }
-            //-->
-            </script>
           <div id="map">
             {% if scene.media_thumb_url %}
             <img src="{{ scene.media_thumb_url }}" name="scene_img"
@@ -121,35 +113,10 @@
 	  <div class="field">
 	    {{ form.historical_date_input.errors }}
             Историческая дата
-	    <input id="inputDate" class="inputDate" name="historical_date_input" size="15"
-              value="{{scene.historical_date_input|date:"m/d/Y"|default_if_none:""}}"
+	    <input id="inputDate" type="text" data-date-format="dd/mm/yyyy" name="historical_date_input" size="15"
+              value="{{scene.historical_date_input|date:'d/m/Y'|default_if_none:''}}"
             />
-	    <label id="closeOnSelect"><input type="checkbox" checked="checked" style="display:none;"></label>
-	    <script type="text/javascript">// <![CDATA[
-if ($('#inputDate').val() != "") {
-    $initDate= $('#inputDate').val()
-}
-else {
-    $initDate= '12/21/2012'
-};
-$('#inputDate').DatePicker({
-    format:'m/d/Y',
-    date: $('#inputDate').val(),
-    current: $initDate,
-    starts: 1,
-    position: 'r',
-    onBeforeShow: function(){
-	$('#inputDate').DatePickerSetDate($initDate, true);
-    },
-    onChange: function(formated, dates){
-	$('#inputDate').val(formated);
-	if ($('#closeOnSelect input').attr('checked')) {
-	    $('#inputDate').DatePickerHide();
-	}
-    }
-});
-	    // ]]></script>
-	  </div>
+          </div>
 	  </td>
 	</tr>
 	<tr>
@@ -201,5 +168,25 @@ $('#inputDate').DatePicker({
     document.getElementById('tableCNTR'),
     document.getElementById('id_text_dur_total')); 
   // ]]></script>
+
+  <!-- calendar -->  
+  <script>
+  //alert($('#inputDate').val());
+  $(function(){
+    $('#inputDate').datepicker({
+      format: 'dd/mm/yyyy'
+    });
+  });
+  </script>
+
+  <!-- show [x] link to remove img -->
+  <script type="text/javascript">
+  <!--
+  function roll(img_name, img_src)
+  {
+    document[img_name].src = img_src;
+  }
+  //-->
+  </script>
 
 </tr>

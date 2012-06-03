@@ -4,7 +4,7 @@
   <tr class="odd">
   {% endif %}
     <td>
-      {% if celebrity.completed or celebrity.ready_to_assemble %}
+      {% if celebrity.completed or celebrity.confirmed %}
         &nbsp;
       {% else %}
         {% include "includes/view_script_actions" %}

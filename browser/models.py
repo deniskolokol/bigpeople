@@ -111,7 +111,7 @@ class Scene(Model):
 	help_text="Scene text content")
     historical_date_input= DateField(null=True,
         help_text="Input historical date")
-    historical_date= CharField(null=True, max_length=50,
+    historical_date= CharField(null=True, blank=True, max_length=50,
         help_text="Historical date")
     historical_date_bc= BooleanField(default=False, help_text="Date B.C.")
     historical_place= CharField(max_length=400, help_text="Historical place")
@@ -149,6 +149,7 @@ class Celebrity(Model):
     slug= SlugField(max_length=100, unique=True, help_text="Slug")
     completed= BooleanField(default=False, help_text="Script completed")
     declined= BooleanField(default=False, help_text="Script declined by main editor")
+    confirmed= BooleanField(default=False, help_text="Script declined by main editor")
     ready_to_assemble= BooleanField(default=False, help_text="Ready to assemble")
     used= BooleanField(help_text="Already used") # read-only, auto-fill
     script= ListField(EmbeddedModelField(Scene), help_text="Scenes")

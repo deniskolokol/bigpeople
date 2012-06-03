@@ -27,18 +27,30 @@ def define_scene(request, celebrity, index):
     if request.POST.get('billboard', ''):
         billboard= models.Billboard.objects.get(id=request.POST['billboard'])        
     text= request.POST.get('text_content', '')
-    date_input= request.POST.get('historical_date_input', None)
-    date_input, date_db, date_bc= reformat_date(date_input)
+    date_input= request.POST.get('historical_date_input', '')
+    date_db= request.POST.get('historical_date', '')
+    if date_input == '': # Date cannot be empty string, but can be None
+        date_input= None
+    if date_db == '': # Re-format date only if the User didn't do it manually
+        date_input, date_db, date_bc= reformat_date(date_input)
+    else:
+        date_bc= False
     place= request.POST.get('historical_place', '')
     comment= request.POST.get('comment', '')
     media_src= request.POST.get('media_src', '')
     media_copyright= request.POST.get('media_copyright', '')
     dur= request.POST.get('text_dur_ms', 0) # Duration stored in milliseconds
     scene_lang= models.SceneLang(lang=lang, text=text, text_dur=dur)
-    scene= models.Scene(scene_content= [scene_lang], billboard=billboard,
-        media_src=media_src, media_copyright=media_copyright,
-        historical_date_input=date_input, historical_date=date_db,
-        historical_date_bc=date_bc, historical_place=place, comment=comment)
+    scene= models.Scene(
+        scene_content= [scene_lang],
+        billboard=billboard,
+        media_src=media_src,
+        media_copyright=media_copyright,
+        historical_date_input=date_input,
+        historical_date=date_db,
+        historical_date_bc=date_bc,
+        historical_place=place,
+        comment=comment)
     media_content= request.FILES.get('media_content', None)
     is_image= int(request.POST['is_image'])
     scene.media_url, scene.media_thumb_url= None, None # Initial values
