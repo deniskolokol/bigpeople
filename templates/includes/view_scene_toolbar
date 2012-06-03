@@ -70,9 +70,9 @@
     <td class="blank">
       <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
       {% csrf_token %}
-      <button type="submit" id="{{ celebrity.slug }}_complete" value="Complete celebrity script"
+      <button type="submit" id="id_celeb_complete" name="celeb_complete" value="Complete celebrity script"
       onClick="if(!confirm('Завершение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
-      return false;">
+      return false;" style="display:none;">
       <img src="{{ STATIC_URL }}img/ic_ok.png" title="Complete"/> Завершить сценарий
       </button>
       </form>

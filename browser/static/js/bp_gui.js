@@ -24,7 +24,7 @@ function ms2time(ms) {
 }
 
 
-function textDurCountStatic(global_table, cnt_id_total, add_val) {
+function textDurCountStatic(global_table, cnt_id_total, raw_id_total, add_val) {
     // count time globally across the table
     var tds= global_table.getElementsByTagName('td');
     var sum= 0;
@@ -34,7 +34,8 @@ function textDurCountStatic(global_table, cnt_id_total, add_val) {
         }
     };
     sum += parseInt(add_val);
-    cnt_id_total.value= ms2time(sum)
+    cnt_id_total.value= ms2time(sum);
+    raw_id_total.value= sum;
 }
 
 
@@ -54,4 +55,21 @@ function textDurCountAsType(field, cntfield_ms, cntfield_time) {
 function textDurCount(field, cntfield_ms, cntfield_time, global_table, cnt_id_total) {
     textDurCountAsType(field, cntfield_ms, cntfield_time);
     textDurCountStatic(global_table, cnt_id_total, cntfield_ms.value);
+}
+
+function showHideElt(name, show) {
+    var bts= document.getElementsByName(name);
+    for(var i= 0; i < bts.length; i++) {
+        if(bts[i].type == 'submit') {
+            bts[i].style.display= show;
+        }
+    };
+}
+
+function showComplete(target_name, cond_id, thresh) {
+    if(parseInt(document.getElementById(cond_id).value) >= thresh) {
+        showHideElt(target_name, 'block');
+    } {
+        showHideElt(target_name, 'hide');
+    };
 }

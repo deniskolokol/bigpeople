@@ -39,7 +39,7 @@ def get_user_lang(user, default_if_none=False):
     lang= None
     if user_profile:
         lang= user_profile.lang
-    if (not lang) and default_if_none:
+    if (lang is None) and default_if_none:
         lang= get_default_language()
     return lang
 

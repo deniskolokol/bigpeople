@@ -15,11 +15,18 @@
       </table>
     </td>
     <td>
+      <span id="form_add_scene"></span>
+      {% if lang %}
+    <div class="field">
+      <input readonly class="textlabel" type="text" name="usr_lang" value="{{ lang.title_orig }}" />
+    </div>      
+      {% else %}
     <div class="field">
       <span id="form_add_scene"></span>
       {{ form.lang.errors }}
       {{ form.lang }}
     </div>
+      {% endif %}
     </td>
     <td>
       <table>
@@ -187,11 +194,9 @@
   <!-- show [x] link to remove img -->
   <script type="text/javascript">
   <!--
-  function roll(img_name, img_src)
-  {
+  function roll(img_name, img_src){
     document[img_name].src = img_src;
   }
   //-->
   </script>
-
 </tr>

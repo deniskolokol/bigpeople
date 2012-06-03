@@ -180,7 +180,7 @@ def scene_list(request, slug, **kwargs):
             # scene.gridfile= gridfs_storage.open(
             # settings.ROOT_PATH + scene.media_content.filename)
     return render_to_response(page_template,
-        {'celebrity': celebrity, 'celeblist': get_celeb_list(),
+        {'celebrity': celebrity, 'celeblist': get_user_celebrities(request.user),
          'form': forms.SceneForm, 'display_form': display_form,
          'message': message, 'page_title': get_page_title(celebrity.name)},
         context_instance=RequestContext(request))
@@ -196,7 +196,7 @@ def scene_save(request, slug, scene_id=None):
         # return redirect(reverse('scene_list'))
         return redirect('/celebrity/'+slug)
     if scene_id:
-        scene_id= int(scene_id)-1 # django numbering starts at 1
+        scene_id= int(scene_id)-1 # Django numbering starts at 1
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
     if not celebrity.is_team_member(request.user):
         raise Http404 # Ban from action if not in the team
@@ -276,5 +276,6 @@ def scene_edit(request, slug, scene_id, **kwargs):
     return render_to_response(page_template, {'scene_id':int(scene_id),
         'celebrity':celebrity, 'message':message, 'display_form':display_form,
         'page_title': get_page_title(celebrity.name),
+        'lang': get_user_lang(request.user),
         'form':forms.SceneForm(initial={'billboard':billboard})},
         context_instance=RequestContext(request))

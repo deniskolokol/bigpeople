@@ -7,7 +7,7 @@ import string
 import random
 
 from bigpeople import settings
-from bigpeople.browser import gridfsuploads, forms, models
+from bigpeople.browser import gridfsuploads, forms, models, utils
 from bigpeople.browser.gridfsuploads import gridfs_storage
 
 
@@ -22,11 +22,12 @@ numerals = zip(
 def define_scene(request, celebrity, index):
     """Fill the scene details from the request
     """
-    lang= models.Language.objects.get(title=request.POST['lang'])
+    # Billboard
     billboard= None
     if request.POST.get('billboard', ''):
         billboard= models.Billboard.objects.get(id=request.POST['billboard'])        
-    text= request.POST.get('text_content', '')
+
+    # Dates
     date_input= request.POST.get('historical_date_input', '')
     date_db= request.POST.get('historical_date', '')
     date_bc= request.POST.get('historical_date_bc', 0)
@@ -38,12 +39,26 @@ def define_scene(request, celebrity, index):
         date_input= None
     if date_db == '': # Re-format date only if the User didn't do it manually
         date_input, date_db, date_bc= reformat_date(date_input, date_bc)
+
+    # Place, text, comment
     place= request.POST.get('historical_place', '')
+    text= request.POST.get('text_content', '')
     comment= request.POST.get('comment', '')
+
+    # Scene media
     media_src= request.POST.get('media_src', '')
     media_copyright= request.POST.get('media_copyright', '')
     dur= request.POST.get('text_dur_ms', 0) # Duration stored in milliseconds
+
+    # Language
+    lang= request.POST.get('lang', '')
+    if lang != '':
+        lang= models.Language.objects.get(title=lang)
+    else:
+        lang= utils.get_user_lang(request.user, default_if_none=True)
     scene_lang= models.SceneLang(lang=lang, text=text, text_dur=dur)
+
+    # Define object
     scene= models.Scene(
         scene_content= [scene_lang],
         billboard=billboard,
@@ -54,6 +69,8 @@ def define_scene(request, celebrity, index):
         historical_date_bc=date_bc,
         historical_place=place,
         comment=comment)
+
+    # Scene media content
     media_content= request.FILES.get('media_content', None)
     is_image= int(request.POST['is_image'])
     scene.media_url, scene.media_thumb_url= None, None # Initial values
@@ -105,12 +122,6 @@ def handle_uploaded_file(f):
     im.save(thumbnail_path, "JPEG")
     thumburl= settings.MEDIA_URL + thumbnail_name
     return fileurl, thumburl
-
-
-def get_celeb_list():
-    """Return sorted list of Celebrities' names
-    """
-    return models.Celebrity.objects.only('name', 'slug').order_by('name')
 
 
 def get_page_title(lb):
