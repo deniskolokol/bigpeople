@@ -29,12 +29,15 @@ def define_scene(request, celebrity, index):
     text= request.POST.get('text_content', '')
     date_input= request.POST.get('historical_date_input', '')
     date_db= request.POST.get('historical_date', '')
+    date_bc= request.POST.get('historical_date_bc', 0)
+    if int(date_bc) == 1:
+        date_bc= True
+    else:
+        date_bc= False
     if date_input == '': # Date cannot be empty string, but can be None
         date_input= None
     if date_db == '': # Re-format date only if the User didn't do it manually
-        date_input, date_db, date_bc= reformat_date(date_input)
-    else:
-        date_bc= False
+        date_input, date_db, date_bc= reformat_date(date_input, date_bc)
     place= request.POST.get('historical_place', '')
     comment= request.POST.get('comment', '')
     media_src= request.POST.get('media_src', '')
@@ -124,10 +127,10 @@ def calc_seconds(ms):
     """
     return ms
 
-def reformat_date(date_in):
+def reformat_date(date_in, date_bc):
     """Re-formatting the dates
     """
-    date_iso, date_out, date_bc= None, '', False
+    date_iso, date_out= None, ''
     if date_in:
         d, m, y= (int(x) for x in date_in.split('/'))
         e= 'error'
@@ -138,7 +141,8 @@ def reformat_date(date_in):
             except ValueError as e:
                 if y < 0:
                     y= abs(y) # year absolute value to meet ISO format
-                    date_bc= True # flag it as B.C.
+                    if not date_bc:
+                        date_bc= True # the year is negative, flag it as B.C.
                 elif y > MAXYEAR:
                     y= MAXYEAR
                 m= min(abs(m), 12) # not more than 12 months
