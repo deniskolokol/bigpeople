@@ -61,7 +61,7 @@ def celebrity_save(request, slug=None):
         celebrity.save()
         message= 'Celebrity %s saved!' % name
     except Exception as e:
-        message= 'ERROR: ', e #'ERROR! Celebrity %s not saved - name must be unique!' % name
+        message= 'ERROR: ', e
     if request.POST.get('save_add', None):
         return redirect(request.META.get('HTTP_REFERER'))
     else:

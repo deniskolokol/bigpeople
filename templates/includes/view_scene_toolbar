@@ -37,9 +37,10 @@
     </td>
     <td class="blank"><img src="{{ STATIC_URL }}img/spacer.gif" width="180" height="10" border="0"></td>
 
-    {% if user.is_staff %}
+    {% if celebrity.script %}
+      {% if user.is_staff %}
     <!-- S T A F F   M E M B E R   A C T I O N S -->
-      {% if celebrity.completed %}
+        {% if celebrity.completed %}
     <td class="blank">
       <form name="formConfirm" action="/celebrity/{{ celebrity.slug }}/confirm/" method="post">
       {% csrf_token %}
@@ -58,14 +59,14 @@
       </button>
       </form>
     </td>
-      {% endif %}
-    {% else %}
+        {% endif %}
+      {% else %}
 
     <!-- E D I T O R   A C T I O N S -->
-      {% if celebrity.completed or celebrity.confirmed %}
+        {% if celebrity.completed or celebrity.confirmed %}
     &nbsp;
-      {% else%}
-        {% if not display_form %}
+        {% else%}
+          {% if not display_form %}
     <td class="blank">
       <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
       {% csrf_token %}
@@ -76,6 +77,7 @@
       </button>
       </form>
     </td>
+          {% endif %}
         {% endif %}
       {% endif %}
     {% endif %}
