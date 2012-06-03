@@ -112,10 +112,15 @@
 	  <td class="small">
 	  <div class="field">
 	    {{ form.historical_date_input.errors }}
-            Историческая дата
+            Историческая дата (dd/mm/yyyy)
 	    <input id="inputDate" type="text" data-date-format="dd/mm/yyyy" name="historical_date_input" size="15"
               value="{{scene.historical_date_input|date:'d/m/Y'|default_if_none:''}}"
             />
+	    <input name="historical_date_bc" id="id_historical_date_bc" type="checkbox" value="bc"
+            {% if scene.historical_date_bc %}
+            checked
+            {% endif %}
+            /> до н.э.
           </div>
 	  </td>
 	</tr>

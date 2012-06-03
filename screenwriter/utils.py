@@ -2,7 +2,7 @@ from calendar import monthrange
 from math import ceil, floor
 from PIL import Image
 from os import path, remove
-from datetime import date, datetime
+from datetime import date, datetime, MAXYEAR
 import string
 import random
 
@@ -129,7 +129,7 @@ def reformat_date(date_in):
     """
     date_iso, date_out, date_bc= None, '', False
     if date_in:
-        m, d, y= (int(x) for x in date_in.split('/'))
+        d, m, y= (int(x) for x in date_in.split('/'))
         e= 'error'
         while e:
             try:
@@ -139,6 +139,8 @@ def reformat_date(date_in):
                 if y < 0:
                     y= abs(y) # year absolute value to meet ISO format
                     date_bc= True # flag it as B.C.
+                elif y > MAXYEAR:
+                    y= MAXYEAR
                 m= min(abs(m), 12) # not more than 12 months
                 d= min(abs(d), monthrange(y, m)[1])
         date_out= "%d.%02d.%04d" % (d, m, y)
@@ -146,8 +148,6 @@ def reformat_date(date_in):
             yr= int(date_iso[0:4]) # year B.C.
             century= int2roman(int(date_iso[0:2])+1) # century B.C.
             date_out= '%s (%s c.) B.C.' % (yr, century)
-        if y < 1000: # for dates in the 1st century only year matters
-            date_out= str(y)
     return date_iso, date_out, date_bc
 
 
