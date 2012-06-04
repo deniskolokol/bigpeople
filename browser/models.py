@@ -112,7 +112,7 @@ class Scene(Model):
     media_copyright= CharField(max_length=400, blank=True, help_text="Media (C)")
     scene_content= ListField(EmbeddedModelField(SceneLang),
 	help_text="Scene text content")
-    historical_date_input= DateField(null=True,
+    historical_date_input= DateField(null=True, blank=True, 
         help_text="Input historical date")
     historical_date= CharField(null=True, blank=True, max_length=50,
         help_text="Historical date")

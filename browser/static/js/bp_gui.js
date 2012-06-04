@@ -41,7 +41,7 @@ function textDurCountStatic(global_table, cnt_id_total, raw_id_total, add_val) {
 
 function textDurCountAsType(field, cntfield_ms, cntfield_time) {
     //count number of words and multiply it by average speed of the speech
-    var speechSpeedAve= 500; //milliseconds per word
+    var speechSpeedAve= 533; //milliseconds per word
     cnt= 0;
     noLineBreaks= field.value.replace(/\s/g,' ').split(' ');
     for (i= 0; i < noLineBreaks.length; i++) {if (noLineBreaks[i].length > 0) cnt++;}

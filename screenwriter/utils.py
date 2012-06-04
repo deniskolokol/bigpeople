@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from calendar import monthrange
 from math import ceil, floor
 from PIL import Image
@@ -23,9 +25,11 @@ def define_scene(request, celebrity, index):
     """Fill the scene details from the request
     """
     # Billboard
-    billboard= None
-    if request.POST.get('billboard', ''):
-        billboard= models.Billboard.objects.get(id=request.POST['billboard'])        
+    billboard= request.POST.get('billboard', '').strip()
+    if billboard != '':
+        billboard= models.Billboard.objects.get(id=billboard)
+    else:
+        billboard= None
 
     # Dates
     date_input= request.POST.get('historical_date_input', '')
@@ -37,8 +41,10 @@ def define_scene(request, celebrity, index):
         date_bc= False
     if date_input == '': # Date cannot be empty string, but can be None
         date_input= None
+    else:
+        date_input, date_to_save, date_bc= reformat_date(date_input, date_bc)
     if date_db == '': # Re-format date only if the User didn't do it manually
-        date_input, date_db, date_bc= reformat_date(date_input, date_bc)
+        date_db= date_to_save
 
     # Place, text, comment
     place= request.POST.get('historical_place', '')
@@ -143,7 +149,20 @@ def reformat_date(date_in, date_bc):
     """
     date_iso, date_out= None, ''
     if date_in:
-        d, m, y= (int(x) for x in date_in.split('/'))
+        # Parsing date.
+        delimiters= ['/', '-', '.', ':', '\\']
+        e= 'error'
+        for delimiter in delimiters:
+            try:
+                d, m, y= (int(x) for x in date_in.split(delimiter))
+                e= None
+                break
+            except ValueError as e:
+                pass
+        if e: # Date formatted real bad.
+            return None, '', False
+
+        # ISO formatting.
         e= 'error'
         while e:
             try:
@@ -162,7 +181,7 @@ def reformat_date(date_in, date_bc):
         if date_bc: # for dates B.C. only year and century matters
             yr= int(date_iso[0:4]) # year B.C.
             century= int2roman(int(date_iso[0:2])+1) # century B.C.
-            date_out= '%s (%s c.) B.C.' % (yr, century)
+            date_out= '%s (%s в.) до н.э.' % (yr, century)
     return date_iso, date_out, date_bc
 
 

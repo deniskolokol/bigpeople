@@ -122,10 +122,9 @@
 	  <div class="field">
 	    {{ form.historical_date_input.errors }}
             Историческая дата (dd/mm/yyyy)
-	    <input id="inputDate" type="text" data-date-format="dd/mm/yyyy" name="historical_date_input" size="15"
-              value="{{scene.historical_date_input|date:'d/m/Y'|default_if_none:''}}"
-            />
-	    <input name="historical_date_bc" id="id_historical_date_bc" type="checkbox" value="1"
+            <input id="inputDate" type="text" data-date-format="dd-mm-yyyy"
+            name="historical_date_input" size="15" value="{{scene.historical_date_input|date:'d-m-Y'|default_if_none:''}}">
+            <input name="historical_date_bc" id="id_historical_date_bc" type="checkbox" value="1"
             {% if scene.historical_date_bc %}
             checked
             {% endif %}
@@ -186,20 +185,17 @@
 
   <!-- calendar -->  
   <script>
-  //alert($('#inputDate').val());
   $(function(){
-    $('#inputDate').datepicker({
-      format: 'dd/mm/yyyy'
-    });
+      $('#inputDate').datepicker({
+          format: 'dd-mm-yyyy'
+      });
   });
   </script>
 
   <!-- show [x] link to remove img -->
-  <script type="text/javascript">
-  <!--
+  <script>
   function roll(img_name, img_src){
     document[img_name].src = img_src;
   }
-  //-->
   </script>
 </tr>
