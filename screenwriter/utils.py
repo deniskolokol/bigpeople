@@ -43,8 +43,8 @@ def define_scene(request, celebrity, index):
         date_input= None
     else:
         date_input, date_to_save, date_bc= reformat_date(date_input, date_bc)
-    if date_db == '': # Re-format date only if the User didn't do it manually
-        date_db= date_to_save
+        if date_db == '': # Re-format date only if the User didn't do it manually
+            date_db= date_to_save
 
     # Place, text, comment
     place= request.POST.get('historical_place', '')
@@ -95,9 +95,10 @@ def define_scene(request, celebrity, index):
         except IndexError:
             scene_old= None
         if scene_old and is_image:
+            print scene_old.media_content
             scene.media_url= scene_old.media_url
             scene.media_thumb_url= scene_old.media_thumb_url
-            scene.media_content= scene_old.media_thumb_url
+            scene.media_content= scene_old.media_content
             scene.media_content_thumb= scene_old.media_content_thumb
     return scene
 
@@ -161,7 +162,6 @@ def reformat_date(date_in, date_bc):
                 pass
         if e: # Date formatted real bad.
             return None, '', False
-
         # ISO formatting.
         e= 'error'
         while e:
