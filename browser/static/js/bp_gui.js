@@ -75,8 +75,9 @@ function showHideElt(name, show) {
     };
 }
 
-function showComplete(target_name, cond_id, thresh) {
-    if(parseInt(document.getElementById(cond_id).value) >= thresh) {
+function showComplete(target_name, cond_id, floor, ceil) {
+    cond= parseInt(document.getElementById(cond_id).value);
+    if((cond >= floor) && (cond < ceil)) {
         showHideElt(target_name, 'block');
     } {
         showHideElt(target_name, 'hide');

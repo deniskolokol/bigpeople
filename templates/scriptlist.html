@@ -63,6 +63,7 @@
 <!-- browser/static/js/bp_gui.js -->
 <script language="javascript" type="text/javascript">// <![CDATA[
 addval= 0;
+// if form for edit/insert form is loaded, add its milliseconds to the total
 if(document.getElementById('id_text_dur_ms') != null) {    
     addval= document.getElementById('id_text_dur_ms').value;
 };
@@ -75,7 +76,7 @@ textDurCountStatic(document.getElementById('tableCNTR'),
 
 
 <script language="javascript" type="text/javascript">// <![CDATA[
-showComplete('celeb_complete', 'id_raw_dur_total', 80000);
+showComplete('celeb_complete', 'id_raw_dur_total', 77000, 83100);
 // ]]></script>
 
 {% endblock %}
