@@ -1,3 +1,4 @@
+<!-- include:view_script -->
   {% if forloop.counter|divisibleby:"2" %}
   <tr class="even">
   {% else %}
@@ -44,3 +45,4 @@
     </td>
     <td class="count" style="display:none;">{{ scene.dur }}</td>
   </tr>
+<!-- endinclude:view_script -->

@@ -1,3 +1,4 @@
+<!-- include:view_script_actions -->
       <table>
 	<tr>
           <td>
@@ -43,3 +44,4 @@
         </tr>
         {% endif %}
       </table>
+<!-- endinclude:view_script_actions -->

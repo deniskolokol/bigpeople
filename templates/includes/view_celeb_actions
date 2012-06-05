@@ -1,3 +1,4 @@
+<!-- include:view_celeb_actions -->
       <table>
         <tr>
           <td>
@@ -43,3 +44,4 @@
         {% endif %}
     {% endif %}
       </table>
+<!-- endinclude:view_celeb_actions -->

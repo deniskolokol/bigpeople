@@ -1,3 +1,4 @@
+<!-- include:view_celeb -->
   {% if forloop.counter|divisibleby:"2" %}
   <tr class="even">
   {% else %}
@@ -46,3 +47,4 @@
     </td>
     <td> &nbsp; </td>
   </tr>
+<!-- endinclude:view_celeb -->

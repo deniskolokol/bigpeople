@@ -1,3 +1,5 @@
+<!-- include:form_add_celeb -->
+
   {% if celeb.name %}
   <form action="/celebrity/{{ celeb.slug }}/save/" method="post">
   {% else %}
@@ -73,3 +75,5 @@
   <!--   </td> -->
   <!-- </tr> -->
     </form>
+
+<!-- endinclude:form_add_celeb -->

@@ -95,7 +95,6 @@ def define_scene(request, celebrity, index):
         except IndexError:
             scene_old= None
         if scene_old and is_image:
-            print scene_old.media_content
             scene.media_url= scene_old.media_url
             scene.media_thumb_url= scene_old.media_thumb_url
             scene.media_content= scene_old.media_content

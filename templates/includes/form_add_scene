@@ -1,3 +1,5 @@
+<!-- include:form_add_scene -->
+
   <tr class="form" >
     {% if scene_id %}
     <form name="formAddScene" enctype="multipart/form-data" action="/celebrity/{{ celebrity.slug }}/scene/{{ scene_id }}/save/" method="post">
@@ -185,9 +187,9 @@
 
   <!-- calendar -->  
   <script>
-  $(function(){
-      $('#inputDate').datepicker();
-  });
+  //$(function(){
+  //    $('#inputDate').datepicker();
+  //});
   </script>
   <!-- Show [x] link to remove img -->
   <script>
@@ -196,3 +198,5 @@
   }
   </script>
 </tr>
+
+<!-- endinclude:form_add_scene -->

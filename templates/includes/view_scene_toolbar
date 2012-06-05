@@ -1,3 +1,4 @@
+<!-- include:view_scene_toolbar -->
 <table id="head-table" width="100%">
   <tr>
     {% if celebrity.completed or celebrity.confirmed %}
@@ -83,3 +84,4 @@
     {% endif %}
   </tr>
 </table>
+<!-- endinclude:view_scene_toolbar -->
