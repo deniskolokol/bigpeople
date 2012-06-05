@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^celebrity/', include('screenwriter.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^page/$', 'bigpeople.browser.views.view_static_page', {'template': 'page'}),
 )
 
 if settings.DEBUG:

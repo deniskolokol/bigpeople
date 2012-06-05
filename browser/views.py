@@ -65,3 +65,12 @@ def usr_redirect(request):
     else:
         return redirect(reverse('usr_login'))
     
+
+
+def view_static_page(request, **kwargs):
+    page_template= kwargs.get('template', '')
+    if page_template:
+        page_template= '.'.join([page_template, 'html'])
+    return render_to_response(page_template,
+        {'page_title': 'Big people'},
+        context_instance=RequestContext(request))
