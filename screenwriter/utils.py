@@ -81,7 +81,7 @@ def define_scene(request, celebrity, index):
     is_image= int(request.POST['is_image'])
     scene.media_url, scene.media_thumb_url= None, None # Initial values
     if media_content:
-	scene.media_content= media_content # NO SAVE UNTIL nginx WORKS!
+	scene.media_content= media_content # NO SAVE UNTIL nginx-gridfs WORKS!
         # scene.media_content_thumb= media_content_thumb # where to get it from?
         scene.media_url, scene.media_thumb_url= handle_uploaded_file(media_content)
         # WARNING!
@@ -122,6 +122,8 @@ def handle_uploaded_file(f):
             destination.write(chunk)
     fileurl= settings.MEDIA_URL + filename + ext
     im= Image.open(path + ext) # Create thumbnail
+    if im.mode != "RGB":
+        im = im.convert("RGB")
     im.thumbnail(settings.THUMBNAIL_SIZE, Image.ANTIALIAS)
     thumbnail_name= filename + "_thumb.jpg"
     thumbnail_path= path + "_thumb.jpg"
