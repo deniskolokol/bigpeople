@@ -1,0 +1,27 @@
+<!-- include:form_script_interpreter -->
+        <td>
+          <span id="translate_scene"></span>
+          <p class="small">{{ scene.lang_from_text }}
+        </td>
+        <td>
+          {{ form.text_lang.errors }}
+          {{ form.text_lang }}
+        </td>
+        <td><p class="small">{{ scene.comment }}</td>
+        <td class="small">
+          {{ form.dur_lang }}
+          {{ form.dur_lang_pretty }}
+        </td>
+        </form> <!-- open tag is in form_script_actions_interpreter-->
+  <!-- calling textDurCount to fill duration after the form is loaded -->
+  <script type="text/javascript">// <![CDATA[
+  document.onload= textDurCount(
+                document.actions_edit.text_lang,
+                document.actions_edit.dur_lang,
+                document.actions_edit.dur_lang_pretty,
+                document.getElementById('tableCNTR'),
+                document.getElementById('id_raw_dur_total'),
+                document.getElementById('id_text_dur_total'));
+  // ]]></script>
+
+<!-- endinclude:form_script_interpreter -->

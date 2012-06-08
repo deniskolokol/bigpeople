@@ -1,0 +1,50 @@
+{% extends "base_interpreter.html" %}
+
+{% block content %}
+
+<!-- block:celeb_interpreter.html -->
+
+<section id="header">
+  <div class="row">
+	  
+    <div class="span4">
+      <h3>Перевод сценариев</h3>
+      <p>Язык: <strong>{{ lang.title_orig }}</strong></p>
+    </div>
+
+    {% if message %}
+      {% for msg in message %}
+    <div id="message_{{ forloop.counter }}" class="span3 pull-right">
+      <div class="alert alert-{{ msg.0 }}">
+        <a class="close" onClick="document.getElementById('message_{{ forloop.counter }}').style.display = 'none';">×</a>
+        <strong>{{ msg.1 }}</strong> {{ msg.2 }}
+      </div>
+    </div>
+      {% endfor %}
+    {% endif %}
+</section>
+
+
+<section id="data-table">
+  <table id="tableCNTR" class="table table-bordered table-striped">
+    {% include "includes/table_header_interpreter" %}
+    <tbody>
+      {% for celeb in celebrity %}
+      <tr>
+        {% ifequal slug celeb.slug %} <!-- edit celebrity-->
+          {% include "includes/form_add_celeb_interpreter" %}
+        {% else %} <!-- celebrity details -->
+          {% include "includes/view_celeb_interpreter" %}
+        {% endifequal %}
+      </tr>
+      {% endfor %}
+    
+
+    </tbody>
+  </table>
+
+</section>
+
+<!-- endblock:celeblist.html -->
+
+{% endblock %}

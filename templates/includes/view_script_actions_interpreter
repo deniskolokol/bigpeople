@@ -1,0 +1,20 @@
+<!-- include:view_script_actions_interpreter -->
+        <td>
+          {% if lang %}
+            {% if lang in celebrity.translated %}
+          &nbsp;
+            {% else %}
+          <a href="/translate/{{ celebrity.slug }}/scene/{{ forloop.counter }}/translate/#translate_scene" class="btn btn-mini btn-primary">
+            <i class="icon-edit icon-white"></i>
+              {% if scene.lang_to_text %}
+            Изменить
+              {% else %}
+            Перевести
+              {% endif %}
+          </a>
+            {% endif %}
+          {% else %}
+          &nbsp;
+          {% endif %}
+        </td>
+<!-- endinclude:view_script_actions_interpreter -->

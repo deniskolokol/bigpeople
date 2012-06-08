@@ -1,0 +1,66 @@
+{% extends "base_interpreter.html" %}
+
+{% block content %}
+      
+<section id="header">
+  <div class="page-header">
+    <h1>{{ celebrity.name }}</h1>
+  </div>
+
+  <div class="row">
+	  
+    <div class="span4">
+      <h3>Перевод текста</h3>
+      <p>Язык: <strong>{{ lang.title_orig }}</strong></p>
+    </div>
+
+    {% if message %}
+      {% for msg in message %}
+    <div id="message_{{ forloop.counter }}" class="span3 pull-right">
+      <div class="alert alert-{{ msg.0 }}">
+        <a class="close" onClick="document.getElementById('message_{{ forloop.counter }}').style.display = 'none';">×</a>
+        <strong>{{ msg.1 }}</strong> {{ msg.2 }}
+      </div>
+    </div>
+      {% endfor %}
+    {% endif %}
+</section>
+
+{% include "includes/navbar" %}
+    
+<section id="data-table">
+  <table id="tableCNTR" class="table table-bordered table-striped">
+    {% include "includes/table_header_script_interpreter" %}
+    <tbody>
+      {% for scene in celebrity.script %}
+      <tr>
+        {% ifequal forloop.counter0 scene_id %}
+          {% include "includes/form_script_actions_interpreter" %}
+        {% else %}
+          {% include "includes/view_script_actions_interpreter" %}
+        {% endifequal %}
+
+        {% include "includes/view_script_common" %}
+
+        {% ifequal forloop.counter0 scene_id %}
+          {% include "includes/form_script_interpreter" %}
+        {% else %}
+          {% include "includes/view_script_interpreter" %}
+        {% endifequal %}
+      </tr>
+      {% endfor %}
+
+      <tr class="footer">
+        <td colSpan="7"><p class="pull-right">Общий хронометраж</td>
+        <td>
+          <input readonly class="span2" type="text" id="id_text_dur_total" name="text_dur_total" value="" />
+          <input readonly class="span2" type="text" id="id_raw_dur_total" name="raw_dur_total" value="" style="display:none;" />
+        </td>
+      </tr>
+    
+    </tbody>
+  </table>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+<!-- include:view_script_common -->
+        <td class="small"><strong>{{ forloop.counter }}</strong></td>
+        <td class="small">
+           {% if scene.media_thumb_url %}
+           <a href="{{ scene.media_url }}"><img src="{{ scene.media_thumb_url }}" /></a>
+           {% endif %}
+           {% if scene.media_src %}
+	   <p>Источник: <a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a></p>
+           {% endif %}
+           {% if scene.media_copyright %}
+           <p>&#xa9; {{ scene.media_copyright }}
+           {% endif %}
+        </td>
+        <td class="small">
+          <p>{{ scene.billboard.title|default:"&nbsp;" }}
+	  <p>{{ scene.historical_date }}
+	  <p>{{ scene.historical_place }}
+        </td>
+<!-- endinclude:view_script_common -->

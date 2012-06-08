@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db.models import *
 from django.contrib.auth.models import User
 from djangotoolbox.fields import ListField, EmbeddedModelField
@@ -6,6 +8,12 @@ from gridfsuploads import gridfs_storage
 from bigpeople.settings import MEDIA_URL
 from bigpeople.browser.downcode import downcode
 
+ALERT_TYPE= (
+    ('block', 'block'),
+    ('error', 'error'),
+    ('success', 'success'),
+    ('info', 'info')
+    )
 
 class Billboard(Model):
     """Slide templates in Foundry Nuke format
@@ -132,6 +140,24 @@ class Scene(Model):
                 break
         return out
 
+    def set_lang_text(self, text, dur, lang):
+        success= False
+        scene_cont_index= 0
+        for scene_cont in self.scene_content:
+            if scene_cont.lang == lang:
+                scene_cont.text= text
+                scene_cont.text_dur= dur
+                success= True
+                break
+            scene_cont_index += 1
+        if not success: # No record in this lang yet.
+            scene_content= SceneLang(lang=lang, text=text, text_dur=dur)
+            if len(self.scene_content) == 0:
+                self.scene_content= []
+            self.scene_content.append(scene_content)
+            scene_cont_index += 1
+        return scene_cont_index
+
     # WARNING! No more than one lang in text_content and voice_content!
     # Keep text_content and voice_content lists' indexes according to each other
 
@@ -144,15 +170,22 @@ class Celebrity(Model):
     """Class for Celebrities.
     All data classes should have "_tags" and "_keywords"
     for tagging documents and full-text search
+    NB: The indication if the Celebrity script was translated is via appending
+        the specific Language to 'translated', not by a BooleanField
     """
     last_edited_on= DateTimeField(null=True, auto_now_add=True)
     name= CharField(max_length=400, unique=True, help_text="Celebrity base name")
     name_lang= ListField(EmbeddedModelField(CelebrityName),
 	help_text="Language dependent Celebrity names")
     slug= SlugField(max_length=100, unique=True, help_text="Slug")
+    # Flags
     completed= BooleanField(default=False, help_text="Script completed")
-    declined= BooleanField(default=False, help_text="Script declined by main editor")
-    confirmed= BooleanField(default=False, help_text="Script declined by main editor")
+    declined= BooleanField(default=False,
+        help_text="Script declined by main editor")
+    confirmed= BooleanField(default=False,
+        help_text="Script declined by main editor")
+    translated= ListField(EmbeddedModelField(Language),
+        help_text="Translated to the chosen language")
     ready_to_assemble= BooleanField(default=False, help_text="Ready to assemble")
     used= BooleanField(help_text="Already used") # read-only, auto-fill
     script= ListField(EmbeddedModelField(Scene), help_text="Scenes")
@@ -237,4 +270,57 @@ class AppError(Model):
         for language in self.lang:
             lang_list.append(': '.join([language.lang.title, language.descr]))
         return '%s: %s' % (self.code, '; '.join(lang_list))
+
     
+class AlertLang(Model):
+    """Error codes in different languages
+    """
+    lang= ForeignKey(Language, help_text="Language")
+    descr= CharField(max_length=400, help_text="Error description")
+    alert= CharField(max_length=50, blank=True, help_text="Alert")
+    
+class Alert(Model):
+    """Error codes in different languages
+    """
+    code= CharField(max_length=50, help_text="Error code")
+    type= CharField(max_length=50, choices=ALERT_TYPE, help_text="Alert type")
+    http_status_code= PositiveIntegerField(help_text="HTTP status code")
+    lang= ListField(EmbeddedModelField(AlertLang), help_text="Error description")
+
+    def __unicode__(self):
+        lang_list= []
+        for language in self.lang:
+            lang_list.append(': '.join([language.lang.title, language.descr]))
+        return '%s: %s' % (self.code, '; '.join(lang_list))
+
+# Switch from AppError to Alert:
+# for app_err in AppError.objects.all():
+#     lang= []
+#     for app_err_lang in app_err.lang:
+#         lang.append(app_err_lang)
+#     alert= Alert(type=ALERT_TYPE[1], code= app_err.code,
+#         http_status_code= app_err.http_status_code,
+#         lang=lang)
+#     try:
+#         alert.save()
+#     except Exception as e:
+#         print e
+
+# plus:
+# al= Alert(code="no_text_lang", type=ALERT_TYPE[0], http_status_code=200, lang=[AlertLang(lang=ru,descr=u"Cannot find text for given language")])
+
+# fulfill lang alert (for russian only!)
+# for alert in Alert.objects.all():
+#     for lang in alert.lang:
+#         if 'block' in alert.type:
+#             lang.alert= u"Внимание!"
+#         elif 'error' in alert.type:
+#             lang.alert= u"Ошибка!"
+#         elif 'info' in alert.type:
+#             lang.alert= u"Информация!"
+#         else:
+#             lang.alert= u""
+#     try:
+#         alert.save()
+#     except Exception as e:
+#         print e

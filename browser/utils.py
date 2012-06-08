@@ -1,7 +1,7 @@
 """Utilities in broswer application.
 """
 
-from models import Language, UserProfile, AppError, Celebrity
+from models import Language, UserProfile, AppError, Celebrity, Alert
 from django.contrib.auth.models import User
 import settings
 
@@ -19,8 +19,33 @@ def get_error_descr(error, lang):
     return error_descr
 
 
+def get_alert_descr(alert, lang=None, default_if_none=False):
+    """Get alert description from the Alert model.
+    Returns tuple:
+    (alert type, alert in specified language, alert descr in spec lang)
+    """
+    if lang is None:
+        if default_if_none:
+            lang= get_default_language()
+    else:
+        if not isinstance(lang, Language):
+            try:
+                lang= Language.objects.get(title=lang)
+            except:
+                if default_if_none:
+                    lang= get_default_language()
+    alert= Alert.objects.get(code=alert)
+    response= None
+    for alert_lang in alert.lang:
+        if alert_lang.lang == lang:
+            response= (eval(alert.type)[0], alert_lang.alert, alert_lang.descr)
+            break
+    return response
+
+
 def get_default_language():
-    """Return language as defined in settings
+    """Return default language as defined in settings.
+    If no language defined in settings, pick up the one that was first entered.
     """
     try:
         default_language= Language.objects.get(title=settings.DEFAULT_LANG)
@@ -82,3 +107,12 @@ def get_user_celebrities(user):
             if user in celebrity.team:
                 out.append(celebrity)
         return out
+
+
+def get_page_title(lb):
+    """Fill page title
+    """
+    page_ttl= settings.PROJECT_TITLE
+    if lb:
+        page_ttl += ': ' +  lb
+    return page_ttl

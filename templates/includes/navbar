@@ -1,0 +1,60 @@
+<!-- include:navbar -->
+<section id="navbar">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div style="width: auto;" class="container">
+        <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="#">Cписок знаменитостей</a></li>
+            <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выбрать <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/translate/">Все</a></li>
+                <li class="divider"></li>
+                {% for celeb in celeblist %}
+                <li><a href="/translate/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Действия <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                {% ifequal role interpreter %}
+                <li>
+                  <form name="translation_complete" action="/translate/{{ celebrity.slug }}/complete/" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-warning" type="submit" name="save"
+                            onClick="if(!confirm('Завершение перевода сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+                            return false;">Завершить</button>
+                  <!-- <a href="/translate/{{ celeb.slug }}/complete/">Завершить</a> -->
+                  </form>
+                </li>
+
+                <li>
+                  <form name="translation_revert" action="/translate/{{ celebrity.slug }}/revert/" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-inverse" type="submit" name="revert">Вернуть</button>
+                  </form>
+                </li>
+
+                {% else %}
+                <li><a href="#">Пока неясно</a></li>
+                {% endifequal %}
+              </ul>
+            </li>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div><!-- /navbar -->
+</section>
+<!-- endinclude:navbar -->

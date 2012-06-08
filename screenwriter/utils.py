@@ -130,15 +130,6 @@ def handle_uploaded_file(f):
     return fileurl, thumburl
 
 
-def get_page_title(lb):
-    """Fill page title
-    """
-    page_ttl= settings.PROJECT_TITLE
-    if lb:
-        page_ttl += ': ' +  lb
-    return page_ttl
-
-
 def calc_seconds(ms):
     """Calculate seconds from milliseconds
     """

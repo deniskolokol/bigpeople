@@ -1,0 +1,28 @@
+<!-- include:view_celeb_interpreter -->
+  <tr>
+    <td>
+    {% if not celeb.confirmed %}
+      {% include "includes/view_celeb_actions" %}
+    {% endif %}
+    </td>
+    <td> <a href="/translate/{{ celeb.slug }}">{{ celeb.name }} </td>
+    <td>
+	{% for namelang in celeb.name_lang %}
+	    {% if namelang.name or namelang.name_aka %}
+	      {{ namelang.lang.title_orig }}: <strong>{{ namelang.name }}</strong>
+	      {% if namelang.name_aka %} aka {{ namelang.name_aka }} {% endif %}
+	    {% endif %}
+	{% endfor %}
+    </td>
+    <td class="cntr">
+      {% if celeb.confirmed %}
+      <img src="{{ STATIC_URL }}img/ic_ready.png"/>
+      {% endif %}
+    </td>
+    <td class="cntr">
+      {% if celeb.used %}
+      <img src="{{ STATIC_URL }}img/ic_ready.png"/>
+      {% endif %}
+    </td>
+  </tr>
+<!-- endinclude:view_celeb_interpreter -->

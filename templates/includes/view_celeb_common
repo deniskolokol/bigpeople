@@ -1,0 +1,19 @@
+<!-- include:view_celeb_common -->
+        <td class="small"><a href="/translate/{{ celeb.slug }}">{{ celeb.name }}</a></td>
+        <td>
+          <table border="0">
+	    {% for namelang in celeb.name_lang %}
+              {% if namelang.lang in language %}
+	    <tr>
+	      <td>
+	        {% if namelang.name or namelang.name_aka %}
+	        {{ namelang.lang.title_orig }}: <strong>{{ namelang.name }}</strong>
+	        {% if namelang.name_aka %} aka {{ namelang.name_aka }} {% endif %}
+	        {% endif %}
+	      </td>
+	    </tr>
+            {% endif %}
+	    {% endfor %}
+          </table>
+        </td>
+<!-- endinclude:view_celeb_common -->

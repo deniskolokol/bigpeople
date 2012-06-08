@@ -1,0 +1,8 @@
+<!-- include:form_script_actions_interpreter -->
+        <form name="actions_edit" action="/translate/{{ celebrity.slug }}/scene/{{ forloop.counter }}/save/" method="post">
+        {% csrf_token %}
+        <td>
+          <button class="btn btn-primary" name="save" type="submit">Сохранить</button>
+          <button class="btn" name="cancel" type="cancel">Отмена</button>
+        </td>
+<!-- endinclude:form_script_actions_interpreter -->

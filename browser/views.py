@@ -22,7 +22,7 @@ def usr_login(request):
             {'error': get_error_descr(error, lang), 'form': form},
             context_instance=RequestContext(request))
 
-    if request.method== 'POST': # If the form has been submitted
+    if request.method == 'POST': # If the form has been submitted
         form= LoginForm(request.POST) # A form bound to the POST data
         if form.is_valid(): # All validation rules pass
             username= request.POST['username']
@@ -61,16 +61,6 @@ def usr_redirect(request):
     if is_screenwriter(request.user):
         return redirect(reverse('celebrity_list'))
     elif is_interpreter(request.user):
-        return redirect(reverse('script_list'))
+        return redirect(reverse('celebrity_translate'))
     else:
         return redirect(reverse('usr_login'))
-    
-
-
-def view_static_page(request, **kwargs):
-    page_template= kwargs.get('template', '')
-    if page_template:
-        page_template= '.'.join([page_template, 'html'])
-    return render_to_response(page_template,
-        {'page_title': 'Big people'},
-        context_instance=RequestContext(request))

@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'permission_backend_nonrel',
     'bigpeople.browser',
     'bigpeople.screenwriter',
+    'bigpeople.interpreter',
 )
 
 # A sample logging configuration.
