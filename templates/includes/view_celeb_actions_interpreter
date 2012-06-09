@@ -1,0 +1,6 @@
+<!-- include:view_celeb_actions_interpreter -->
+          <a href="/translate/{{ celeb.slug }}/edit#edit_celeb" class="btn btn-mini btn-primary">
+            <i class="icon-edit icon-white"></i>
+            Редактировать
+          </a>
+<!-- endinclude:view_celeb_actions_interpreter -->

@@ -1,40 +1,29 @@
 <!-- include:form_add_celeb_interpreter -->
 
   {% if celeb.name %}
-  <form action="/celebrity/{{ celeb.slug }}/save/" method="post">
-  {% else %}
-  <form action="/celebrity/save/" method="post">
+  <form action="/translate/{{ celeb.slug }}/save/" method="post">
   {% endif %}
   {% csrf_token %}
-  <tr>
     <td>
-      <input type="submit" name="save" value="Сохранить" />
-      <input type="submit" name="cancel" value="Отмена" />
+      <input type="submit" class="btn btn-primary" name="save" value="Сохранить"/>
+      <br>
+      <input type="submit" class="btn btn-inverse" name="cancel" value="Отмена" />
     </td>
-    <td>
-    <div class="field">
-      <input type="text" name="name" id="id_name" value="{{ celeb.name }}" />
-    </div>
-    </td>
+    <td><a href="/translate/{{ celeb.slug }}">{{ celeb.name }}</td>
     <td> <!-- language specific names -->
       <table width="100%">
 	{% if celeb.name_lang %}
 	  {% for namelang in celeb.name_lang %}
             {% if namelang.lang in language %}
-	<tr>
-	  <td>
 	  <div class="field">
-	    <label for="id_name_{{namelang.lang.title|lower}}">{{namelang.lang.title_orig}}</label>
+	    {{namelang.lang.title_orig}}
+	    <input class="span3" type="text" name="name_{{namelang.lang.title|lower}}" id="id_name_{{namelang.lang.title|lower}}" value="{{namelang.name }}" />
+	     aka 
+	    <input class="span3" type="text" name="name_{{namelang.lang.title|lower}}_aka" id="id_name_{{namelang.lang.title|lower}}_aka" value="{{namelang.name_aka }}" />
 	  </div>
-	  </td>
-	  <td>
-	  <div class="field">
-	    <input type="text" name="name_{{namelang.lang.title|lower}}" id="id_name_{{namelang.lang.title|lower}}" value="{{namelang.name }}" />
-	    aka
-	    <input type="text" name="name_{{namelang.lang.title|lower}}_aka" id="id_name_{{namelang.lang.title|lower}}_aka" value="{{namelang.name_aka }}" />
-	  </div>
-	  </td>
-	</tr>
+            {% else %}
+	      {{ namelang.lang.title_orig }}: <strong>{{ namelang.name }}</strong>
+	      {% if namelang.name_aka %} aka {{ namelang.name_aka }} {% endif %}
             {% endif %}
 	  {% endfor %}
 	{% else %}
@@ -59,8 +48,6 @@
     </td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
   <!-- <tr> -->
   <!--   <td>&nbsp;</td> -->
   <!--   <td colSpan=2> -->

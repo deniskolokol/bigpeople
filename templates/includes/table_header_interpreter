@@ -2,8 +2,8 @@
       <tr>
         <th width="9%">&nbsp;</th>
         <th width="20%">Имя</th>
-	<th width="30%">&nbsp;</th>
-        <th>Завершен</th>
-	<th>Хронометраж</th>
+	<th width="40%">&nbsp;</th>
+        <th width="6%">Завершен</th>
+	<th>Переводчик</th>
       </tr>
     </thead>

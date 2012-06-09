@@ -17,12 +17,22 @@ def get_available_celebrities(user):
     (- user is in the 'team'
       OR
      - no other interpreter is in the 'team' with the same Language)
+
+    Also setting up celebrity.interpreter for display in the table
     """
     result_set= []
     user_lang= get_user_lang(user)
     confirmed_celebrities= models.Celebrity.objects.filter(confirmed=True)
     for celebrity in confirmed_celebrities:
         if celebrity.is_team_member(user):
+            if user.is_staff:
+                for team_member in celebrity.team:
+                    if is_interpreter(team_member.user):
+                        setattr(celebrity, 'interpreter',
+                                team_member.user.get_full_name())
+                        break
+            else:
+                setattr(celebrity, 'interpreter', user.get_full_name())
             result_set.append(celebrity)
         else:
             lang_interpreters= False
@@ -31,6 +41,7 @@ def get_available_celebrities(user):
                     lang_interpreters= True
                     break
             if not lang_interpreters:
+                setattr(celebrity, 'interpreter', '')
                 result_set.append(celebrity)
     return result_set
 
@@ -54,12 +65,82 @@ def celebrity_translate(request, **kwargs):
          'page_title': get_page_title('List of Celebrities')},
         context_instance=RequestContext(request))
 
+
+@interpreter_required
+def celebrity_translate_edit(request, slug, **kwargs):
+    """List of 'Celebrity' objects
+    """
+    display_form= kwargs.get('form', False)
+    page_template= kwargs.get('template', '')
+    if page_template:
+        page_template= '.'.join([page_template, 'html'])
+    celebrity= get_available_celebrities(request.user)
+    message= []
+    if not celebrity:
+        message.append(get_alert_descr('empty_container',
+                default_if_none=True))
+    language= get_session_languages(request)
+    return render_to_response(page_template,
+        {'celebrity': celebrity, 'language': language,
+         'lang': get_user_lang(request.user), 'slug':slug,
+         'display_form': display_form, 'message': message,
+         'page_title': get_page_title('List of Celebrities')},
+        context_instance=RequestContext(request))
+
+
+@interpreter_required
+def celebrity_translate_save(request, slug, **kwargs):
+    """Save Celebrity record (language specific names)
+    """
+    def _get_form_data_lang(lang):
+        id_name_lang= '_'.join(['name', lang.title.lower()])
+        id_name_lang_aka= '_'.join(['name', lang.title.lower(), 'aka'])
+        name=request.POST.get(id_name_lang, '').strip()
+        name_aka=request.POST.get(id_name_lang_aka, '').strip()
+        return name, name_aka
+    
+    if request.method != 'POST':
+        raise Http404
+    if request.POST.get('cancel', None):
+        return redirect(reverse('celebrity_translate'))
+    message= kwargs.get('message', '')
+    if message == '':
+        message= []
+    celebrity= models.Celebrity.objects.get(slug=slug)
+
+    if request.user.is_staff: # Staff members save names in all languages
+        celebrity.name_lang= []
+        for language in models.Language.objects.all():
+            name, name_aka= _get_form_data_lang(language)
+            celebrity.name_lang.append(models.CelebrityName(lang=language,
+                name=name, name_aka=name_aka))
+    else: # Ordinary user can only save name in designated language
+        user_lang= get_user_lang(request.user)
+        name, name_aka= _get_form_data_lang(user_lang)
+        name_lang_new= models.CelebrityName(lang=user_lang,
+            name=name, name_aka=name_aka)
+        celebrity_name_lang= []
+        for name_lang in celebrity.name_lang:
+            if name_lang.lang == user_lang:
+                celebrity_name_lang.append(name_lang_new)
+            else:
+                celebrity_name_lang.append(name_lang)
+        celebrity.name_lang= celebrity_name_lang
+    try:
+        celebrity.save()
+        message.append(get_alert_descr('save_successful', default_if_none=True))
+    except Exception as e:
+        message.append(('error', 'error', e))
+    print message
+    return redirect(reverse('celebrity_translate'))
+
+
 @interpreter_required
 def script_translate(request, slug, **kwargs):
     """View Celebrity Script
     """
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
-    celeblist= models.Celebrity.objects.filter(confirmed=True)
+    celeblist= get_available_celebrities(request.user)
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
