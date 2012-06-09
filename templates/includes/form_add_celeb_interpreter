@@ -5,6 +5,7 @@
   {% endif %}
   {% csrf_token %}
     <td>
+      <span id="edit_celeb"></span>
       <input type="submit" class="btn btn-primary" name="save" value="Сохранить"/>
       <br>
       <input type="submit" class="btn btn-inverse" name="cancel" value="Отмена" />

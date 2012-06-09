@@ -28,7 +28,6 @@
           {% endfor %}
         {% endif %}
       {% endif %}
-
     </td>
     <td>
           {{ celeb.interpreter }}
