@@ -33,6 +33,10 @@ TIME_ZONE = 'Asia/Almaty'
 # Default interface language.
 DEFAULT_LANG = 'Russian'
 
+# Text duration in milliseconds
+TEXT_DUR_FLOOR = 77000
+TEXT_DUR_CEIL = 83000
+
 # Language code for this installation.
 LANGUAGE_CODE = 'en-us'
 

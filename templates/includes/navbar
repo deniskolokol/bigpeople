@@ -27,7 +27,6 @@
             <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" href="#">Действия <b class="caret"></b></a>
               <ul class="dropdown-menu">
-
                 {% ifequal role interpreter %}
                 <li>
                   <form name="translation_complete" action="/translate/{{ celebrity.slug }}/complete/" method="post">
@@ -38,7 +37,6 @@
                   <!-- <a href="/translate/{{ celeb.slug }}/complete/">Завершить</a> -->
                   </form>
                 </li>
-
                 <li>
                   <form name="translation_revert" action="/translate/{{ celebrity.slug }}/revert/" method="post">
                     {% csrf_token %}

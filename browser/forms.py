@@ -33,7 +33,7 @@ class ScriptTranslateForm(forms.Form):
     """Main form for translating the text
     """
     text_lang= forms.CharField(required=False, label='Перевод ',
-        widget=forms.Textarea(attrs={'class':'input-xlarge',
+        widget=forms.Textarea(attrs={'class':'span6',
             'name': 'text_lang',
             'onKeyDown': """textDurCount(
                 document.actions_edit.text_lang,

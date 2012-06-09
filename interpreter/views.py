@@ -7,6 +7,7 @@ from datetime import datetime
 from bigpeople.browser.decorators import interpreter_required, is_interpreter
 from bigpeople.browser import forms, models
 from bigpeople.browser.utils import *
+from bigpeople import settings
 
 
 def get_available_celebrities(user):
@@ -50,14 +51,14 @@ def get_available_celebrities(user):
 def celebrity_translate(request, **kwargs):
     """List of 'Celebrity' objects
     """
+    message= request.session.pop('message', [])
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
     celebrity= get_available_celebrities(request.user)
-    message= ''
     if not celebrity:
-        message= get_error_descr('empty_container', 'Russian')
+        message.append(get_alert_descr('empty_container', default_if_none=True))
     return render_to_response(page_template,
         {'celebrity': celebrity, 'uri': 'translate',
          'lang': get_user_lang(request.user),
@@ -70,18 +71,23 @@ def celebrity_translate(request, **kwargs):
 def celebrity_translate_edit(request, slug, **kwargs):
     """List of 'Celebrity' objects
     """
+    message= request.session.pop('message', [])
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
-    celebrity= get_available_celebrities(request.user)
-    message= []
-    if not celebrity:
+    celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celeblist= get_available_celebrities(request.user)
+    if not celeblist:
         message.append(get_alert_descr('empty_container',
                 default_if_none=True))
+    if celebrity not in celeblist:
+        message.append(get_alert_descr('not_in_team', default_if_none=True))
+        request.session['message']= message
+        return redirect(reverse('celebrity_translate'))
     language= get_session_languages(request)
     return render_to_response(page_template,
-        {'celebrity': celebrity, 'language': language,
+        {'celebrity': celeblist, 'language': language,
          'lang': get_user_lang(request.user), 'slug':slug,
          'display_form': display_form, 'message': message,
          'page_title': get_page_title('List of Celebrities')},
@@ -103,9 +109,7 @@ def celebrity_translate_save(request, slug, **kwargs):
         raise Http404
     if request.POST.get('cancel', None):
         return redirect(reverse('celebrity_translate'))
-    message= kwargs.get('message', '')
-    if message == '':
-        message= []
+    message= request.session.pop('message', [])
     celebrity= models.Celebrity.objects.get(slug=slug)
 
     if request.user.is_staff: # Staff members save names in all languages
@@ -131,7 +135,7 @@ def celebrity_translate_save(request, slug, **kwargs):
         message.append(get_alert_descr('save_successful', default_if_none=True))
     except Exception as e:
         message.append(('error', 'error', e))
-    print message
+    request.session['message']= message
     return redirect(reverse('celebrity_translate'))
 
 
@@ -139,15 +143,13 @@ def celebrity_translate_save(request, slug, **kwargs):
 def script_translate(request, slug, **kwargs):
     """View Celebrity Script
     """
+    message= request.session.pop('message', [])
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
     celeblist= get_available_celebrities(request.user)
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
-    message= kwargs.get('message', '')
-    if message == '':
-        message= []
     message.extend(fill_content_languages(celebrity, request.user))
     return render_to_response(page_template,
         {'celebrity': celebrity, 'celeblist': celeblist,
@@ -160,7 +162,13 @@ def script_translate(request, slug, **kwargs):
 def scene_translate(request, slug, scene_id, **kwargs):
     """Translate Scene
     """
+    message= request.session.pop('message', [])
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
+    celeblist= get_available_celebrities(request.user)
+    if celebrity not in celeblist:
+        message.append(get_alert_descr('not_in_team', default_if_none=True))
+        request.session['message']= message
+        return redirect(reverse('celebrity_translate'))
     display_form= kwargs.get('form', False)
     page_template= kwargs.get('template', '')
     if page_template:
@@ -172,8 +180,8 @@ def scene_translate(request, slug, scene_id, **kwargs):
         initial['text_lang']= celebrity.script[scene_id].lang_to_text
     else:
         raise Http404
-    return render_to_response(page_template, {'scene_id': scene_id,
-        'celebrity':celebrity, 'message':message, 'display_form':display_form,
+    return render_to_response(page_template, {'display_form': display_form,
+        'celebrity': celebrity, 'scene_id': scene_id, 'message': message,
         'page_title': get_page_title(celebrity.name),
         'lang': get_user_lang(request.user),
         'form':forms.ScriptTranslateForm(initial=initial)},
@@ -225,22 +233,19 @@ def fill_content_languages(celebrity, user):
 
 @interpreter_required
 def save_translation(request, slug, scene_id, **kwargs):
-    """Save translation for the current scene in the db
+    """Save current scene translation
     """
     if request.method != 'POST':
         raise Http404
     else:
         form= forms.ScriptTranslateForm(request.POST)
     if 'cancel' in request.POST.keys():
-        # return redirect(reverse('script_translate'))
         return redirect('/translate/'+slug, {'display_form': False})
     if scene_id:
         scene_id= int(scene_id)-1 # Django numbering starts at 1
-    message= []
+    message= request.session.pop('message', [])
     if form.is_valid():
         celebrity= get_object_or_404(models.Celebrity, slug=slug)
-        # if not celebrity.is_team_member(request.user):
-        #     raise Http404 # Ban from action if not in the team
         scene= celebrity.script[scene_id]
         lang_user= get_user_lang(request.user)
         text = form.cleaned_data['text_lang']
@@ -251,16 +256,18 @@ def save_translation(request, slug, scene_id, **kwargs):
         if celebrity.ensure_team_member(request.user):
             try:
                 celebrity.save()
+                message.append(get_alert_descr('save_successful',
+                    default_if_none=True))
             except Exception as e:
-                message= ('error', 'error', e)
-        else: # User is not a part of team, and can't be
+                message= ('error', 'Error!', e)
+        else: # User is not a part of team, and cannot be one
             message.append(get_alert_descr('not_in_team',
                 default_if_none=True))
-        return redirect('/translate/'+slug, {'message': message})
     else:
         for err in form.errors:
             message.append(tuple(('error', 'Error!', err)))
-        return redirect('/translate/'+slug, {'message': message})
+    request.session['message']= message
+    return redirect('/translate/'+slug, {'display_form': False})
 
 
 @interpreter_required
@@ -276,6 +283,8 @@ def script_complete_translation(request, slug, **kwargs):
     message= []
     lang_user= get_user_lang(request.user)
     success= True
+    total_dur= 0
+    # Empty records check
     for scene in celebrity.script:
         if len(scene.scene_content) < 2:
             success= False # Content given only in the base language
@@ -286,24 +295,37 @@ def script_complete_translation(request, slug, **kwargs):
                 success= False
                 break
             else:
+                # Summing up dur for the next check
+                total_dur += scene_lang_content.text_dur
                 if scene_lang_content.text.strip() == '':
                     success= False
                     break                    
     if success:
-        if not celebrity.translated:
-            celebrity.translated= []
-        celebrity.translated.append(lang_user)
-        try:
-            celebrity.save()
-            message.append(get_alert_descr('translation_complete',
-                default_if_none=True))
-        except Exception as e:
-            message.append(('error', 'error', e))
+        # Duration check
+        if (total_dur < settings.TEXT_DUR_FLOOR) or (total_dur > settings.TEXT_DUR_CEIL):
+            error= get_alert_descr('text_dur_error', default_if_none=True)
+            floor_minutes, floor_milliseconds= divmod(settings.TEXT_DUR_FLOOR, 60000)
+            floor_seconds= float(floor_milliseconds) / 1000
+            ceil_minutes, ceil_milliseconds= divmod(settings.TEXT_DUR_CEIL, 60000)
+            ceil_seconds= float(ceil_milliseconds) / 1000
+            error= error[0:2] + (error[-1] % (
+                floor_minutes, floor_seconds, ceil_minutes, ceil_seconds),)
+            message.append(error)
+        else:
+            if not celebrity.translated:
+                celebrity.translated= []
+            celebrity.translated.append(lang_user)
+            try:
+                celebrity.save()
+                message.append(get_alert_descr('translation_complete',
+                    default_if_none=True))
+            except Exception as e:
+                message.append(('error', 'error', e))
     else:
         message.append(get_alert_descr('translation_not_complete',
             default_if_none=True))
-    return redirect(reverse(script_translate, args=(slug,)),
-        kwargs={'message': message})
+    request.session['message']= message
+    return redirect(reverse(script_translate, args=(slug,)))
 
 
 @interpreter_required
