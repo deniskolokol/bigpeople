@@ -7,7 +7,6 @@
           {{ form.text_lang.errors }}
           {{ form.text_lang }}
         </td>
-        <td><p class="small">{{ scene.comment }}</td>
         <td class="small">
           {{ form.dur_lang }}
           {{ form.dur_lang_pretty }}
