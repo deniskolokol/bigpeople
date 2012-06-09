@@ -1,7 +1,6 @@
 <!-- include:view_script_interpreter -->
         <td><p class="small">{{ scene.lang_from_text }}</td>
         <td><p class="small">{{ scene.lang_to_text|default_if_none:''}}</td>
-        <td><p class="small">{{ scene.comment }}</td>
         <td class="small">
           <script type="text/javascript">// <![CDATA[
              document.write(ms2time({{ scene.lang_to_dur }}))

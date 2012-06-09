@@ -11,9 +11,4 @@
            <p>&#xa9; {{ scene.media_copyright }}
            {% endif %}
         </td>
-        <td class="small">
-          <p>{{ scene.billboard.title|default:"&nbsp;" }}
-	  <p>{{ scene.historical_date }}
-	  <p>{{ scene.historical_place }}
-        </td>
 <!-- endinclude:view_script_common -->
