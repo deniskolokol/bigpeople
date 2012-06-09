@@ -10,7 +10,7 @@
         </a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li class="active"><a href="#">Cписок знаменитостей</a></li>
+            <li class="active"><a href="/translate/">Cписок знаменитостей</a></li>
             <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выбрать <b class="caret"></b></a>
               <ul class="dropdown-menu">

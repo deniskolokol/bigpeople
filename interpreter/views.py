@@ -1,13 +1,41 @@
 from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from datetime import datetime
 
-from bigpeople.browser.decorators import interpreter_required
+from bigpeople.browser.decorators import interpreter_required, is_interpreter
 from bigpeople.browser import forms, models
 from bigpeople.browser.utils import *
 
 
+def get_available_celebrities(user):
+    """Celebrity is considered to be available for an interpreter,
+    if the record meets 3 creterias:
+    - is 'comfirmed'
+    AND
+    (- user is in the 'team'
+      OR
+     - no other interpreter is in the 'team' with the same Language)
+    """
+    result_set= []
+    user_lang= get_user_lang(user)
+    confirmed_celebrities= models.Celebrity.objects.filter(confirmed=True)
+    for celebrity in confirmed_celebrities:
+        if celebrity.is_team_member(user):
+            result_set.append(celebrity)
+        else:
+            lang_interpreters= False
+            for team_member in celebrity.team:
+                if (team_member.lang == user_lang) and is_interpreter(team_member.user):
+                    lang_interpreters= True
+                    break
+            if not lang_interpreters:
+                result_set.append(celebrity)
+    return result_set
+
+
+@interpreter_required
 def celebrity_translate(request, **kwargs):
     """List of 'Celebrity' objects
     """
@@ -15,9 +43,7 @@ def celebrity_translate(request, **kwargs):
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
-
-    # WARNING! get only 'confirmed' celebrities
-    celebrity= models.Celebrity.objects.filter(confirmed=True)
+    celebrity= get_available_celebrities(request.user)
     message= ''
     if not celebrity:
         message= get_error_descr('empty_container', 'Russian')
@@ -38,7 +64,10 @@ def script_translate(request, slug, **kwargs):
     page_template= kwargs.get('template', '')
     if page_template:
         page_template= '.'.join([page_template, 'html'])
-    message= fill_content_languages(celebrity, request.user)
+    message= kwargs.get('message', '')
+    if message == '':
+        message= []
+    message.extend(fill_content_languages(celebrity, request.user))
     return render_to_response(page_template,
         {'celebrity': celebrity, 'celeblist': celeblist,
          'lang': get_user_lang(request.user), 'message': message,
@@ -138,10 +167,14 @@ def save_translation(request, slug, scene_id, **kwargs):
 
         set_index= scene.set_lang_text(text, dur, lang_user)
         celebrity.last_edited_on= datetime.now()
-        try:
-            celebrity.save()
-        except Exception as e:
-            message= ('error', 'error', e)
+        if celebrity.ensure_team_member(request.user):
+            try:
+                celebrity.save()
+            except Exception as e:
+                message= ('error', 'error', e)
+        else: # User is not a part of team, and can't be
+            message.append(get_alert_descr('not_in_team',
+                default_if_none=True))
         return redirect('/translate/'+slug, {'message': message})
     else:
         for err in form.errors:
@@ -188,8 +221,8 @@ def script_complete_translation(request, slug, **kwargs):
     else:
         message.append(get_alert_descr('translation_not_complete',
             default_if_none=True))
-    return redirect('/translate/'+slug, kwargs={'message': message})
-    # return redirect(reverse('scene_translate', slug), kwargs={'message': message})
+    return redirect(reverse(script_translate, args=(slug,)),
+        kwargs={'message': message})
 
 
 @interpreter_required
@@ -213,4 +246,4 @@ def script_revert_translation(request, slug, **kwargs):
         except Exception as e:
             message.append(('error', 'error', e))
     return redirect('/translate/'+slug, kwargs={'message': message})
-    # return redirect(reverse('scene_translate', slug), kwargs={'message': message})
+    # return redirect(reverse('script_translate', slug), kwargs={'message': message})
