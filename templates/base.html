@@ -1,70 +1,40 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
+<head>
+  <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/datepicker.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/dropdownstyle.css" media="screen, projection" />
+  <!--[if lte IE 7]>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/ie.css" media="screen" />
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" media="screen" />
 
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/datepicker.css" media="screen" />
-    
-    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-scrollspy.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-collapse.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bp_gui.js"></script></script>
-    
-    <title> {{ page_title }} </title>
-  </head>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.dropdownPlain.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-datepicker.js"></script>
+  <script type="text/javascript" src="{{ STATIC_URL }}js/bp_gui.js"></script>
 
-  <body data-offset="20" data-target=".subnav" data-spy="scroll">
+  <title> {{ page_title }} </title>
+</head>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a href="/" class="brand">Большие люди</a>
-          <div class="nav-collapse">
-            <ul class="nav pull-right">
-              <li class="navbar-text">Пользователь: <strong>{{ user.first_name }} {{ user.last_name }}</strong>.</li>
-              <li><a href="/logout" rel="tooltip" data-original-title="Покинуть систему">Выйти <i class="icon-share-alt icon-white"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+<body onload="setFocus()">
+<div id="header">
+  <h1 class="branding">Большие люди</h1>
+  {% if user.username %}
+  <div id="user-tools">
+    Пользователь:
+    <strong>{{ user.first_name }} {{ user.last_name }}</strong>.
+    <a id="white" href="/logout"> Выйти</a>
+  </div>
+  {% endif %}
+</div>
+<table id="tableCNTR" cellpadding="0" cellspacing="0" border="0">
+  <tr> <!-- data -->
+    <td>
+      {% block content %}{% endblock %}
+    </td>
+  </tr>
+</table>
 
-    <div class="container-fluid">
-
-      <br><br><br><br>
-{% block content %}{% endblock %}
-
-      <br><br><br><br>
-<footer class="footer">
-  <p class="pull-right"><a href="#">Back to top</a></p>
-</footer>
-
-    </div>
-
-<!-- browser/static/js/bp_gui.js -->
-<script language="javascript" type="text/javascript">// <![CDATA[
-addval= 0;
-// if form for edit/insert form is loaded, add its milliseconds to the total
-if(document.getElementById('id_dur_lang') != null) {
-    addval= document.getElementById('id_dur_lang').value;
-};
-textDurCountStatic(document.getElementById('tableCNTR'),
-    document.getElementById('id_text_dur_total'),
-    document.getElementById('id_raw_dur_total'),
-    addval
-);
-// ]]></script>
-
-
-  </body>
+</body>
 </html>

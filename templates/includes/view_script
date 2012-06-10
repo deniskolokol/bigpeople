@@ -13,23 +13,29 @@
     </td>
     <td class="cntr"> <strong>{{ forloop.counter }}</strong> </td>
     <td>
+      <table>
+	<tr>
+          <td>
             {% if scene.media_thumb_url %}
             <a href="{{ scene.media_url }}">
             <img src="{{ scene.media_thumb_url }}" />
             </a>
             {% endif %}
+          </td>
+        </tr>
         {% if scene.media_src %}
-	<br>Источник: <a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a>
+	<tr><td class="small">Источник: <a href="{{ scene.media_src }}">{{ scene.media_src|urlizetrunc:32 }}</a></td></tr>
         {% endif %}
-        {% if scene.media_copyright %}
-        <br>&#xa9; {{ scene.media_copyright }}
-        {% endif %}
+        <tr><td class="small">{% if scene.media_copyright %}&#xa9; {{ scene.media_copyright }}{% endif %}</td></tr>
+      </table>      
     </td>
     <td> {{ scene.text }} </td>
     <td>
-	{{ scene.billboard.title|default:"&nbsp;" }}
-	<br>{{ scene.historical_date }}
-	<br>{{ scene.historical_place }}
+      <table>
+	<tr><td>{{ scene.billboard.title|default:"&nbsp;" }}</td></tr>
+	<tr><td>{{ scene.historical_date }}</td></tr>
+	<tr><td>{{ scene.historical_place }}</td></tr>
+      </table>      
     </td>
     <td class="comment">{{ scene.comment }}</td>
     <td class="rght">

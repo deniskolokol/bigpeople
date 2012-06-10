@@ -142,8 +142,6 @@ def celebrity_confirm(request, slug):
     """
     if request.method != 'POST':
         raise Http404
-    if 'decline' in request.POST.keys():
-        return celebrity_decline(request, slug)
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
     celebrity.declined= False
     celebrity.completed= True
@@ -279,6 +277,5 @@ def scene_edit(request, slug, scene_id, **kwargs):
         'celebrity':celebrity, 'message':message, 'display_form':display_form,
         'page_title': get_page_title(celebrity.name),
         'lang': get_user_lang(request.user),
-        'form':forms.SceneForm(initial={'billboard':billboard,
-            'text_content':scene.text})},
+        'form':forms.SceneForm(initial={'billboard':billboard})},
         context_instance=RequestContext(request))

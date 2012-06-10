@@ -4,28 +4,37 @@
 
 <!-- block:login.html -->
 
-<div class="container">
-  <form class="form-horizontal well span5" action="." method="POST">
-  {% csrf_token %}
-  {% if error %}<legend class="label label-important">{{ error }}</legend>{% endif %}
+{% if error %}
+<table id="error">
+  <tr>
+    <td>
+      <strong>{{ error }}</strong>
+    </td>
+  </tr>
+</table>
+{% endif %}
 
-  <div class="control-group">
-    <label for="input01" class="control-label">Имя пользователя</label>
-    <div class="controls">
-      {{ form.username }}
-    </div>
-    </div>
-    <div class="control-group">
-      <label for="input01" class="control-label">Пароль</label>
-    <div class="controls">
-      {{ form.password }}
-    </div>
-  </div>  
-  <div class="form-actions">
-    <input class="btn btn-primary" type="submit" value="Войти" />
-  </div>
-  </form>
-</div>
+<form action="." method="POST">
+{% csrf_token %}
+<table id="login">
+  <tbody>
+    <tr>
+      <td>Имя пользователя:</td>
+      <td>{{ form.username }}</td>
+    </tr>
+    <tr>
+      <td>Пароль:</td>
+      <td>{{ form.password }}</td>
+    </tr>
+    <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Войти" /></td>
+    </tr>
+  </tbody>
+</table>
+</form>
+
 <!-- endblock:login.html -->
 
 {% endblock %}

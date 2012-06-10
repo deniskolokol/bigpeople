@@ -5,36 +5,27 @@
 <!-- block:scriptlist.html -->
 
 <!-- P A G E  H E A D E R -->
-<section id="header">
-  <div class="page-header">
-    <h1>{{ celebrity.name }}</h1>
-  </div>
+<table>
+  <tr>
+    <td class="blockhead">
+      <h3 class="black">Управление сценарием</h3>
+    </td>
+  </tr>
+</table>
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="30" border="0" /></td></tr></table>
 
-  <div class="row">
-	  
-    <div class="span4">
-      <h3>Управление сценарием</h3>
-    </div>
+{% include "includes/view_scene_toolbar" %}
 
-    {% if message %}
-      {% for msg in message %}
-    <div id="message_{{ forloop.counter }}" class="span3 pull-right">
-      <div class="alert alert-{{ msg.0 }}">
-        <a class="close" onClick="document.getElementById('message_{{ forloop.counter }}').style.display = 'none';">×</a>
-        <strong>{{ msg.1 }}</strong> {{ msg.2 }}
-      </div>
-    </div>
-      {% endfor %}
-    {% endif %}
-</section>
-
-{% include "includes/navbar_screenwriter" %}
 
 <!-- D A T A  T A B L E -->
-<section id="data-table">
-  <table id="tableCNTR" class="table table-bordered table-striped">
+<table id="data-table">
+<!-- <table id="tableCNTR" class="data-table"> -->
     {% include "includes/table_header_screenwriter" %}
-  <tbody>  
+  <tbody>
+  
+  {% if message %}
+  <tr><td colSpan=7><p><strong>{{ message }}</strong></p></td></tr>
+  {% endif %}
   {% for scene in celebrity.script %}
     {% ifequal forloop.counter scene_id %}
       {% include "includes/form_add_scene" %}
@@ -49,15 +40,19 @@
 
   <!-- T A B L E  F O O T E R -->
   <tr class="footer">
-    <td colSpan="6" class="right"><p class="pull-right">Общий хронометраж</td>
+    <td colSpan="6" align="right">
+      Общий хронометраж:
+    </td>
     <td class="rght">
-      <input class="span2" readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total" size="9" value="" />
+      <input readonly class="textlabel" type="text" id="id_text_dur_total" name="text_dur_total" size="9" value="" />
       <input readonly class="textlabel" type="text" id="id_raw_dur_total" name="raw_dur_total" size="9" value="" style="display:none;" />
     </td>
   </tr>
 </table>
 
-{% include "includes/navbar_screenwriter" %}
+<!-- P A G E  F O O T E R -->
+{% include "includes/view_scene_toolbar" %}
+
 
 <!-- browser/static/js/bp_gui.js -->
 <script language="javascript" type="text/javascript">// <![CDATA[

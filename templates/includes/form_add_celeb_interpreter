@@ -12,6 +12,7 @@
     </td>
     <td><a href="/translate/{{ celeb.slug }}">{{ celeb.name }}</td>
     <td> <!-- language specific names -->
+      <table width="100%">
 	{% if celeb.name_lang %}
 	  {% for namelang in celeb.name_lang %}
             {% if namelang.lang in language %}
@@ -44,6 +45,7 @@
 	</tr>
 	  {% endfor %}
 	{% endif %}
+      </table>
     </td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>

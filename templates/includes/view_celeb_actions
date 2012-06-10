@@ -1,21 +1,47 @@
 <!-- include:view_celeb_actions -->
-            <form name="formConfirmDelete" action="/celebrity/{{ celeb.slug }}/delete/" method="post">
-            {% csrf_token %}
-            <a href="/celebrity/{{ celeb.slug }}/edit/" class="btn btn-warning btn-small"><i class="icon-edit icon-white"></i></a>
-            <button class="btn btn-danger btn-small" type="submit" id="{{ celeb.slug }}_delete" value="Удалить"
-            onClick="if(!confirm('Это действие удалит также сценарий. Вы уверены?'))
-              return false;"><i class="icon-trash icon-white"></i>
+      <table>
+        <tr>
+          <td>
+            <form name="formEdit" action="/celebrity/{{ celeb.slug }}/edit/" method="get">
+            <button type="submit" id="{{ celeb.slug }}_edit" value="Edit">
+            <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
             </button>
             </form>
+          </td>
+          <td>
+            <form name="formConfirmDelete" action="/celebrity/{{ celeb.slug }}/delete/" method="post">
+            {% csrf_token %}
+            <button type="submit" id="{{ celeb.slug }}_delete" value="Delete"
+            onClick="if(!confirm('Это действие удалит также сценарий. Вы уверены?'))
+              return false;">
+            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Delete"/>
+            </button>
+            </form>
+          </td>
+        </tr>
     {% if user.is_staff %}
         {% if celeb.completed %}
+        <tr>
+          <td>
             <form name="formConfirm" action="/celebrity/{{ celeb.slug }}/confirm/" method="post">
-            {% csrf_token %}
-            <button class="btn btn-inverse btn-small" type="submit" name="confirm" value=""
-                   onClick="if(!confirm('Утверждение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
-                            return false;"><i class="icon-ok-sign icon-white"></i></a></button>
-            <button class="btn btn-inverse btn-small" type="submit" name="decline" value=""><i class="icon-remove-sign icon-white"></i></a></button>
+            {% csrf_token %} 
+            <button type="submit" id="{{ celeb.slug }}_confirm" value="Confirm"
+            onClick="if(!confirm('Утверждение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+            return false;">
+            <img src="{{ STATIC_URL }}img/ic_ready.png" alt="Утвердить"/>
+            </button>
             </form>
+          </td>
+          <td>
+            <form name="formDecline" action="/celebrity/{{ celeb.slug }}/decline/" method="post">
+            {% csrf_token %}
+            <button type="submit" id="{{ celeb.slug }}_decline" value="Decline">
+            <img src="{{ STATIC_URL }}img/ic_cancel.png" alt="Отклонить"/>
+            </button>
+            </form>
+          </td>
+        </tr>
         {% endif %}
     {% endif %}
+      </table>
 <!-- endinclude:view_celeb_actions -->

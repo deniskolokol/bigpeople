@@ -4,40 +4,41 @@
 
 <!-- block:celeblist.html -->
 
-<section id="header">
-  <div class="row">
-	  
-    <div class="span4">
-      <h3>Создание сценариев</h3>
-    </div>
 
-    {% if message %}
-      {% for msg in message %}
-    <div id="message_{{ forloop.counter }}" class="span3 pull-right">
-      <div class="alert alert-{{ msg.0 }}">
-        <a class="close" onClick="document.getElementById('message_{{ forloop.counter }}').style.display = 'none';">×</a>
-        <strong>{{ msg.1 }}</strong> {{ msg.2 }}
-      </div>
-    </div>
-      {% endfor %}
-    {% endif %}
-</section>
+<!-- S P A C E R -->
+<table><tr><td><img src="{{ STATIC_URL }}img/spacer.gif" height="50" border="0" /></td></tr></table>
 
-<section id="data-table">
-  <table id="tableCNTR" class="table table-bordered table-striped">
-    {% include "includes/table_header_celeblist" %}
-    <tbody>
-    {% for celeb in celebrity %}
-      {% ifequal slug celeb.slug %} <!-- edit celebrity-->
-        {% include "includes/form_add_celeb" %}
-      {% else %} <!-- celebrity details -->
-        {% include "includes/view_celeb" %}
-      {% endifequal %}
-    {% endfor %}
-    {% if display_form %}
-      {% include "includes/form_add_celeb" %}
-    {% endif %}
+<!-- D A T A  T A B L E -->
+<table id="data-table">
+  <tbody>
+
+    <!-- T A B L E  H E A D E R -->
+  <tr class="header">
+    <td width="10%"></td>
+    <td class="cntr" width="15%"> Имя </td>
+    <td width="50%"> </td>
+    <td width="5%"> Завершен </td>
+    <td width="5%"> Утвержден </td>
+    <td width="5%"> Использован </td>
+    <td class="cntr" width="15%"> Программа </td>
+  </tr>
+  {% if message %}
+  <tr><td colSpan=6><p><strong>{{ message }}</strong></p></td></tr>
+  {% endif %}
+  {% for celeb in celebrity %}
+  {% ifequal slug celeb.slug %} <!-- edit celebrity-->
+    {% include "includes/form_add_celeb" %}
+  {% else %} <!-- celebrity details -->
+    {% include "includes/view_celeb" %}
+  {% endifequal %}
+  {% endfor %}
+  {% if display_form %}
+    {% include "includes/form_add_celeb" %}
+  {% endif %}
   <!-- T A B L E  F O O T E R -->
+  <tr class="footer">
+    <td colSpan="7" align="right"></td>
+  </tr>
   </tbody>
 </table>
 
