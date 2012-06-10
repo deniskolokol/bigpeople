@@ -1,0 +1,72 @@
+<!-- include:navbar -->
+<section id="navbar">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div style="width: auto;" class="container">
+        <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li class="active"><a href="/celebrity/">Cписок знаменитостей</a></li>
+            <li><a href="/celebrity/{{ celebrity.slug }}/scene/add/#form_add_scene">Новая сцена</a></li>
+            <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Выбрать <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/celebrity/">Все</a></li>
+                <li class="divider"></li>
+                {% for celeb in celeblist %}
+                <li><a href="/celebrity/{{ celeb.slug }}/">{{ celeb.name }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+
+          {% if celebrity.script %}
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="#">Действия <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                {% if user.is_staff %}
+
+                  {% if celebrity.completed %}
+                <form name="formConfirm" action="/celebrity/{{ celebrity.slug }}/confirm/" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-warning" type="submit" id="{{ celebrity.slug }}_confirm" value="Confirm celebrity script"
+                          onClick="if(!confirm('Утверждение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+                          return false;">Утвердить</button>
+                </form>
+                <form name="formDecline" action="/celebrity/{{ celebrity.slug }}/decline/" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-inverse" type="submit" id="{{ celebrity.slug }}_decline" value="Decline celebrity script">Отклонить</button>
+                </form>
+                  {% endif %}
+
+                {% else %}
+
+                  {% if celebrity.completed or celebrity.confirmed %}
+
+                  {% else%}
+                    {% if not display_form %}
+                <form name="formConfirmComplete" action="/celebrity/{{ celebrity.slug }}/complete/" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-warning" type="submit" id="id_celeb_complete" name="celeb_complete" value="Complete celebrity script"
+                          onClick="if(!confirm('Завершение сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
+                          return false;">Завершить сценарий</button>
+                </form>
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+          {% endif %}
+        </div><!-- /.nav-collapse -->
+      </div>
+    </div><!-- /navbar-inner -->
+  </div><!-- /navbar -->
+</section>
+<!-- endinclude:navbar -->

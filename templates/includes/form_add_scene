@@ -8,20 +8,16 @@
     {% endif %}
     {% csrf_token %}
     <td>
-      <table>
-        <tr><td><input type="submit" name="save" value="Сохранить" /></td></tr>
+        <input class="btn btn-small btn-primary" type="submit" name="save" value="Сохранить" />
       {% if not scene_id %}
-        <tr><td><input type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" /></td></tr>
+        <input class="btn btn-small btn-primary" type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" />
       {% endif %}
-        <tr><td><input type="submit" name="cancel" value="Отмена" /></td></tr>
-      </table>
+        <input class="btn btn-small btn-inverse" type="submit" name="cancel" value="Отмена" />
     </td>
     <td>
       <span id="form_add_scene"></span>
       {% if lang %}
-    <div class="field">
-      <input readonly class="textlabel" type="text" name="usr_lang" value="{{ lang.title_orig }}" />
-    </div>      
+        {{ lang.title_orig }}
       {% else %}
     <div class="field">
       <span id="form_add_scene"></span>
@@ -31,142 +27,83 @@
       {% endif %}
     </td>
     <td>
-      <table>
-        {% if scene_id %}
-        <tr>
-          <td>
-          <div id="map">
-            {% if scene.media_thumb_url %}
-            <img src="{{ scene.media_thumb_url }}" name="scene_img"
-              onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
-              onmouseout="roll('sub', '{{ STATIC_URL }}img/spacer.gif')"
-            />
-            <a href="javascript:
-              document.getElementById('isimage').value = '0';
-              document.getElementById('id_media_content').value = null;
-              roll('scene_img','{{ STATIC_URL }}img/spacer.gif');
-              roll('sub','{{ STATIC_URL }}img/spacer.gif');
-            ">
-            <img src="{{ STATIC_URL }}img/spacer.gif" name="sub"
-              onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
-              style="position: absolute; top: 5; left: 5;"
-            />
-            </a>
-            {% endif %}
-          </div>
-          </td>
-        </tr>
-        {% endif %}
-	<tr>
-	  <td>
-          <div class="field">
-            {{ form.media_content.errors }}
-            <input id="id_media_content" type="file" name="media_content" size="16"
-              onchange="document.getElementById('isimage').value = '1';"
-            />
-          </div>
-          </td>
-        </tr>
-	<tr>
-	  <td class="small">
-          <div class="field">
-            {{ form.media_src.errors }}
-            Источник: 
-            <input type="text" name="media_src" id="id_media_src" size="17" value="{{ scene.media_src }}" />
-          </div>
-          </td>
-        </tr>
-	<tr>
-	  <td class="small">
-          <div class="field">
-            {{ form.media_copyright.errors }}
-            &#xa9;
-            <input type="text" name="media_copyright" id="id_media_copyright" size="24" value="{{ scene.media_copyright }}" />
-          </div>
-          </td>
-        </tr>
-      </table>
+      {% if scene_id %}
+    <div id="map">
+      {% if scene.media_thumb_url %}
+      <img src="{{ scene.media_thumb_url }}" name="scene_img"
+      onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
+      onmouseout="roll('sub', '{{ STATIC_URL }}img/spacer.gif')"
+      />
+      <a href="javascript:
+      document.getElementById('isimage').value = '0';
+      document.getElementById('id_media_content').value = null;
+      roll('scene_img','{{ STATIC_URL }}img/spacer.gif');
+      roll('sub','{{ STATIC_URL }}img/spacer.gif');
+      ">
+      <img src="{{ STATIC_URL }}img/spacer.gif" name="sub"
+      onmouseover="roll('sub','{{ STATIC_URL }}img/ic_cancel.png')"
+      style="position: absolute; top: 5; left: 5;"
+      />
+      </a>
+      {% endif %}
+    </div>
+    {% endif %}
+      {{ form.media_content.errors }}
+      <small>
+      <input id="id_media_content" type="file" name="media_content" size="10"
+      onchange="document.getElementById('isimage').value = '1';"
+      />
+      {{ form.media_src.errors }}
+      <br>URL <input class="span2" type="text" name="media_src" id="id_media_src" value="{{ scene.media_src }}" />
+      {{ form.media_copyright.errors }}
+      <br>&#xa9; <input class="span2" type="text" name="media_copyright" id="id_media_copyright" size="24" value="{{ scene.media_copyright }}" />
+      </small>
     </td>
     <td class="small">
     <div class="field">
-      Текст сцены
       {{ form.text_content.errors }}
-      <textarea id="id_text_content" name="text_content"
-      onKeyDown="textDurCount(
-          document.formAddScene.text_content,
-          document.formAddScene.text_dur_ms,
-          document.formAddScene.text_dur,
-          document.getElementById('tableCNTR'),
-          document.getElementById('id_raw_dur_total'),
-          document.getElementById('id_text_dur_total'))"
-      onKeyUp="textDurCount(
-          document.formAddScene.text_content,
-          document.formAddScene.text_dur_ms,
-          document.formAddScene.text_dur,
-          document.getElementById('tableCNTR'),
-          document.getElementById('id_raw_dur_total'),
-          document.getElementById('id_text_dur_total'))"
-      rows="10">{{ scene.text }}</textarea>
+      {{ form.text_content }}</textarea>
     </div>
     </td>
     <td>
-      <table>
-	<tr>
-          <td class="small">
-          <div class="field">
-            {{ form.billboard.errors }}
-            Биллборд {{ form.billboard }}
-          </div>
-          </td>
-	</tr>
-	<tr>
-	  <td class="small">
-	  <div class="field">
-	    {{ form.historical_date_input.errors }}
-            Историческая дата (dd/mm/yyyy)
-            <input id="inputDate" type="text" data-date-format="dd/mm/yyyy"
-            name="historical_date_input" size="15" value="{{scene.historical_date_input|date:'d/m/Y'|default_if_none:''}}">
-            <input name="historical_date_bc" id="id_historical_date_bc" type="checkbox" value="1"
-            {% if scene.historical_date_bc %}
-            checked
-            {% endif %}
-            /> до н.э.
-          </div>
-	  </td>
-	</tr>
-	<tr>
-          <td class="small">
-          <div class="field">
-            {{ form.historical_date.errors }}
-            Отображаемая дата
-            <input type="text" name="historical_date" id="id_historical_date" size= "14" value="{{ scene.historical_date }}" />
-          </div>
-          </td>
-	</tr>
-	<tr>
-	  <td class="small">
-	  <div class="field">
-	    {{ form.historical_place.errors }}
-            Место 
-            <input type="text" name="historical_place" id="id_historical_place" size= "26" value="{{ scene.historical_place }}" />
-	  </div>
-	  </td>
-	</tr>
-      </table>      
+    <div class="field">
+      {{ form.billboard.errors }}
+      Биллборд {{ form.billboard }}
+    </div>
+    <div class="field">
+      {{ form.historical_date_input.errors }}
+      Историческая дата (dd/mm/yyyy)
+      <input class="span2" id="inputDate" type="text" data-date-format="dd/mm/yyyy"
+      name="historical_date_input" size="15" value="{{scene.historical_date_input|date:'d/m/Y'|default_if_none:''}}">
+      <input name="historical_date_bc" id="id_historical_date_bc" type="checkbox" value="1"
+      {% if scene.historical_date_bc %}
+      checked
+      {% endif %}
+      /> до н.э.
+    </div>
+    <div class="field">
+      {{ form.historical_date.errors }}
+      Отображаемая дата
+      <input type="text" name="historical_date" id="id_historical_date" size= "14" value="{{ scene.historical_date }}" />
+    </div>
+    <div class="field">
+      {{ form.historical_place.errors }}
+      Место 
+      <input type="text" name="historical_place" id="id_historical_place" size= "26" value="{{ scene.historical_place }}" />
+    </div>
     </td>
     <td class="small">
     <div class="field">
       {{ form.comment.errors }}
-      Комментарий
       <textarea id="id_comment" name="comment" rows="10">{{ scene.comment }}</textarea>
     </div>
     </td>
     <td class="rght">
-      <input readonly class="textlabel" type="text" name="text_dur" size="9" maxlength="9" />
+      <input readonly class="span2" type="text" name="text_dur" size="9" maxlength="9" />
       {% if scene_id %}
-      <input id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" value="{{ scene.dur }}" style="display:none;" />
+      <input class="span2" id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" value="{{ scene.dur }}" style="display:none;" />
       {% else %}
-      <input id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" maxlength="9" style="display:none;" />
+      <input class="span2" id="id_text_dur_ms" type="text" name="text_dur_ms" size="9" maxlength="9" style="display:none;" />
       {% endif %}
     </td>
   </tr>
@@ -187,9 +124,9 @@
 
   <!-- calendar -->  
   <script>
-  //$(function(){
-  //    $('#inputDate').datepicker();
-  //});
+  $(function(){
+     $('#inputDate').datepicker();
+  });
   </script>
   <!-- Show [x] link to remove img -->
   <script>

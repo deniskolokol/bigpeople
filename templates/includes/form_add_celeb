@@ -8,57 +8,39 @@
   {% csrf_token %}
   <tr>
     <td>
-      <input type="submit" name="save" value="Сохранить" />
+      <input class="btn btn-primary" type="submit" name="save" value="Сохранить" />
       {% if not celeb.name %}
-      <input type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" />
+      <input class="btn btn-primary" type="submit" name="save_add" value="Сохранить и &#13;&#10;добавить" />
       {% endif %}
-      <input type="submit" name="cancel" value="Отмена" />
+      <input class="btn btn-inverse" type="submit" name="cancel" value="Отмена" />
     </td>
     <td>
     <div class="field">
-      <input type="text" name="name" id="id_name" value="{{ celeb.name }}" />
+      <input class="span3" type="text" name="name" id="id_name" value="{{ celeb.name }}" />
     </div>
     </td>
     <td> <!-- language specific names -->
-      <table width="100%">
 	{% if celeb.name_lang %}
 	  {% for namelang in celeb.name_lang %}
             {% if namelang.lang in language %}
-	<tr>
-	  <td>
 	  <div class="field">
-	    <label for="id_name_{{namelang.lang.title|lower}}">{{namelang.lang.title_orig}}</label>
-	  </div>
-	  </td>
-	  <td>
-	  <div class="field">
-	    <input type="text" name="name_{{namelang.lang.title|lower}}" id="id_name_{{namelang.lang.title|lower}}" value="{{namelang.name }}" />
+	    {{namelang.lang.title_orig}}
+	    <input class="span3" type="text" name="name_{{namelang.lang.title|lower}}" id="id_name_{{namelang.lang.title|lower}}" value="{{namelang.name }}" />
 	    aka
-	    <input type="text" name="name_{{namelang.lang.title|lower}}_aka" id="id_name_{{namelang.lang.title|lower}}_aka" value="{{namelang.name_aka }}" />
+	    <input class="span3" type="text" name="name_{{namelang.lang.title|lower}}_aka" id="id_name_{{namelang.lang.title|lower}}_aka" value="{{namelang.name_aka }}" />
 	  </div>
-	  </td>
-	</tr>
             {% endif %}
 	  {% endfor %}
 	{% else %}
 	  {% for lang in language %}
-	<tr>
-	  <td> 
 	  <div class="field">
-	    <label for="id_name_{{lang.title|lower}}">{{lang.title_orig}}</label>
-	  </div>
-	  </td>
-	  <td>
-	  <div class="field">
+	    {{lang.title_orig}}
 	    <input type="text" name="name_{{lang.title|lower}}" id="id_name_{{lang.title|lower}}" />
 	    aka
 	    <input type="text" name="name_{{lang.title|lower}}_aka" id="id_name_{{lang.title|lower}}_aka" />
 	  </div>
-	  </td>
-	</tr>
 	  {% endfor %}
 	{% endif %}
-      </table>
     </td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>

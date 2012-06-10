@@ -1,9 +1,5 @@
 <!-- include:view_celeb -->
-  {% if forloop.counter|divisibleby:"2" %}
-  <tr class="even">
-  {% else %}
-  <tr class="odd">
-  {% endif %}
+  <tr>
     <td>
     {% if not celeb.confirmed %}
       {% include "includes/view_celeb_actions" %}
@@ -11,20 +7,13 @@
     </td>
     <td> <a href="/celebrity/{{ celeb.slug }}">{{ celeb.name }} </td>
     <td>
-      <table border="0">
 	{% for namelang in celeb.name_lang %}
-          {% if namelang.lang in language %}
-	<tr>
-	  <td>
 	    {% if namelang.name or namelang.name_aka %}
+              {% if forloop.counter0 > 0 %}<br>{% endif %}
 	      {{ namelang.lang.title_orig }}: <strong>{{ namelang.name }}</strong>
 	      {% if namelang.name_aka %} aka {{ namelang.name_aka }} {% endif %}
 	    {% endif %}
-	  </td>
-	</tr>
-          {% endif %}
 	{% endfor %}
-      </table>
     </td>
     <td class="cntr">
       {% if celeb.completed %}
@@ -40,11 +29,6 @@
       <img src="{{ STATIC_URL }}img/ic_ready.png"/>
       {% endif %}
     </td>
-    <td class="cntr">
-      {% if celeb.used %}
-      <img src="{{ STATIC_URL }}img/ic_ready.png"/>
-      {% endif %}
-    </td>
-    <td> &nbsp; </td>
+    <td> {{ celeb.team.0.user.first_name }} {{ celeb.team.0.user.last_name }} </td>
   </tr>
 <!-- endinclude:view_celeb -->

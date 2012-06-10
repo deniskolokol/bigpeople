@@ -1,47 +1,16 @@
 <!-- include:view_script_actions -->
-      <table>
-	<tr>
-          <td>
-            <div>
-            <form name="formEdit" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/#form_add_scene" method="get">
-            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_edit" value="Edit">
-            <img src="{{ STATIC_URL }}img/ic_edit.png" alt="Edit"/>
-            </button>
-            </form>
-          </td>
-          <td>
             <form name="formDel" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/delete/" method="post">
             {% csrf_token %}
-            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_delete" value="Delete"
+            <a href="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/edit/#form_add_scene" class="btn btn-warning btn-small"><i class="icon-edit icon-white"></i></a>
+            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_delete" class="btn btn-danger btn-small" value="Удалить"
             onClick="if(!confirm('После удаления сцену невозможно будет восстановить. Вы уверены?'))
-            return false;" >
-            <img src="{{ STATIC_URL }}img/ic_delete.png" alt="Delete"/>
+            return false;" ><i class="icon-trash icon-white"></i>
             </button>
             </form>
-            </div>
-          </td>
-        </tr>
         {% if not forloop.first %}
-	<tr>
-          <td>
-            <form name="formUp" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/up/" method="get">
-            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_up" value="Up">
-            <img src="{{ STATIC_URL }}img/ic_up.png" alt="Up"/>
-            </button>
-            </form>
-          </td>
-        </tr>
+            <a href="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/up/" class="btn btn-inverse btn-small"><i class="icon-circle-arrow-up icon-white"></i></a>
         {% endif %}
         {% if not forloop.last %}
-	<tr>
-          <td>
-            <form name="formDown" action="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/down/" method="get">
-            <button type="submit" id="{{ celeb.slug }}_{{scene}}_{{ forloop.counter }}_down" value="Down">
-            <img src="{{ STATIC_URL }}img/ic_down.png" alt="Down"/>
-            </button>
-            </form>
-          </td>
-        </tr>
+            <a href="/celebrity/{{ celebrity.slug }}/scene/{{ forloop.counter }}/down/" class="btn btn-inverse btn-small"><i class="icon-circle-arrow-down icon-white"></i></a>
         {% endif %}
-      </table>
 <!-- endinclude:view_script_actions -->

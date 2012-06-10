@@ -34,7 +34,6 @@
                     <button class="btn btn-warning" type="submit" name="save"
                             onClick="if(!confirm('Завершение перевода сценария означает, что его больше нельзя будет редактировать. Вы уверены?'))
                             return false;">Завершить</button>
-                  <!-- <a href="/translate/{{ celeb.slug }}/complete/">Завершить</a> -->
                   </form>
                 </li>
                 <li>
