@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^accounts/profile/', 'bigpeople.browser.views.usr_redirect', name='usr_redirect'),
     url(r'^celebrity/', include('screenwriter.urls')),
     url(r'^translate/', include('interpreter.urls')),
+    url(r'^api/', include('api.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 )

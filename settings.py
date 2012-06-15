@@ -146,6 +146,7 @@ INSTALLED_APPS = (
     'bigpeople.browser',
     'bigpeople.screenwriter',
     'bigpeople.interpreter',
+    'bigpeople.api',
 )
 
 # A sample logging configuration.
