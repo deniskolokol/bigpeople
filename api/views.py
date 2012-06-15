@@ -20,7 +20,7 @@ def get_description(request):
     for lang in models.Language.objects.all():
         result['language'].append(
             " %s (%s)" % (lang.title.strip(), lang.title_orig.strip()))
-    return HttpResponse(json.dumps(result), 'application/json')
+    return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 
 def get_celebrity_list(request):
@@ -29,13 +29,13 @@ def get_celebrity_list(request):
     result= {'celebrity': []}
     result['this_uri']= request.build_absolute_uri()
     for celeb in models.Celebrity.objects.only('name', 'slug').filter(confirmed=True).order_by('name'):
-        result['celebrity'].append({'name': celeb.name.encode('utf-8'),
+        result['celebrity'].append({'name': celeb.name,
             'slug': celeb.slug, 'uri': request.build_absolute_uri() + celeb.slug})
     if result['celebrity']:
         result['status']= 'OK'
     else:
         result['status']= 'EMPTY_SET'
-    return HttpResponse(json.dumps(result), 'application/json')
+    return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 
 def get_celebrity_lang(request, slug):
@@ -46,7 +46,7 @@ def get_celebrity_lang(request, slug):
     def _fill_lang_dict(lang):
         return {
             'title': lang.title.strip().lower(),
-            'title_orig': lang.title_orig.strip().lower().encode('utf-8'),
+            'title_orig': lang.title_orig.strip().lower(),
             'uri': result['this_uri'] + lang.title.strip().lower() + '/'
             }
 
@@ -70,7 +70,7 @@ def get_celebrity_lang(request, slug):
         result['celebrity']= e.message
         result['status']= 'ERROR'
         
-    return HttpResponse(json.dumps(result), 'application/json')
+    return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 
 def get_celebrity_lang_script(request, slug, lang):
@@ -99,8 +99,8 @@ def get_celebrity_lang_script(request, slug, lang):
                     }
                 for name_lang in celeb.name_lang:
                     if name_lang.lang == language:
-                        result['celebrity'][lang_title]['name']= name_lang.name.encode('utf-8')
-                        result['celebrity'][lang_title]['name_aka']= name_lang.name_aka.encode('utf-8')
+                        result['celebrity'][lang_title]['name']= name_lang.name
+                        result['celebrity'][lang_title]['name_aka']= name_lang.name_aka
                         break
                 total_dur= 0
                 for scene in celeb.script:
@@ -109,7 +109,7 @@ def get_celebrity_lang_script(request, slug, lang):
                             continue
                         else:
                             result['celebrity'][lang_title]['script'].append({
-                                'text': scene_content.text.encode('utf-8'),
+                                'text': scene_content.text,
                                 'dur': scene_content.text_dur
                                 })
                             total_dur += int(scene_content.text_dur)
@@ -125,4 +125,4 @@ def get_celebrity_lang_script(request, slug, lang):
         result['celebrity']= e.message
         result['status']= 'ERROR'
 
-    return HttpResponse(json.dumps(result), 'application/json')
+    return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
