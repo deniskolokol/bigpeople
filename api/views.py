@@ -109,7 +109,7 @@ def get_celebrity_lang(request, slug):
 def get_celebrity_lang_script(request, slug, lang):
     """Scenes of the Script of the Celebrity
     and Language specific names
-    """    
+    """
     result= {'celebrity': {}}
     result['this_uri']= request.build_absolute_uri()
     try:
@@ -124,6 +124,10 @@ def get_celebrity_lang_script(request, slug, lang):
             language= None
         if language:
             lang_title= language.title.strip().lower()
+            if request.is_secure():
+                prefix= 'https://'
+            else:
+                prefix= 'http://'
             if (language in celeb.translated) or (language == lang_default):
                 result['celebrity'][lang_title]= {
                     'name': '',
@@ -143,7 +147,9 @@ def get_celebrity_lang_script(request, slug, lang):
                         else:
                             result['celebrity'][lang_title]['script'].append({
                                 'text': scene_content.text,
-                                'dur': scene_content.text_dur
+                                'dur': scene_content.text_dur,
+                                'media_url': ''.join([prefix, request.get_host(), scene.media_url]),
+                                'billboard': ''.join([prefix, request.get_host(), '/api/billboard/', scene.billboard.pk])
                                 })
                             total_dur += int(scene_content.text_dur)
                             break
