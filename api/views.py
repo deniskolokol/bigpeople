@@ -15,13 +15,47 @@ def get_description(request):
     result= {'description': 'Big People API',
         'this_uri': request.build_absolute_uri(),
         'language': [], 'status': 'OK'}
-    result['uri']= result['this_uri']+'celebrity/'
+    result.update({'uri': {'celebrity': result['this_uri']+'celebrity/',
+        'billboard': result['this_uri']+'billboard/'}})
 
     for lang in models.Language.objects.all():
         result['language'].append(
             " %s (%s)" % (lang.title.strip(), lang.title_orig.strip()))
     return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
+
+def get_billboard_list(request):
+    """List of billboards from the database
+    """
+    result= {'billboard': []}
+    result['this_uri']= request.build_absolute_uri()
+    for billboard in models.Billboard.objects.all().order_by('title'):
+        result['billboard'].append({'title': billboard.title,
+            'uri': result['this_uri'] + billboard.pk})
+    if result['billboard']:
+        result['status']= 'OK'
+    else:
+        result['status']= 'EMPTY_SET'
+    return HttpResponse(json.dumps(
+        result, ensure_ascii=False, encoding='utf-8'), 'application/json')
+
+
+def get_billboard(request, id):
+    """Billboard specific record details
+    """
+    result= {'billboard': {'_id':id}}
+    try:
+        billboard= models.Billboard.objects.get(pk=id)
+    except Exception as e:
+        billboard= None
+    if billboard:
+        result.update({'title': billboard.title, 'body': billboard.body,
+            'dur_in': billboard.dur_in, 'dur_out': billboard.dur_out})
+    else:
+        result['billboard']= e.message
+        result['status']= 'ERROR'
+    return HttpResponse(json.dumps(
+        result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 def get_celebrity_list(request):
     """List of confirmed Celebrities
@@ -49,7 +83,6 @@ def get_celebrity_lang(request, slug):
             'title_orig': lang.title_orig.strip().lower(),
             'uri': result['this_uri'] + lang.title.strip().lower() + '/'
             }
-
 
     result= {'celebrity': {}}
     result['this_uri']= request.build_absolute_uri()

@@ -5,5 +5,6 @@ urlpatterns = patterns('bigpeople.api.views',
     url(r'^celebrity/$', 'get_celebrity_list'),
     url(r'^celebrity/(?P<slug>[-\w]+)/$', 'get_celebrity_lang'),
     url(r'^celebrity/(?P<slug>[-\w]+)/(?P<lang>[a-z]+)/$', 'get_celebrity_lang_script'),
-
+    url(r'^billboard/$', 'get_billboard_list'),
+    url(r'^billboard/(?P<id>[-\w]+)/$', 'get_billboard'),
 )
