@@ -51,6 +51,7 @@ def get_billboard(request, id):
     if billboard:
         result.update({'title': billboard.title, 'body': billboard.body,
             'dur_in': billboard.dur_in, 'dur_out': billboard.dur_out})
+        result['status']= 'OK'
     else:
         result['billboard']= e.message
         result['status']= 'ERROR'
