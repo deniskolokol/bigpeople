@@ -119,6 +119,7 @@ def get_celebrity_lang_script(request, slug, lang):
     except Exception as e:
         celeb= None
     if celeb:
+        result['celebrity']['name']= celeb.name
         try:
             language= models.Language.objects.get(title__icontains=lang.strip())
         except Exception as e:
