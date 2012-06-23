@@ -143,18 +143,31 @@ def get_celebrity_lang_script(request, slug, lang):
                         break
                 total_dur= 0
                 for scene in celeb.script:
+
+                    # Fill general Scene data.
+                    scene_dict= {
+                        'media_url': ''.join([prefix, request.get_host(),
+                            scene.media_url]),
+                        'media_src': scene.media_src,
+                        'media_copyright': scene.media_copyright,
+                        'historical_date': scene.historical_date,
+                        'historical_place': scene.historical_place,
+                        'billboard': ''.join([prefix, request.get_host(),
+                            '/api/billboard/', scene.billboard.pk])
+                        }
+
+                    # Fill language specific Scene data.
                     for scene_content in scene.scene_content:
                         if scene_content.lang != language:
                             continue
                         else:
-                            result['celebrity'][lang_title]['script'].append({
+                            scene_dict.update({
                                 'text': scene_content.text,
                                 'dur': scene_content.text_dur,
                                 'media_url': ''.join([prefix, request.get_host(),
-                                    scene.media_url]),
-                                'billboard': ''.join([prefix, request.get_host(),
-                                    '/api/billboard/', scene.billboard.pk])
+                                    scene.media_url])
                                 })
+                            result['celebrity'][lang_title]['script'].append(scene_dict)
                             total_dur += int(scene_content.text_dur)
                             break
                 result['celebrity'][lang_title]['total_dur']= total_dur
