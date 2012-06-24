@@ -20,7 +20,7 @@ def get_description(request):
 
     for lang in models.Language.objects.all():
         result['language'].append(
-            " %s (%s)" % (lang.title.strip(), lang.title_orig.strip()))
+            "%s (%s)" % (lang.title.strip(), lang.title_orig.strip()))
     return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 
