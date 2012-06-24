@@ -19,8 +19,8 @@ def get_description(request):
         'billboard': result['this_uri']+'billboard/'}})
 
     for lang in models.Language.objects.all():
-        result['language'].append(
-            "%s (%s)" % (lang.title.strip(), lang.title_orig.strip()))
+        result['language'].append({'title': lang.title.strip(),
+            'title_orig': lang.title_orig.strip()})
     return HttpResponse(json.dumps(result, ensure_ascii=False, encoding='utf-8'), 'application/json')
 
 
