@@ -95,6 +95,7 @@ def get_celebrity_lang(request, slug):
     if celeb:                  # If Celebrity record is confirmed, the script
         result['celebrity']= { # exists at least in the default language.
             'name': celeb.name,
+            'slug': celeb.slug,
             'language': [_fill_lang_dict(lang_default)]
             }
         for lang in celeb.translated:
@@ -114,12 +115,13 @@ def get_celebrity_lang_script(request, slug, lang):
     result= {'celebrity': {}}
     result['this_uri']= request.build_absolute_uri()
     try:
-        celeb= models.Celebrity.objects.only('name', 'name_lang', 'script'
+        celeb= models.Celebrity.objects.only(
+            'name', 'slug', 'name_lang', 'script'
             ).get(confirmed=True, slug=slug)
     except Exception as e:
         celeb= None
     if celeb:
-        result['celebrity']['name']= celeb.name
+        result['celebrity'].update({'name': celeb.name, 'slug': celeb.slug})
         try:
             language= models.Language.objects.get(title__icontains=lang.strip())
         except Exception as e:
