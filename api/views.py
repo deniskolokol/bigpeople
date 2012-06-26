@@ -170,7 +170,8 @@ def get_celebrity_lang_script(request, slug, lang):
                             result['celebrity'][lang_title]['script'].append(scene_dict)
                             total_dur += int(scene_content.text_dur)
                             break
-                result['celebrity'][lang_title]['total_dur']= total_dur
+                result['celebrity'][lang_title].update({'total_dur': total_dur,
+                    'total_scenes': len(celeb.script)})
                 result['status']= 'OK'
             else:
                 result['status']= 'EMPTY_SET'
