@@ -389,7 +389,6 @@ def scene_save(request, slug, scene_id=None):
         message.append(error)
         request.session['message']= message
         request.session['session_form']= form
-        print scene_id, len(celebrity.script)
         if int(scene_id) > len(celebrity.script): # New record
             return redirect(reverse(scene_list, args=(slug,)))
         else: # Edit record
