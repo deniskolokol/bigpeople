@@ -158,13 +158,6 @@ class Scene(Model):
             scene_cont_index += 1
         return scene_cont_index
 
-    # WARNING! No more than one lang in text_content and voice_content!
-    # Keep text_content and voice_content lists' indexes according to each other
-
-    # WARNING! Create a rule:
-    # either media_content or historical_date or historical_place
-    # or title_content should be given for a record
-
 
 class Celebrity(Model):
     """Class for Celebrities.

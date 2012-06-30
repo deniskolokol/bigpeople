@@ -22,30 +22,32 @@ def usr_login(request):
             {'error': get_error_descr(error, lang), 'form': form},
             context_instance=RequestContext(request))
 
-    if request.method == 'POST': # If the form has been submitted
-        form= LoginForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            username= request.POST['username']
-            password= request.POST['password']
-            user= authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active: # Redirect to a success page.
-                    login(request, user)
-                    # return redirect(reverse('celebrity_list'))
-                    return redirect(django_conf_settings.LOGIN_REDIRECT_URL)
-                else: # Return a 'disabled account' error message
-                    error= 'auth_user_disabled'
+    if request.user.is_authenticated():
+        return redirect(reverse('usr_redirect'))
+    else:
+        if request.method == 'POST': # If the form has been submitted
+            form= LoginForm(request.POST) # A form bound to the POST data
+            if form.is_valid(): # All validation rules pass
+                username= request.POST['username']
+                password= request.POST['password']
+                user= authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active: # Redirect to a success page.
+                        login(request, user)
+                        return redirect(django_conf_settings.LOGIN_REDIRECT_URL)
+                    else: # Return a 'disabled account' error message
+                        error= 'auth_user_disabled'
+                        return error_handle(error)
+                else: 
+                    error= 'auth_invalid_login'
                     return error_handle(error)
-            else: 
-                error= 'auth_invalid_login'
+            else:
+                error= 'auth_no_user'
                 return error_handle(error)
         else:
-            error= 'auth_no_user'
-            return error_handle(error)
-    else:
-        form= LoginForm() # An unbound form
-        return render_to_response('login.html', {'form': form},
-            context_instance=RequestContext(request))
+            form= LoginForm() # An unbound form
+            return render_to_response('login.html', {'form': form},
+                context_instance=RequestContext(request))
 
 
 def usr_logout(request):
