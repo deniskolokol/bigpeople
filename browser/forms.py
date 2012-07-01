@@ -26,13 +26,12 @@ class SceneForm(forms.Form):
     lang= forms.CharField(widget=forms.TextInput(attrs={
         'class': 'span2', 'id': 'id_lang', 'readonly':''}))
     media_content= forms.ImageField(widget=forms.ClearableFileInput(attrs={
-        'class': 'span2', 'id': 'id_media_content', 'size': '10',
+        'id': 'id_media_content',
         'onchange': "document.getElementById('isimage').value = '1';"}))
     media_src= forms.URLField(required=False, widget=forms.TextInput(attrs={
-        'class': 'span2', 'id': 'id_media_src'}), label='URL')
+        'id': 'id_media_src'}), label='URL')
     media_copyright= forms.CharField(required=False, label='©',
-        widget=forms.TextInput(
-            attrs={'class': 'span2', 'id': 'id_media_copyright'}))
+        widget=forms.TextInput(attrs={'id': 'id_media_copyright'}))
     text_content= forms.CharField(widget=forms.Textarea(attrs={
         'class':'span4',
         'onKeyDown': """textDurCount(
