@@ -30,8 +30,9 @@ class SceneForm(forms.Form):
         'onchange': "document.getElementById('isimage').value = '1';"}))
     media_src= forms.URLField(required=False, widget=forms.TextInput(attrs={
         'class': 'span2', 'id': 'id_media_src'}), label='URL')
-    media_copyright= forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'span2', 'id': 'id_media_copyright'}), label='©')
+    media_copyright= forms.CharField(required=False, label='©',
+        widget=forms.TextInput(
+            attrs={'class': 'span2', 'id': 'id_media_copyright'}))
     text_content= forms.CharField(widget=forms.Textarea(attrs={
         'class':'span4',
         'onKeyDown': """textDurCount(
