@@ -50,13 +50,15 @@ def celebrity_save(request, slug=None):
         if slug: # Save changes.
             celebrity= models.Celebrity.objects.get(slug=slug)
             celebrity.name= name
-        else: # Insert new document.
-            if models.Celebrity.objects.get(name=name): # Check if such redord already exists.
+        else:
+            try: # Check if such redord already exists.
+                models.Celebrity.objects.get(name=name)
                 message.append(get_alert_descr('already_exists',
                     default_if_none=True))
                 request.session['message']= message
                 return redirect(request.META.get('HTTP_REFERER'))
-            celebrity= models.Celebrity(name=name)
+            except: # Insert new document.
+                celebrity= models.Celebrity(name=name)
         celebrity.name_lang= [] # Language specific names.
         language= models.Language.objects.all()
         for lang in language:
