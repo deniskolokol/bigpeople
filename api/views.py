@@ -64,7 +64,7 @@ def get_celebrity_list(request):
     result= {'celebrity': []}
     result['this_uri']= request.build_absolute_uri()
     include_all= request.GET.get('all', False)
-    if str(include_all.strip().upper()) in ['1', 'YES', 'Y', 'TRUE', 'T']:
+    if str(include_all).strip().upper() in ['1', 'YES', 'Y', 'TRUE', 'T']:
         include_all= True
     else:
         include_all= False
