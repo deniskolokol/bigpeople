@@ -107,6 +107,7 @@ def get_celebrity_lang(request, slug):
         result['celebrity']= { # exists at least in the default language.
             'name': celeb.name,
             'slug': celeb.slug,
+            'confirmed': celeb.confirmed,
             'language': [_fill_lang_dict(lang_default)]
             }
         for lang in celeb.translated:
