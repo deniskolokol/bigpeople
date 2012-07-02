@@ -76,7 +76,7 @@ def get_celebrity_list(request):
         clean_celeb_uri= request.build_absolute_uri().split('?')[0]
         result['celebrity'].append({'name': celeb.name,
             'slug': celeb.slug, 'uri': clean_celeb_uri + celeb.slug,
-            'confirmed': celeb.confirmed})
+            'confirmed': str(celeb.confirmed).lower()})
     if result['celebrity']:
         result['status']= 'OK'
     else:
@@ -107,7 +107,7 @@ def get_celebrity_lang(request, slug):
         result['celebrity']= { # exists at least in the default language.
             'name': celeb.name,
             'slug': celeb.slug,
-            'confirmed': celeb.confirmed,
+            'confirmed': str(celeb.confirmed).lower(),
             'language': [_fill_lang_dict(lang_default)]
             }
         for lang in celeb.translated:
