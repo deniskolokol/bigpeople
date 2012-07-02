@@ -75,7 +75,8 @@ def get_celebrity_list(request):
     for celeb in dataset:
         clean_celeb_uri= request.build_absolute_uri().split('?')[0]
         result['celebrity'].append({'name': celeb.name,
-            'slug': celeb.slug, 'uri': clean_celeb_uri + celeb.slug})
+            'slug': celeb.slug, 'uri': clean_celeb_uri + celeb.slug,
+            'confirmed': celeb.confirmed})
     if result['celebrity']:
         result['status']= 'OK'
     else:
