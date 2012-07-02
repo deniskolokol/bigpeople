@@ -63,10 +63,14 @@ def get_celebrity_list(request):
     """
     result= {'celebrity': []}
     result['this_uri']= request.build_absolute_uri()
-    include_all= request.GET.get('all', '')
-    if include_all:
-        dataset= models.Celebrity.objects.only('name', 'slug').all().order_by('name')
+    include_all= request.GET.get('all', False)
+    if str(include_all.strip().upper()) in ['1', 'YES', 'Y', 'TRUE', 'T']:
+        include_all= True
     else:
+        include_all= False
+    if include_all: # All records.
+        dataset= models.Celebrity.objects.only('name', 'slug').all().order_by('name')
+    else: # Only confirmed records.
         dataset= models.Celebrity.objects.only('name', 'slug').filter(confirmed=True).order_by('name')
     for celeb in dataset:
         clean_celeb_uri= request.build_absolute_uri().split('?')[0]
