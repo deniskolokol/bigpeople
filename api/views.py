@@ -63,9 +63,15 @@ def get_celebrity_list(request):
     """
     result= {'celebrity': []}
     result['this_uri']= request.build_absolute_uri()
-    for celeb in models.Celebrity.objects.only('name', 'slug').filter(confirmed=True).order_by('name'):
+    include_all= request.GET.get('all', '')
+    if include_all:
+        dataset= models.Celebrity.objects.only('name', 'slug').all().order_by('name')
+    else:
+        dataset= models.Celebrity.objects.only('name', 'slug').filter(confirmed=True).order_by('name')
+    for celeb in dataset:
+        clean_celeb_uri= request.build_absolute_uri().split('?')[0]
         result['celebrity'].append({'name': celeb.name,
-            'slug': celeb.slug, 'uri': request.build_absolute_uri() + celeb.slug})
+            'slug': celeb.slug, 'uri': clean_celeb_uri + celeb.slug})
     if result['celebrity']:
         result['status']= 'OK'
     else:
@@ -89,7 +95,7 @@ def get_celebrity_lang(request, slug):
     result['this_uri']= request.build_absolute_uri()
     try:
         celeb= models.Celebrity.objects.only('name', 'slug',
-            'translated').get(confirmed=True, slug=slug)
+            'translated').get(slug=slug)
     except Exception as e:
         celeb= None
     if celeb:                  # If Celebrity record is confirmed, the script
@@ -117,7 +123,7 @@ def get_celebrity_lang_script(request, slug, lang):
     try:
         celeb= models.Celebrity.objects.only(
             'name', 'slug', 'name_lang', 'script'
-            ).get(confirmed=True, slug=slug)
+            ).get(slug=slug)
     except Exception as e:
         celeb= None
     if celeb:
