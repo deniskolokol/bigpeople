@@ -94,7 +94,6 @@ def get_celebrity_lang_user(celeb, lang):
     who created/interpreted Celebrity
     in a certain Language.
     """
-    print type(celeb), type(lang)
     for team_member in celeb.team:
         if team_member.lang == lang:
             return team_member.user.get_full_name()
