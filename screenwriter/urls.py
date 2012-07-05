@@ -31,11 +31,11 @@ urlpatterns = patterns('bigpeople.screenwriter.views',
     url(r'^(?P<slug>[-\w]+)/decline/$', 'celebrity_decline',
         name='celebrity_decline'),
 
-    url(r'^(?P<slug>[-\w]+)/scene/$', 'scene_list',
-        {'template': 'scriptlist'}),
-
     url(r'^(?P<slug>[-\w]+)/scene/add/$', 'scene_list',
         {'template': 'scriptlist', 'form':True}),
+
+    url(r'^(?P<slug>[-\w]+)/scene/$', 'scene_list',
+        {'template': 'scriptlist'}),
 
     url(r'^(?P<slug>[-\w]+)/scene/(?P<scene_id>\d+)/up/$', 'scene_move',
         {'template': 'scriptlist', 'dir':-1}, name='scene_move_up'),

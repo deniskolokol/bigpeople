@@ -137,8 +137,28 @@ def celebrity_complete(request, slug):
     if request.method != 'POST':
         raise Http404
     celebrity= get_object_or_404(models.Celebrity, slug=slug)
-    celebrity.completed= True
-    message= []
+
+    message= request.session.pop('message', [])
+    # Duration check
+    lang_user= get_user_lang(request.user)
+    total_dur= 0
+    for scene in celebrity.script:
+        scene_lang_content= scene.get_scene_content(lang_user)
+        total_dur += scene_lang_content.text_dur
+    if (total_dur < settings.TEXT_DUR_FLOOR) or (total_dur > settings.TEXT_DUR_CEIL):
+        error= get_alert_descr('text_dur_error', default_if_none=True)
+        floor_minutes, floor_milliseconds= divmod(settings.TEXT_DUR_FLOOR, 60000)
+        floor_seconds= float(floor_milliseconds) / 1000
+        ceil_minutes, ceil_milliseconds= divmod(settings.TEXT_DUR_CEIL, 60000)
+        ceil_seconds= float(ceil_milliseconds) / 1000
+        error= error[0:2] + (error[-1] % (
+            floor_minutes, floor_seconds, ceil_minutes, ceil_seconds),)
+        message.append(error)
+        request.session['message']= message
+        return redirect(reverse(scene_list, args=(slug,)))
+    else:
+        celebrity.completed= True
+        message= []
     try:
         celebrity.save()
     except Exception as e:
