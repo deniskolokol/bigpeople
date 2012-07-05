@@ -6,7 +6,7 @@ from django.template import RequestContext
 from django.conf import settings as django_conf_settings
 from browser.forms import LoginForm
 from browser.decorators import is_screenwriter, is_interpreter
-from browser.utils import get_error_descr
+from browser.utils import get_alert_descr
 import settings
 
 
@@ -19,7 +19,7 @@ def usr_login(request):
             lang= settings.DEFAULT_LANG
         form= LoginForm()
         return render_to_response('login.html',
-            {'error': get_error_descr(error, lang), 'form': form},
+            {'error': get_alert_descr(error, lang), 'form': form},
             context_instance=RequestContext(request))
 
     if request.user.is_authenticated():

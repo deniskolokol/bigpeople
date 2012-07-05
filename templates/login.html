@@ -7,7 +7,7 @@
 <div class="container">
   <form class="form-horizontal well span5" action="." method="POST">
   {% csrf_token %}
-  {% if error %}<legend class="label label-important">{{ error }}</legend>{% endif %}
+  {% if error %}<legend class="label label-important">{{ error.2 }}</legend>{% endif %}
 
   <div class="control-group">
     <label for="input01" class="control-label">Имя пользователя</label>
