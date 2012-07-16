@@ -4,7 +4,6 @@ from django.db.models import *
 from django.contrib.auth.models import User
 from djangotoolbox.fields import ListField, EmbeddedModelField
 from django.template.defaultfilters import slugify
-from gridfsuploads import gridfs_storage
 from bigpeople.settings import MEDIA_URL
 from bigpeople.browser.downcode import downcode
 
@@ -22,14 +21,11 @@ class Billboard(Model):
     body= TextField(help_text="Script text")
     dur_in= PositiveIntegerField(default=1, help_text="Fade-in duration (s)")
     dur_out= PositiveIntegerField(default=1, help_text="Fade-out duration (s)")
-    sfx_in= FileField(null=True, blank=True,
-        storage=gridfs_storage, upload_to=MEDIA_URL,
+    sfx_in= FileField(null=True, blank=True, upload_to=MEDIA_URL,
 	help_text="Scene fade-in sound effect")
-    sfx_out= FileField(null=True, blank=True,
-        storage=gridfs_storage, upload_to=MEDIA_URL,
+    sfx_out= FileField(null=True, blank=True, upload_to=MEDIA_URL,
 	help_text="Scene fade-out sound effect")
-    sfx_loop= FileField(null=True, blank=True,
-        storage=gridfs_storage, upload_to=MEDIA_URL,
+    sfx_loop= FileField(null=True, blank=True, upload_to=MEDIA_URL,
 	help_text="Scene background sound loop")
     # WARNING! the following fields can be deprecated!
     sfx_in_url= URLField(null=True, blank=True, max_length=400,
@@ -95,8 +91,8 @@ class SceneLang(Model):
     text= TextField(help_text="Text")
     text_dur= PositiveIntegerField(
 	help_text="Text duration (s), calculated based on the number of words in text")
-    voice= FileField(storage=gridfs_storage,
-	upload_to=MEDIA_URL, help_text="Voice content")
+    voice= FileField(null=True, blank=True, upload_to=MEDIA_URL,
+        help_text="Voice content")
     voice_dur= PositiveIntegerField(
 	help_text="Actual duration (s) after voice recording")
 
@@ -107,9 +103,9 @@ class SceneLang(Model):
 class Scene(Model):
     """Class for a single Scene on Celebrity
     """
-    media_content= FileField(storage=gridfs_storage, upload_to=MEDIA_URL,
+    media_content= FileField(null=True, blank=True, upload_to=MEDIA_URL,
 	help_text="Scene content (image or video)")
-    media_content_thumb= FileField(storage=gridfs_storage, upload_to=MEDIA_URL,
+    media_content_thumb= FileField(null=True, blank=True, upload_to=MEDIA_URL,
 	help_text="Scene content thumbnail")
     media_content_created_on= DateTimeField(null=True, auto_now_add=True)
     media_url= URLField(max_length=400, blank=True,

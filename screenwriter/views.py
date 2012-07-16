@@ -7,9 +7,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.admin.views.decorators import staff_member_required
 
-from bigpeople.browser import gridfsuploads, forms, models
+from bigpeople.browser import forms, models
 from bigpeople.browser.decorators import screenwriter_required
-from bigpeople.browser.gridfsuploads import gridfs_storage
 from bigpeople.browser.utils import *
 from bigpeople import settings, urls
 from utils import *
@@ -229,8 +228,6 @@ def scene_list(request, slug, **kwargs):
             if scene_content_lang:
                 scene.dur= scene_content_lang.text_dur
                 scene.text= scene_content_lang.text
-            # scene.gridfile= gridfs_storage.open(
-            # settings.ROOT_PATH + scene.media_content.filename)
     if session_form is None:
         session_form= forms.SceneForm(initial=initial)
     return render_to_response(page_template,
@@ -272,7 +269,6 @@ def scene_edit(request, slug, scene_id, **kwargs):
                         'historical_place': scene.historical_place,
                         'comment': scene.comment})
             i += 1
-            # WARNING! add thumbnail from GridFS here
     if session_form is None:
         session_form= forms.SceneForm(initial=initial)
     return render_to_response(page_template, {'scene_id': int(scene_id),
@@ -343,14 +339,7 @@ def define_scene(request, celebrity, index):
     is_image= int(request.POST['is_image'])
     scene.media_url, scene.media_thumb_url= None, None # Initial values
     if media_content:
-	# scene.media_content= media_content # NO SAVE UNTIL nginx-gridfs WORKS!
-        # scene.media_content_thumb= media_content_thumb # where to get it from?
         scene.media_url, scene.media_thumb_url= handle_uploaded_file(media_content)
-        # WARNING!
-        # If the scene is after edit, and there was file, but now is_image == 0,
-        # the file should be deleted from the DB, and it's thumbnail - from HD.
-        # If the image has changed, old files should be deleted both from DB and HD,
-        # and substituted with new files.
     else: # The scene can already exist
         try:
             scene_old= celebrity.script[int(index)]

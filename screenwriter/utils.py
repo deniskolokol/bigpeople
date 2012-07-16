@@ -9,8 +9,7 @@ import string
 import random
 
 from bigpeople import settings
-from bigpeople.browser import gridfsuploads, forms, models, utils
-from bigpeople.browser.gridfsuploads import gridfs_storage
+from bigpeople.browser import forms, models, utils
 
 
 numerals = zip(
