@@ -1,0 +1,11 @@
+[celebrity1]
+id = aristotel
+house = euro_1100-1500.psd
+
+[celebrity2]
+id = http://aroslanov.com/api/celebrity/abaj-kunanbaev/
+house = euro_France_Vari_Kyri_1800-1900.psd
+
+[celebrity3]
+id = http://aroslanov.com/translate/ashoka/
+house = China.psd

@@ -36,3 +36,4 @@ pip-log.txt
 
 #Project specific
 site_media/*
+local_settings.py

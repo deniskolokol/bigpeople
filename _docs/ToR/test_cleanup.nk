@@ -1,0 +1,117 @@
+Root {
+ inputs 0
+ name /Users/Tim/Desktop/test.nk
+ label "Big People\nProgram 1\nrussian\neinstein\nruzvelt\nchikatilo"
+ first_frame 0
+ last_frame 7500
+ fps 25
+ format "1920 1080 0 0 1920 1080 1 HD"
+}
+Read {
+ inputs 0
+ file X:/Video/BigPeople/einstein_photo50.jpg
+ name Read_Einstein_pic
+ label "читаем портрет эйнштейна\n"
+ xpos 167
+ ypos -326
+}
+Transform {
+ translate {680 635}
+ scale 2.45
+ center {295 314.5}
+ name Transform1
+ label "сдвигаем фотку эйнштейна в правильную позицию на дирижабле"
+ xpos 167
+ ypos -217
+}
+Read {
+ inputs 0
+ file X:/Video/BigPeople/dirijabl.tga
+ name Read1
+ label "читаем картинку с дирижаблем"
+ xpos 167
+ ypos -115
+}
+Merge2 {
+ inputs 2
+ name Merge2
+ label "слепляем фотку эйнштейна и картинку с дирижаблем"
+ xpos 167
+ ypos -169
+}
+Transform {
+ translate {{curve x760 1258 x810 -78 x1048 -78 x1098 -1418} {curve x760 -914 x810 -914 x1048 -914 x1098 -914}}
+ scale 0.31
+ center {1062.5 1450}
+ name Transform2
+ label "трансформируем и анимируем слайд"
+ xpos 464
+ ypos -169
+}
+Read {
+ inputs 0
+ file X:/Video/BigPeople/test_seqs/zastavka_#####.png
+ format "1920 1080 0 0 1920 1080 1 HD"
+ name Read_Zastavka
+ label "читаем начальную заставку"
+ xpos 468
+ ypos -318
+}
+Read {
+ inputs 0
+ file X:/Video/BigPeople/test_seqs/background_#####.png
+ name Read_Fon
+ label "читаем фон для показа слайда"
+ xpos 468
+ ypos -433
+}
+TimeOffset {
+ time_offset 750
+ name TimeOffset1
+ label "сдвигаемся на 750 кадров"
+ xpos 606
+ ypos -403
+}
+Merge2 {
+ inputs 2
+ name Merge1
+ label "слепляем заставку и фон"
+ xpos 606
+ ypos -288
+}
+Merge2 {
+ inputs 2
+ name Merge3
+ label "слепляем собранный и анимированный слайд с дирижаблем\n"
+ xpos 606
+ ypos -169
+}
+Read {
+ inputs 0
+ file X:/Video/BigPeople/test_seqs/final_#####.png
+ name Read2
+ label "читаем финальную заставку\n"
+ xpos 329
+ ypos -86
+}
+TimeOffset {
+ time_offset 6750
+ name TimeOffset2
+ label "сдвигаемся на 6750 кадров"
+ xpos 465
+ ypos -56
+}
+Merge2 {
+ inputs 2
+ name Merge4
+ label "приклеиваем финал"
+ xpos 606
+ ypos -56
+}
+Write {
+ file_type png
+ name Write1
+ label "пишем готовую композицию на диск\n"
+ xpos 606
+ ypos 37
+}

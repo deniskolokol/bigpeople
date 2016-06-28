@@ -11,7 +11,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Denis Kolokol', 'denis_kolokol@ukr.net'),
+    ('admin1', 'none@none.net'),
 )
 
 MANAGERS = ADMINS
@@ -40,12 +40,6 @@ TEXT_DUR_CEIL = 83000
 # Language code for this installation.
 LANGUAGE_CODE = 'en-us'
 
-# Site ID depends on location
-if 'Darwin' in platform():  # local
-    SITE_ID=u'4fb2bf52e6355b46cd00001d'
-elif 'Linux' in platform():  # server
-    SITE_ID=u'4fc2dcd58331b527f100001d'
- 
 # Don't load the internationalization machinery.
 USE_I18N = False
 
@@ -94,9 +88,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'tws!w%73r__b$zt#7n&5yyt66xj!%+rl70y5n_ab3zarytk)0i'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -167,3 +158,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
